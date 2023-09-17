@@ -25,21 +25,24 @@ public class Character : MonoBehaviour
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
 
-	[SerializeField] Transform hand;
+	[SerializeField] Rifle rifle;
 
 	public CHARACTER_TYPE Type { get; protected set; }
-
 	public Dictionary<STAT_TYPE, float> Stats { get; protected set; }
+
+	//protected List<Weapon> weapons;
 	#endregion
 
 	#region Methods
 	
-	public virtual void Intialize(SO_CharacterDefault stats)
+	public virtual void Intialize()
 	{
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		Stats = new Dictionary<STAT_TYPE, float>();
-		Stats.Add(STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
+		Stats.Add(STAT_TYPE.MOVE_SPEED, ((SO_CharacterDefault)GameManager.Instance.CharacterStats[0]).MOVE_SPEED_DEFAULT);
+
+		rifle.Initialize(transform);
 	}
 
 	public virtual void UpdateCharacter()
@@ -63,11 +66,21 @@ public class Character : MonoBehaviour
 		}
 		Vector3 delta = new Vector3(Input.GetAxis("Horizontal") * horizontal, 0, Input.GetAxis("Vertical") * vertical);
 
-		Debug.Log(delta * Stats[STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
+		//Debug.Log(delta * Stats[STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
 		transform.position += (delta * Stats[STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
 	}
 
 	public void MouseController()
+	{
+		RotateWeapon();
+
+		if(Input.GetMouseButton(0))
+		{
+			rifle.WeaponAttack();
+		}
+	}
+
+	private void RotateWeapon()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitData;
