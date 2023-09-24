@@ -2,24 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum STAT_TYPE
-{
-	HP,
-	ATTACK_SPEED,
-	DAMAGE,
-	MOVE_SPEED,
-	ATTACK_RANGE,
-	EFFECT_SCOPE,
-}
-
-public enum CHARACTER_TYPE
-{
-    CHARACTER_1,
-    CHARACTER_2,
-    CHARACTER_3,
-    CHARACTER_4
-}
-
 public class Character : MonoBehaviour
 {
 	#region Fields & Properties
@@ -27,22 +9,28 @@ public class Character : MonoBehaviour
 
 	[SerializeField] Rifle rifle;
 
-	public CHARACTER_TYPE Type { get; protected set; }
-	public Dictionary<STAT_TYPE, float> Stats { get; protected set; }
+	public GameConfig.CHARACTER Type { get; protected set; }
+	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
+	public bool IsDeath { get; protected set; }
 
 	//protected List<Weapon> weapons;
 	#endregion
 
 	#region Methods
 	
-	public virtual void Intialize()
+	public virtual void Initialize()
 	{
 		characterRigidbody = GetComponent<Rigidbody>();
 
-		Stats = new Dictionary<STAT_TYPE, float>();
-		Stats.Add(STAT_TYPE.MOVE_SPEED, ((SO_CharacterDefault)GameManager.Instance.CharacterStats[0]).MOVE_SPEED_DEFAULT);
+		SO_CharacterDefault stats = (SO_CharacterDefault)GameManager.Instance.GetStats(GameConfig.SO_TYPE.CHARACTER, (int)GameConfig.CHARACTER.CHARACTER_DEFAULT);
+
+		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
+		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
 
 		rifle.Initialize(transform);
+		rifle.tag = this.tag;
+		IsDeath = false;
 	}
 
 	public virtual void UpdateCharacter()
@@ -66,7 +54,7 @@ public class Character : MonoBehaviour
 		}
 		Vector3 delta = new Vector3(Input.GetAxis("Horizontal") * horizontal, 0, Input.GetAxis("Vertical") * vertical);
 
-		transform.position += (delta.normalized * Stats[STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
+		transform.position += (delta.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
 	}
 
 	public void MouseController()
@@ -76,6 +64,20 @@ public class Character : MonoBehaviour
 		if(Input.GetMouseButton(0))
 		{
 			rifle.WeaponAttack();
+		}
+	}
+
+	public void TakenDamage(float damage)
+	{
+		if (Stats[GameConfig.STAT_TYPE.HP] > 0)
+		{
+			Stats[GameConfig.STAT_TYPE.HP] -= damage;
+			Debug.Log($"Character hp: {Stats[GameConfig.STAT_TYPE.HP]}");
+			if (Stats[GameConfig.STAT_TYPE.HP] <= 0)
+			{
+				Debug.Log("Character die");
+				IsDeath = true;
+			}
 		}
 	}
 

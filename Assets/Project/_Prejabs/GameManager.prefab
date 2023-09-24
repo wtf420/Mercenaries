@@ -44,9 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1251d37fe3889b14d9a13495c2f99661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterStats:
-  - {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
-  - {fileID: 11400000, guid: b01a2edb0617b8b429743c3ff136b214, type: 2}
-  WeaponStats:
-  - {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
+  SO_Stats:
+  - Type: 0
+    Stats:
+    - {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
+    - {fileID: 11400000, guid: b01a2edb0617b8b429743c3ff136b214, type: 2}
+  - Type: 1
+    Stats:
+    - {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
+  - Type: 2
+    Stats:
+    - {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
   character: {fileID: 0}

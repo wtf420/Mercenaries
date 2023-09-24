@@ -33,7 +33,7 @@ public class Bullet: MonoBehaviour
 			transform.position += direction * speed * Time.deltaTime;
 
 			range -= Vector3.Distance(transform.position, previousPosition);
-			Debug.Log(range);
+			//Debug.Log(range);
 			previousPosition = transform.position;
 			yield return null;
 		}
@@ -41,9 +41,47 @@ public class Bullet: MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	private void OnTriggerEnter(Collider other)
+	private void OnTriggerEnter(Collider collider)
 	{
+		if (this.CompareTag(collider.tag))
+		{
+			return;
+		}
 		
+		Destroy(gameObject);
+		if (IsCollideWithEnemy(collider))
+		{
+			return;
+		}
+
+		if(IsCollideWithPlayer(collider))
+		{
+			return;
+		}
+	}
+
+	private bool IsCollideWithEnemy(Collider collider)
+	{
+		Enemy enemy = collider.GetComponent<Enemy>();
+		if(enemy)
+		{
+			enemy.TakenDamage(dame);
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool IsCollideWithPlayer(Collider collider)
+	{
+		Character character = collider.GetComponent<Character>();
+		if (character)
+		{
+			character.TakenDamage(dame);
+			return true;
+		}
+
+		return false;
 	}
 
 	#endregion

@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class DicSO
+{
+	[SerializeField] public GameConfig.SO_TYPE Type;
+	[SerializeField] public List<ScriptableObject> Stats;
+}
+
 public class GameManager: MonoBehaviour
 {
 	#region Fields & Properties
@@ -12,12 +19,11 @@ public class GameManager: MonoBehaviour
 		private set => instance = value;
 	}
 
-	public List<ScriptableObject> CharacterStats;
-
-	public List<ScriptableObject> WeaponStats;
+	public List<DicSO> SO_Stats;
 
 	[SerializeField] Character character;
 
+	[SerializeField] List<Enemy> enemies;
 	#endregion
 
 	#region Methods
@@ -28,12 +34,28 @@ public class GameManager: MonoBehaviour
 		else
 			Destroy(gameObject);
 
-		character.Intialize();
+		character.Initialize();
+		foreach(var enemy in enemies)
+		{
+			enemy.Initialize();
+		}	
 	}
 
 	private void Update()
 	{
-		character.UpdateCharacter();
+		if(!character.IsDeath)
+			character.UpdateCharacter();
+
+		foreach (var enemy in enemies)
+		{
+			enemy.UpdateEnemy(character);
+		}
+	}
+
+	public ScriptableObject GetStats(GameConfig.SO_TYPE type, int index = 0)
+	{
+		Debug.Log($"Type: {type}, Index {index}");
+		return SO_Stats.Find(element => element.Type == type).Stats[index];
 	}
 	#endregion
 }

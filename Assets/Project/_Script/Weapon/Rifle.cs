@@ -15,7 +15,7 @@ public class Rifle: Weapon
 	{
 		base.Initialize(parent);
 
-		SO_WeaponRifle stats = (SO_WeaponRifle)GameManager.Instance.WeaponStats[0];
+		SO_WeaponRifle stats = (SO_WeaponRifle)GameManager.Instance.GetStats(GameConfig.SO_TYPE.WEAPON, (int)GameConfig.WEAPON.RIFLE);
 		Stats.Add(WEAPON_STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
 		Stats.Add(WEAPON_STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
 		Stats.Add(WEAPON_STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);
@@ -38,6 +38,7 @@ public class Rifle: Weapon
 							  Stats[WEAPON_STAT_TYPE.ATTACK_RANGE],
 							  Stats[WEAPON_STAT_TYPE.SPEED],
 							 (transform.position - transform.parent.position).normalized);
+			bullet.tag = this.tag;
 
 			currentBulletQuantity -= 1;
 			if (currentBulletQuantity == 0)
