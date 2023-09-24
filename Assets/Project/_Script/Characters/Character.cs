@@ -66,13 +66,7 @@ public class Character : MonoBehaviour
 		}
 		Vector3 delta = new Vector3(Input.GetAxis("Horizontal") * horizontal, 0, Input.GetAxis("Vertical") * vertical);
 
-		float speed = Stats[STAT_TYPE.MOVE_SPEED];
-		if(delta.x != 0 &&  delta.y != 0)
-		{
-			speed = Mathf.Sqrt(speed);
-		}
-
-		transform.position += (delta * speed * Time.deltaTime);
+		transform.position += (delta.normalized * Stats[STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
 	}
 
 	public void MouseController()
