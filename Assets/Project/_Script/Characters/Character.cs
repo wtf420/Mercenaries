@@ -7,11 +7,13 @@ public class Character : MonoBehaviour
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
 
-	[SerializeField] Rifle rifle;
+	[SerializeField] Weapon weapon;
 
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 	public bool IsDeath { get; protected set; }
+	public float acceleration;
+	public float speed = 0.0f;
 
 	//protected List<Weapon> weapons;
 	#endregion
@@ -28,20 +30,20 @@ public class Character : MonoBehaviour
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
 
-		rifle.Initialize(transform);
-		rifle.tag = this.tag;
+		weapon.Initialize(transform);
+		weapon.tag = this.tag;
 		IsDeath = false;
 	}
 
 	public virtual void UpdateCharacter()
 	{
 		KeyboardController();
-		MouseController();
+		//MouseController();
 	}
 
 	public virtual void KeyboardController()
 	{
-		float horizontal = 0;
+		/*float horizontal = 0;
 		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
 		{
 			horizontal = 1;
@@ -54,7 +56,32 @@ public class Character : MonoBehaviour
 		}
 		Vector3 delta = new Vector3(Input.GetAxis("Horizontal") * horizontal, 0, Input.GetAxis("Vertical") * vertical);
 
-		transform.position += (delta.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED] * Time.deltaTime);
+		transform.position += (delta.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED] * Time.deltaTime);*/
+
+		//CHUA CODE XONG, TAM DE DAY
+		if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+		{
+			speed += acceleration * Time.deltaTime;
+			speed = Mathf.Clamp(speed, 0, Stats[GameConfig.STAT_TYPE.MOVE_SPEED]);
+
+			Vector3 MovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+			Vector3 desiredMovement = MovementInput * Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+
+			characterRigidbody.velocity += (desiredMovement - characterRigidbody.velocity).normalized * speed;
+		} else
+		{
+			speed -= acceleration * Time.deltaTime;
+			speed = Mathf.Clamp(speed, 0, Stats[GameConfig.STAT_TYPE.MOVE_SPEED]);
+		}
+		
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Vector3 desiredMovement = new Vector3(1,0,0);
+			characterRigidbody.AddForce(desiredMovement.normalized * 10.0f, ForceMode.Impulse);
+			Debug.Log("DASH velocity:" + characterRigidbody.velocity);
+		}
+
 	}
 
 	public void MouseController()
@@ -63,7 +90,7 @@ public class Character : MonoBehaviour
 
 		if(Input.GetMouseButton(0))
 		{
-			rifle.WeaponAttack();
+			weapon.WeaponAttack();
 		}
 	}
 

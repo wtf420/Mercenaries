@@ -7,7 +7,7 @@ public class Enemy: MonoBehaviour
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
 
-	[SerializeField] Rifle rifle;
+	[SerializeField] Weapon weapon;
 
 	//public CHARACTER_TYPE Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
@@ -29,12 +29,12 @@ public class Enemy: MonoBehaviour
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
 
-		rifle.Initialize(transform);
+		weapon.Initialize(transform);
 	}
 
 	public virtual void UpdateEnemy(Character character)
 	{
-		rifle.WeaponAttack();
+		weapon.WeaponAttack();
 	}
 
 	public virtual void TakenDamage(float damage)

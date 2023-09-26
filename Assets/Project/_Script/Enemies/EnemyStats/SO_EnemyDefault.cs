@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "Enemy Data/Enemy Default Stats")]
 class SO_EnemyDefault: ScriptableObject
 {
-    public float HP_DEFAULT = 150;
+    public float HP_DEFAULT = 100;
 
     public float DAMAGE_DEFAULT = 20;
 

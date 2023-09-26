@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Rifle: Weapon
+public class Gun: Weapon
 {
 	#region Fields & Properties
 	[SerializeField] Bullet bulletPrefab;
@@ -15,7 +15,7 @@ public class Rifle: Weapon
 	{
 		base.Initialize(parent);
 
-		SO_WeaponRifle stats = (SO_WeaponRifle)GameManager.Instance.GetStats(GameConfig.SO_TYPE.WEAPON, (int)GameConfig.WEAPON.RIFLE);
+		SO_WeaponGunStats stats = (SO_WeaponGunStats)GameManager.Instance.GetStats(GameConfig.SO_TYPE.WEAPON, (int)GameConfig.WEAPON.RIFLE);
 		Stats.Add(WEAPON_STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
 		Stats.Add(WEAPON_STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
 		Stats.Add(WEAPON_STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);

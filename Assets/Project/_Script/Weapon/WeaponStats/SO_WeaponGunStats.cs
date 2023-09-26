@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Weapon Data/Rifle Stats")]
-public class SO_WeaponRifle: ScriptableObject
+[CreateAssetMenu(menuName = "Weapon Data/Gun Stats")]
+public class SO_WeaponGunStats : ScriptableObject
 {
     public float DAMAGE_DEFAULT = 20;
 
