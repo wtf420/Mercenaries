@@ -13,7 +13,6 @@ public class Character : MonoBehaviour
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 	public bool IsDeath { get; protected set; }
 	public float acceleration;
-	public float speed = 0.0f;
 
 	//protected List<Weapon> weapons;
 	#endregion
@@ -61,23 +60,32 @@ public class Character : MonoBehaviour
 		//CHUA CODE XONG, TAM DE DAY
 		if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
 		{
-			speed += acceleration * Time.deltaTime;
-			speed = Mathf.Clamp(speed, 0, Stats[GameConfig.STAT_TYPE.MOVE_SPEED]);
+			Vector3 MovementInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+			Vector3 desiredMovement = MovementInput.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+			Vector3 diff = desiredMovement - characterRigidbody.velocity;
+			Vector3 diff2 = diff.normalized * acceleration;
 
-			Vector3 MovementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-			Vector3 desiredMovement = MovementInput * Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+			Vector3 movement;
+			if (Mathf.Abs(diff.magnitude) > Mathf.Abs(diff2.magnitude))
+			{
+				movement = diff2;
+			} else
+			{
+				movement = diff;
+			}
 
-			characterRigidbody.velocity += (desiredMovement - characterRigidbody.velocity).normalized * speed;
-		} else
-		{
-			speed -= acceleration * Time.deltaTime;
-			speed = Mathf.Clamp(speed, 0, Stats[GameConfig.STAT_TYPE.MOVE_SPEED]);
+			movement.y = 0;
+			characterRigidbody.velocity += movement;
+
+			Debug.Log("Velocity: " + characterRigidbody.velocity
+						+ " | desiredMovement : " + desiredMovement
+						+ " | movement: " + movement);
 		}
 		
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Vector3 desiredMovement = new Vector3(1,0,0);
+			Vector3 desiredMovement = new Vector3(0,1,0);
 			characterRigidbody.AddForce(desiredMovement.normalized * 10.0f, ForceMode.Impulse);
 			Debug.Log("DASH velocity:" + characterRigidbody.velocity);
 		}

@@ -210,14 +210,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333826392}
-  m_LocalRotation: {x: -0.44597003, y: -0.012891549, z: 0.0064226207, w: -0.89493203}
-  m_LocalPosition: {x: 0.4912293, y: 13.54937, z: -13.773384}
-  m_LocalScale: {x: 0.99999994, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 1.87, y: 13.54937, z: 0.39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &389721439 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1930386088879084078, guid: 469b5716bac5e344383869b686731cf7, type: 3}
@@ -480,28 +480,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2377049601946077565, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2377049601946077565, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
     - target: {fileID: 2377049601946077567, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
       propertyPath: weapon
       value: 
       objectReference: {fileID: 25474103}
     - target: {fileID: 2377049601946077567, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
       propertyPath: acceleration
-      value: 5
+      value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 2377049601946077567, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
+      propertyPath: maxAcceleration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377049601946077567, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
+      propertyPath: characterRigidbody
+      value: 
+      objectReference: {fileID: 1926189936}
     - target: {fileID: 8839052357293150024, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 7334829851252093682, guid: e7ac79c8ef23c9440b9aa95f5654a509, type: 3}
-    m_RemovedComponents:
-    - {fileID: 2377049601946077565, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce0d5f3be4a15cb4d81ee27769753b32, type: 3}
 --- !u!114 &1109972059 stripped
 MonoBehaviour:
