@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
 	public virtual void UpdateCharacter()
 	{
 		KeyboardController();
-		//MouseController();
+		MouseController();
 	}
 
 	public virtual void KeyboardController()
@@ -57,11 +57,14 @@ public class Character : MonoBehaviour
 
 		transform.position += (delta.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED] * Time.deltaTime);*/
 
-		//CHUA CODE XONG, TAM DE DAY
+		//FOR FASTER DEACCELERATION, USE RIGIDBODY DRAG INSTEAD
 		if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
 		{
 			Vector3 MovementInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			Vector3 desiredMovement = MovementInput.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+
+			Vector3 velocity = characterRigidbody.velocity;
+			velocity.y = 0;
 			Vector3 diff = desiredMovement - characterRigidbody.velocity;
 			Vector3 diff2 = diff.normalized * acceleration;
 
@@ -127,7 +130,7 @@ public class Character : MonoBehaviour
 			transform.rotation = lookRotation;
 		}
 
-		characterRigidbody.velocity = Vector3.zero;
+		//characterRigidbody.velocity = Vector3.zero;
 	}
 	#endregion
 }
