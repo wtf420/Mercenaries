@@ -12,8 +12,10 @@ public class Character : MonoBehaviour
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 	public bool IsDeath { get; protected set; }
-	public float acceleration, deAcceleration, drag;
-	float speedX, speedZ;
+	public float acceleration, deAcceleration, drag, dashForce, dashTime;
+	float speedX, speedZ, maxSpeed;
+
+	bool movementEnable = true;
 
 	//protected List<Weapon> weapons;
 	#endregion
@@ -36,6 +38,8 @@ public class Character : MonoBehaviour
 
 		speedX = 0;
 		speedZ = 0;
+		maxSpeed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+		//characterRigidbody.drag = drag;
 	}
 
 	public virtual void UpdateCharacter()
@@ -46,51 +50,26 @@ public class Character : MonoBehaviour
 
 	public virtual void KeyboardController()
 	{
-		/*float horizontal = 0;
-		if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+		if (movementEnable)
 		{
-			horizontal = 1;
-		}
+			Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+			movementInput = movementInput.normalized;
 
-		float vertical = 0;
-		if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+			if (Input.GetAxisRaw("Horizontal") != 0)
+				speedX += acceleration * movementInput.x * Time.deltaTime;
+			else
+				speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
+			if (Input.GetAxisRaw("Vertical") != 0)
+				speedZ += acceleration * movementInput.z * Time.deltaTime;
+			else
+				speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
+			speedX = Mathf.Clamp(speedX, -maxSpeed, maxSpeed);
+			speedZ = Mathf.Clamp(speedZ, -maxSpeed, maxSpeed);
+		} else
 		{
-			vertical = 1;
-		}
-		Vector3 delta = new Vector3(Input.GetAxis("Horizontal") * horizontal, 0, Input.GetAxis("Vertical") * vertical);
-
-		transform.position += (delta.normalized * Stats[GameConfig.STAT_TYPE.MOVE_SPEED] * Time.deltaTime);*/
-
-		if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-		{
-			/*Vector3 velocity = characterRigidbody.velocity;
-			velocity.y = 0;
-			Vector3 diff = desiredMovement - velocity;
-			Vector3 diff2 = diff.normalized * acceleration;
-
-			Vector3 movement;
-			if (Mathf.Abs(diff.magnitude) > Mathf.Abs(diff2.magnitude))
-			{
-				movement = diff2;
-			} else
-			{
-				movement = diff;
-			}
-
-			movement.y = 0;
-			characterRigidbody.velocity += movement;*/
-		}
-
-		if (Input.GetAxisRaw("Horizontal") != 0)
-			speedX += acceleration * Input.GetAxisRaw("Horizontal") * Time.deltaTime;
-		else
 			speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
-		if (Input.GetAxisRaw("Vertical") != 0)
-			speedZ += acceleration * Input.GetAxisRaw("Vertical") * Time.deltaTime;
-		else
 			speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
-		speedX = Mathf.Clamp(speedX, -Stats[GameConfig.STAT_TYPE.MOVE_SPEED], Stats[GameConfig.STAT_TYPE.MOVE_SPEED]);
-		speedZ = Mathf.Clamp(speedZ, -Stats[GameConfig.STAT_TYPE.MOVE_SPEED], Stats[GameConfig.STAT_TYPE.MOVE_SPEED]);
+		}
 		Vector3 desiredMovement = new Vector3(speedX, 0, speedZ);
 
 		Vector3 velocity = characterRigidbody.velocity;
@@ -101,18 +80,43 @@ public class Character : MonoBehaviour
 		diffz = (Input.GetAxisRaw("Vertical") != 0) ? Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ)) : Mathf.Clamp(diffz, -drag, drag);
 
 		Vector3 movement = new Vector3(diffX, 0, diffz);
-		characterRigidbody.velocity += movement;
-
-		Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
-		
+		characterRigidbody.velocity += movement;		
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Vector3 dashMovement = new Vector3(0,1,0);
-			characterRigidbody.AddForce(dashMovement.normalized * 10.0f, ForceMode.Impulse);
-			Debug.Log("DASH velocity:" + characterRigidbody.velocity);
+			StartCoroutine(Dash());
 		}
 
+		//test addforce()
+		/*if (Input.GetKeyDown(KeyCode.Mouse1))
+		{
+			characterRigidbody.velocity = Vector3.zero;
+			speedX = 0; speedZ = 0;
+			Immobile(0.2f);
+			characterRigidbody.AddForce(10f * Vector3.right,ForceMode.Impulse);
+		}*/
+	}
+
+	IEnumerator Dash()
+	{
+		Vector3 dashMovement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+		//Vector3 dashMovement = new Vector3(1, 0, 0);
+		characterRigidbody.velocity = Vector3.zero;
+		speedX = 0; speedZ = 0;
+		characterRigidbody.AddForce(dashMovement.normalized * dashForce, ForceMode.Impulse);
+		movementEnable = false;
+		yield return new WaitForSeconds(dashTime);
+
+		movementEnable = true;
+		speedX = Mathf.Clamp(characterRigidbody.velocity.x, -maxSpeed, maxSpeed);
+		speedZ = Mathf.Clamp(characterRigidbody.velocity.z, -maxSpeed, maxSpeed);
+	}
+
+	public IEnumerator Immobile(float time)
+	{
+		movementEnable = false;
+		yield return new WaitForSeconds(time);
+		movementEnable = true;
 	}
 
 	public void MouseController()
