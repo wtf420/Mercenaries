@@ -50,35 +50,48 @@ public class Character : MonoBehaviour
 
 	public virtual void KeyboardController()
 	{
+		Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+		movementInput = movementInput.normalized;
+
 		if (movementEnable)
 		{
-			Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-			movementInput = movementInput.normalized;
-
 			if (Input.GetAxisRaw("Horizontal") != 0)
-				speedX += acceleration * movementInput.x * Time.deltaTime;
+			{   //Use deAcceleration when changing moving direction (currently disabled)
+				// if (speedX / Input.GetAxisRaw("Horizontal") > 0)
+				// 	speedX += acceleration * Input.GetAxisRaw("Horizontal") * Time.deltaTime;
+				// else
+				// 	speedX += deAcceleration * Input.GetAxisRaw("Horizontal") * Time.deltaTime;
+				speedX += acceleration * Input.GetAxisRaw("Horizontal") * Time.deltaTime;
+				speedX = Mathf.Clamp(speedX, -maxSpeed * Mathf.Abs(movementInput.x), maxSpeed * Mathf.Abs(movementInput.x));
+			}
 			else
 				speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
 			if (Input.GetAxisRaw("Vertical") != 0)
-				speedZ += acceleration * movementInput.z * Time.deltaTime;
+			{   //Use deAcceleration when changing moving direction (currently disabled)
+				// if (speedX / Input.GetAxisRaw("Horizontal") > 0)
+				// 	speedZ += acceleration * Input.GetAxisRaw("Vertical") * Time.deltaTime;
+				// else
+				// 	speedZ += deAcceleration * Input.GetAxisRaw("Vertical") * Time.deltaTime;
+				speedZ += acceleration * Input.GetAxisRaw("Vertical") * Time.deltaTime;
+				speedZ = Mathf.Clamp(speedZ, -maxSpeed * Mathf.Abs(movementInput.z), maxSpeed * Mathf.Abs(movementInput.z));
+			}
 			else
 				speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
-			speedX = Mathf.Clamp(speedX, -maxSpeed, maxSpeed);
-			speedZ = Mathf.Clamp(speedZ, -maxSpeed, maxSpeed);
 		} else
 		{
 			speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
 			speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
 		}
 		Vector3 desiredMovement = new Vector3(speedX, 0, speedZ);
+		//Debug.Log(speedX + ", " + speedZ + ", " + Input.GetAxisRaw("Horizontal") + ", " + Input.GetAxisRaw("Vertical"));
 
 		Vector3 velocity = characterRigidbody.velocity;
 		velocity.y = 0;
 		float diffX = desiredMovement.x - velocity.x;
 		float diffz = desiredMovement.z - velocity.z;
 		//if theres no input or moving faster in same direction as input, no movement is apply, only friction
-		diffX = (Input.GetAxisRaw("Horizontal") == 0 || desiredMovement.x / velocity.x > 0) ? Mathf.Clamp(diffX, -drag, drag) : Mathf.Clamp(diffX, -Mathf.Abs(speedX), Mathf.Abs(speedX));
-		diffz = (Input.GetAxisRaw("Vertical") == 0 || desiredMovement.z / velocity.z > 0) ? Mathf.Clamp(diffz, -drag, drag) : Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ));
+		diffX = (Input.GetAxisRaw("Horizontal") == 0 || velocity.x / desiredMovement.x > 1) ? Mathf.Clamp(diffX, -drag, drag) : Mathf.Clamp(diffX, -Mathf.Abs(speedX), Mathf.Abs(speedX));
+		diffz = (Input.GetAxisRaw("Vertical") == 0 || velocity.z / desiredMovement.z > 1) ? Mathf.Clamp(diffz, -drag, drag) : Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ));
 
 		Vector3 movement = new Vector3(diffX, 0, diffz);
 		characterRigidbody.velocity += movement;		
@@ -87,6 +100,8 @@ public class Character : MonoBehaviour
 		{
 			StartCoroutine(Dash());
 		}
+
+		//Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
 	}
 
 	//use this instead of Rigidbody.Addforce()
