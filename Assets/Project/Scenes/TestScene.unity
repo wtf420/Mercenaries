@@ -635,7 +635,7 @@ MonoBehaviour:
   deAcceleration: 50
   drag: 0.2
   dashForce: 30
-  dashTime: 0.2
+  dashTime: 0
 --- !u!4 &2377049600903224614
 Transform:
   m_ObjectHideFlags: 0

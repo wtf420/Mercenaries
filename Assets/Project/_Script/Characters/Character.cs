@@ -76,8 +76,9 @@ public class Character : MonoBehaviour
 		velocity.y = 0;
 		float diffX = desiredMovement.x - velocity.x;
 		float diffz = desiredMovement.z - velocity.z;
-		diffX = (Input.GetAxisRaw("Horizontal") != 0) ? Mathf.Clamp(diffX, -Mathf.Abs(speedX), Mathf.Abs(speedX)) : Mathf.Clamp(diffX, -drag, drag);
-		diffz = (Input.GetAxisRaw("Vertical") != 0) ? Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ)) : Mathf.Clamp(diffz, -drag, drag);
+		//if theres no input or moving faster in same direction as input, no movement is apply, only friction
+		diffX = (Input.GetAxisRaw("Horizontal") == 0 || desiredMovement.x / velocity.x > 0) ? Mathf.Clamp(diffX, -drag, drag) : Mathf.Clamp(diffX, -Mathf.Abs(speedX), Mathf.Abs(speedX));
+		diffz = (Input.GetAxisRaw("Vertical") == 0 || desiredMovement.z / velocity.z > 0) ? Mathf.Clamp(diffz, -drag, drag) : Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ));
 
 		Vector3 movement = new Vector3(diffX, 0, diffz);
 		characterRigidbody.velocity += movement;		
