@@ -112,13 +112,6 @@ public class Character : MonoBehaviour
 		speedZ = Mathf.Clamp(characterRigidbody.velocity.z, -maxSpeed, maxSpeed);
 	}
 
-	public IEnumerator Immobile(float time)
-	{
-		movementEnable = false;
-		yield return new WaitForSeconds(time);
-		movementEnable = true;
-	}
-
 	public void MouseController()
 	{
 		RotateWeapon();
