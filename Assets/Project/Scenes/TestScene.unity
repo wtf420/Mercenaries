@@ -631,7 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRigidbody: {fileID: 1926189936}
   weapon: {fileID: 8839052358334896914}
-  acceleration: 50
+  acceleration: 30
   deAcceleration: 50
   drag: 0.2
   dashForce: 30

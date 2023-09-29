@@ -86,15 +86,14 @@ public class Character : MonoBehaviour
 		{
 			StartCoroutine(Dash());
 		}
+	}
 
-		//test addforce()
-		/*if (Input.GetKeyDown(KeyCode.Mouse1))
-		{
-			characterRigidbody.velocity = Vector3.zero;
-			speedX = 0; speedZ = 0;
-			Immobile(0.2f);
-			characterRigidbody.AddForce(10f * Vector3.right,ForceMode.Impulse);
-		}*/
+	//use this instead of Rigidbody.Addforce()
+	void AddForce(Vector3 direction)
+	{
+		characterRigidbody.velocity = Vector3.zero;
+		speedX = 0; speedZ = 0;
+		characterRigidbody.AddForce(direction, ForceMode.Impulse);
 	}
 
 	IEnumerator Dash()
