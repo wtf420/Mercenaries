@@ -25,7 +25,7 @@ public class GameManager: MonoBehaviour
 
 	[SerializeField] List<Enemy> enemies;
 
-	[SerializeField] CameraController camera;
+	[SerializeField] CameraController myCamera;
 	#endregion
 
 	#region Methods
@@ -37,7 +37,7 @@ public class GameManager: MonoBehaviour
 			Destroy(gameObject);
 
 		character.Initialize();
-		camera.Initialize(character.transform);
+		myCamera.Initialize(character.transform);
 
 		foreach(var enemy in enemies)
 		{
@@ -50,7 +50,7 @@ public class GameManager: MonoBehaviour
 		if(!character.IsDeath)
 			character.UpdateCharacter();
 
-		camera.UpdateCamera(character.transform);
+		myCamera.UpdateCamera(character.transform);
 
 		foreach (var enemy in enemies)
 		{

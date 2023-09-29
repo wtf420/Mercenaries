@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 	#region Fields & Properties
+	[SerializeField] bool isFollowPlayer = true;
 
 	private Vector3 offSet;
 
@@ -19,6 +20,12 @@ public class CameraController : MonoBehaviour
 
 	public void UpdateCamera(Transform player)
 	{
+		if (Input.GetKeyDown(KeyCode.C))
+			isFollowPlayer = !isFollowPlayer;
+
+		if (!isFollowPlayer)
+			return;
+
 		transform.position = player.position - offSet;
 	}
 
