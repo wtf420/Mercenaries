@@ -56,3 +56,6 @@ MonoBehaviour:
     Stats:
     - {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
   character: {fileID: 0}
+  enemies:
+  - {fileID: 0}
+  myCamera: {fileID: 0}

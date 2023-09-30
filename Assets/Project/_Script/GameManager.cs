@@ -60,7 +60,7 @@ public class GameManager: MonoBehaviour
 
 	public ScriptableObject GetStats(GameConfig.SO_TYPE type, int index = 0)
 	{
-		Debug.Log($"Type: {type}, Index {index}");
+		//Debug.Log($"Type: {type}, Index {index}");
 		return SO_Stats.Find(element => element.Type == type).Stats[index];
 	}
 	#endregion
