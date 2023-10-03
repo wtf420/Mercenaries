@@ -37,7 +37,7 @@ public class GameManager: MonoBehaviour
 			Destroy(gameObject);
 
 		character.Initialize();
-		myCamera.Initialize(character.transform);
+		myCamera.Initialize();
 
 		foreach(var enemy in enemies)
 		{
@@ -45,12 +45,12 @@ public class GameManager: MonoBehaviour
 		}	
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if(!character.IsDeath)
 			character.UpdateCharacter();
 
-		myCamera.UpdateCamera(character.transform);
+		myCamera.UpdateCamera();
 
 		foreach (var enemy in enemies)
 		{
