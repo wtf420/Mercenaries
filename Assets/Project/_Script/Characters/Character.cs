@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -107,7 +108,7 @@ public class Character : MonoBehaviour
 	//use this instead of Rigidbody.Addforce()
 	void AddForce(Vector3 direction)
 	{
-		characterRigidbody.velocity = Vector3.zero;
+		//characterRigidbody.velocity = Vector3.zero;
 		speedX = 0; speedZ = 0;
 		characterRigidbody.AddForce(direction, ForceMode.Impulse);
 	}
@@ -157,12 +158,23 @@ public class Character : MonoBehaviour
 		RaycastHit hitData;
 		if (Physics.Raycast(ray, out hitData, 1000))
 		{
-			Vector3 direction = (hitData.point - transform.position).normalized;
-			Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-			transform.rotation = lookRotation;
+			// Vector3 direction = (hitData.point - transform.position).normalized;
+			// Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+			// transform.rotation = lookRotation;
+			Vector3 location = new Vector3(hitData.point.x, this.transform.position.y, hitData.point.z);
+			var q = Quaternion.LookRotation(location - transform.position);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
 		}
 
 		//characterRigidbody.velocity = Vector3.zero;
 	}
 	#endregion
+
+	void OnTriggerEnter(Collider collider)
+	{
+		if (collider.gameObject.name == "Cube")
+		{
+			AddForce(Vector3.up * 10f);
+		}
+	}
 }

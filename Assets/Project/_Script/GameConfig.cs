@@ -32,6 +32,7 @@ public class GameConfig
 	public enum WEAPON
 	{
 		RIFLE = 0,
+		GERNADETHROWER = 1,
 		BOOM,
 	}
 
