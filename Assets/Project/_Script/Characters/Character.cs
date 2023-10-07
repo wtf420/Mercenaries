@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[System.Serializable]
+public class DicWeapon
+{
+	[SerializeField] public GameConfig.WEAPON _Type;
+	[SerializeField] public Weapon _Weapon;
+}
+
 public class Character : MonoBehaviour
 {
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
 
-	[SerializeField] Weapon weapon;
+	[SerializeField] protected List<DicWeapon> weapons;
+	int currentWeapon = 0;
 
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
@@ -17,8 +25,6 @@ public class Character : MonoBehaviour
 	float speedX, speedZ, maxSpeed;
 
 	bool movementEnable = true;
-
-	//protected List<Weapon> weapons;
 	#endregion
 
 	#region Methods
@@ -33,8 +39,12 @@ public class Character : MonoBehaviour
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
 
-		weapon.Initialize(transform);
-		weapon.tag = this.tag;
+		foreach(var weapon in weapons)
+		{
+			weapon._Weapon.Initialize(transform);
+			weapon._Weapon.tag = this.tag;
+		}
+
 		IsDeath = false;
 
 		speedX = 0;
@@ -50,6 +60,37 @@ public class Character : MonoBehaviour
 	}
 
 	public virtual void KeyboardController()
+	{
+		CharacterMovement();
+
+		SwapWeapon();
+	}
+
+	public void MouseController()
+	{
+		RotateWeapon();
+
+		if (Input.GetMouseButton(0))
+		{
+			weapons[currentWeapon]._Weapon.WeaponAttack();
+		}
+	}
+
+	public void TakenDamage(float damage)
+	{
+		if (Stats[GameConfig.STAT_TYPE.HP] > 0)
+		{
+			Stats[GameConfig.STAT_TYPE.HP] -= damage;
+			Debug.Log($"Character hp: {Stats[GameConfig.STAT_TYPE.HP]}");
+			if (Stats[GameConfig.STAT_TYPE.HP] <= 0)
+			{
+				Debug.Log("Character die");
+				IsDeath = true;
+			}
+		}
+	}
+
+	private void CharacterMovement()
 	{
 		Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 		movementInput = movementInput.normalized;
@@ -78,7 +119,8 @@ public class Character : MonoBehaviour
 			}
 			else
 				speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
-		} else
+		}
+		else
 		{
 			speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
 			speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
@@ -95,7 +137,7 @@ public class Character : MonoBehaviour
 		diffz = (Input.GetAxisRaw("Vertical") == 0 || velocity.z / desiredMovement.z > 1) ? Mathf.Clamp(diffz, -drag, drag) : Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ));
 
 		Vector3 movement = new Vector3(diffX, 0, diffz);
-		characterRigidbody.velocity += movement;		
+		characterRigidbody.velocity += movement;
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -105,7 +147,33 @@ public class Character : MonoBehaviour
 		//Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
 	}
 
-	//use this instead of Rigidbody.Addforce()
+	private void SwapWeapon()
+	{
+		// Main Weapon
+		if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
+			int index = weapons.FindIndex(weapon => weapon._Type == GameConfig.WEAPON.RIFLE);
+			if(index != -1)
+			{
+				currentWeapon = index;
+			}
+			Debug.Log("Change to main weapon");
+		}
+
+		// Grenade
+		if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
+			int index = weapons.FindIndex(weapon => weapon._Type == GameConfig.WEAPON.GERNADETHROWER);
+			if (index != -1)
+			{
+				currentWeapon = index;
+			}
+			Debug.Log("Change to grenade");
+		}
+	}
+
 	void AddForce(Vector3 direction)
 	{
 		//characterRigidbody.velocity = Vector3.zero;
@@ -128,30 +196,6 @@ public class Character : MonoBehaviour
 		speedZ = Mathf.Clamp(characterRigidbody.velocity.z, -maxSpeed, maxSpeed);
 	}
 
-	public void MouseController()
-	{
-		RotateWeapon();
-
-		if(Input.GetMouseButton(0))
-		{
-			weapon.WeaponAttack();
-		}
-	}
-
-	public void TakenDamage(float damage)
-	{
-		if (Stats[GameConfig.STAT_TYPE.HP] > 0)
-		{
-			Stats[GameConfig.STAT_TYPE.HP] -= damage;
-			Debug.Log($"Character hp: {Stats[GameConfig.STAT_TYPE.HP]}");
-			if (Stats[GameConfig.STAT_TYPE.HP] <= 0)
-			{
-				Debug.Log("Character die");
-				IsDeath = true;
-			}
-		}
-	}
-
 	private void RotateWeapon()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -168,7 +212,6 @@ public class Character : MonoBehaviour
 
 		//characterRigidbody.velocity = Vector3.zero;
 	}
-	#endregion
 
 	void OnTriggerEnter(Collider collider)
 	{
@@ -177,4 +220,5 @@ public class Character : MonoBehaviour
 			AddForce(Vector3.up * 10f);
 		}
 	}
+	#endregion
 }

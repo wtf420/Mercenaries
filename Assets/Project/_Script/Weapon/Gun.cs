@@ -24,6 +24,8 @@ public class Gun: Weapon
 		Stats.Add(WEAPON_STAT_TYPE.QUANTITY, stats.BULLET_QUANTITY);
 
 		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
+
+		Type = GameConfig.WEAPON.RIFLE;
 	}
 
 	protected override void Attack()

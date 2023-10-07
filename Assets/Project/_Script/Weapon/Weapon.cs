@@ -21,6 +21,7 @@ public class Weapon : MonoBehaviour
 
 	public Dictionary<WEAPON_STAT_TYPE, float> Stats { get; protected set; }
 
+	public GameConfig.WEAPON Type { get; protected set; }
 	protected int currentBulletQuantity;
 	private bool attackable;
 	#endregion

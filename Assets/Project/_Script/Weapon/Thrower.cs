@@ -24,6 +24,8 @@ public class Thrower : Weapon
         Stats.Add(WEAPON_STAT_TYPE.QUANTITY, stats.BULLET_QUANTITY);
 
         currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
+
+        Type = GameConfig.WEAPON.GERNADETHROWER;
     }
 
     protected override void Attack()
