@@ -16,7 +16,8 @@ public class GameConfig
 	{
 		CHARACTER = 0,
 		WEAPON,
-		ENEMY
+		ENEMY,
+		PET
 	}
 
 	public enum STAT_TYPE
@@ -27,6 +28,7 @@ public class GameConfig
 		MOVE_SPEED,
 		ATTACK_RANGE,
 		EFFECT_SCOPE,
+		BULLET_SPEED,
 	}
 
 	public enum WEAPON
@@ -49,5 +51,12 @@ public class GameConfig
 		ENEMY_DEFAULT = 0,
 
 	}
+
+	public enum PET
+	{ 
+		DRONE = 0,
+
+	}
+
 }
 

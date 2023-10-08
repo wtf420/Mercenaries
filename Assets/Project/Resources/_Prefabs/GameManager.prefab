@@ -55,6 +55,9 @@ MonoBehaviour:
   - Type: 2
     Stats:
     - {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
+  - Type: 3
+    Stats:
+    - {fileID: 11400000, guid: ad4b5efc52ef17049979b7b41fabd149, type: 2}
   character: {fileID: 0}
   enemies:
   - {fileID: 0}

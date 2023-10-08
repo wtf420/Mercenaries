@@ -14,8 +14,8 @@ public class Character : MonoBehaviour
 {
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
-
 	[SerializeField] protected List<DicWeapon> weapons;
+	protected Pet myPet;
 	int currentWeapon = 0;
 
 	public GameConfig.CHARACTER Type { get; protected set; }
@@ -53,7 +53,7 @@ public class Character : MonoBehaviour
 		//characterRigidbody.drag = drag;
 	}
 
-	public virtual void UpdateCharacter()
+	public virtual void UpdateCharacter(List<Enemy> enemies = null)
 	{
 		KeyboardController();
 		MouseController();

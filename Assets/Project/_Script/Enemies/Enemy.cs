@@ -13,12 +13,13 @@ public class Enemy: MonoBehaviour
 
 	protected NavMeshAgent enemyAgent;
 
+	private int currentPosition = 0;
+
 	//public CHARACTER_TYPE Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 
+	public bool IsDead { get; protected set; }
 	//protected List<Weapon> weapons;
-
-	private int currentPosition = 0;
 	#endregion
 
 	#region Methods
@@ -49,6 +50,11 @@ public class Enemy: MonoBehaviour
 
 	public virtual void TakenDamage(float damage)
 	{
+		if(IsDead)
+		{
+			return;
+		}
+
 		if(Stats[GameConfig.STAT_TYPE.HP] > 0)
 		{
 			Stats[GameConfig.STAT_TYPE.HP] -= damage;
@@ -56,7 +62,7 @@ public class Enemy: MonoBehaviour
 			if(Stats[GameConfig.STAT_TYPE.HP] <= 0)
 			{
 				Debug.Log("Enemy die");
-				Destroy(gameObject);
+				IsDead = true;
 			}
 		}
 	}

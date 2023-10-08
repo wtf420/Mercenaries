@@ -61,10 +61,10 @@ public class CameraController : MonoBehaviour
 
 	#region Methods
 
-	public void Initialize()
+	public void Initialize(GameObject player)
 	{
 		//offSet = player.position - transform.position;
-		Player = GameObject.FindGameObjectWithTag("Player");
+		Player = player;
 		Camera = this.gameObject;
 	}
 
