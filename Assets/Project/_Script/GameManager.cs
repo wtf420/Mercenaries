@@ -51,13 +51,16 @@ public class GameManager: MonoBehaviour
 
 		if(!character.IsDeath)
 			character.UpdateCharacter(enemies);
-
 		myCamera.UpdateCamera();
-
 		foreach (var enemy in enemies)
 		{
 			enemy.UpdateEnemy(character);
 		}
+	}
+
+	private void LateUpdate()
+	{
+		
 	}
 
 	private void RemoveDeathEnemy()

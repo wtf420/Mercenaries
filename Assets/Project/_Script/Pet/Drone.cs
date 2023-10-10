@@ -3,60 +3,31 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Drone : Pet
+public class Drone : MonoBehaviour
 {
-	#region Fields & Properties
-	[SerializeField] private Bullet bulletPrefab;
+	public float speed, rotationSpeed;
+	public GameObject target;
+	Vector3 targetPosition;
 
-	#endregion
-
-	#region Methods
-	public static Drone Create(Transform parent = null)
+	public Drone(GameObject Target = null)
 	{
-		Drone drone = Instantiate(Resources.Load<Drone>("_Prefabs/Pet/Drone"), parent);
-
-		return drone;
+		target = Target;
 	}
 
-	public override void Initialize(string tag)
+	void Start()
 	{
-		base.Initialize(tag);
 
-		SO_Drone stats = (SO_Drone)GameManager.Instance.GetStats(GameConfig.SO_TYPE.PET, (int)GameConfig.PET.DRONE);
-		Stats.Add(GameConfig.STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.BULLET_SPEED, stats.BULLET_SPEED);
-		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
 	}
 
-	public override void UpdatePet(List<Enemy> enemies = null)
+	void Update()
 	{
-		base.UpdatePet(enemies);
+		if (target != null)
+			targetPosition = target.transform.position;
+
+		var q = Quaternion.LookRotation(targetPosition - transform.position);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotationSpeed * Time.deltaTime);
+
+		this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, speed * Time.deltaTime);
 	}
-
-	protected override void Attack()
-	{
-		base.Attack();
-
-		if(!target)
-		{
-			return;
-		}
-
-		if(attackable)
-		{
-			Bullet bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
-			bullet.Initialize(Stats[GameConfig.STAT_TYPE.DAMAGE],
-							  Stats[GameConfig.STAT_TYPE.ATTACK_RANGE],
-							  Stats[GameConfig.STAT_TYPE.BULLET_SPEED],
-							 (target.position - transform.position).normalized);
-			bullet.tag = this.tag;
-
-			attackable = false;
-			StartCoroutine(IE_Reload());
-		}
-	}
-
-	#endregion
 }
 

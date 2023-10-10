@@ -236,7 +236,7 @@ public class Character : MonoBehaviour
 	{
 		if (collider.gameObject.name == "Jumppad")
 		{
-			//AddForce(Vector3.up * 10f);
+			AddForce(Vector3.up * 10f);
 		}
 	}
 	#endregion
