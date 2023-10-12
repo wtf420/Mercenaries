@@ -32,7 +32,7 @@ public class Character1 : Character
 
 		if (myPet != null)
 		{
-			return;
+			//return;
 		}
 
 		// Summon pet

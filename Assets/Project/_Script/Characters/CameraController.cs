@@ -86,7 +86,7 @@ public class CameraController : MonoBehaviour
 			//look at player
 			if (LookAtPlayer)
 			{
-				Quaternion LookRotation = Quaternion.LookRotation((Player.transform.position - transform.position).normalized);
+				Quaternion LookRotation = Quaternion.LookRotation(Player.transform.position - transform.position);
 				Camera.transform.rotation = Quaternion.Lerp(Camera.transform.rotation, LookRotation, RotationSpeed * Time.deltaTime);
 			}
 			else
