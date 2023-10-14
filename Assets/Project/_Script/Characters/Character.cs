@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
 	[SerializeField] protected List<DicWeapon> weapons;
+	[SerializeField] bool alignWithCamera = true;
 	protected Pet myPet;
 	int currentWeapon = 0;
 
@@ -56,6 +57,10 @@ public class Character : MonoBehaviour
 	public virtual void UpdateCharacter(List<Enemy> enemies = null)
 	{
 		KeyboardController();
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			StartCoroutine(Dash());
+		}
 		MouseController();
 	}
 
@@ -93,7 +98,13 @@ public class Character : MonoBehaviour
 	private void CharacterMovement()
 	{
 		Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-		movementInput = movementInput.normalized;
+		Vector3 movementInputAligned = movementInput.normalized;
+		if (alignWithCamera)
+		{
+			Vector3 camToPlayer = this.transform.position - Camera.main.transform.position;
+			camToPlayer.y = 0;
+			movementInputAligned = Quaternion.LookRotation(camToPlayer.normalized) * movementInputAligned;
+		}
 
 		if (movementEnable)
 		{
@@ -125,24 +136,28 @@ public class Character : MonoBehaviour
 			speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
 			speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
 		}
-		Vector3 desiredMovement = new Vector3(speedX, 0, speedZ);
-		//Debug.Log(speedX + ", " + speedZ + ", " + Input.GetAxisRaw("Horizontal") + ", " + Input.GetAxisRaw("Vertical"));
 
+		Vector3 desiredMovement = new Vector3(speedX, 0, speedZ);
+		if (alignWithCamera)
+		{
+			Vector3 camToPlayer = this.transform.position - Camera.main.transform.position;
+			camToPlayer.y = 0;
+			desiredMovement = Quaternion.LookRotation(camToPlayer.normalized) * desiredMovement;
+		}
+		//Debug.Log(desiredMovement + ", " + Input.GetAxisRaw("Horizontal") + ", " + Input.GetAxisRaw("Vertical"));
+		
 		Vector3 velocity = characterRigidbody.velocity;
 		velocity.y = 0;
 		float diffX = desiredMovement.x - velocity.x;
 		float diffz = desiredMovement.z - velocity.z;
+
 		//if theres no input or moving faster in same direction as input, no movement is apply, only friction
-		diffX = (Input.GetAxisRaw("Horizontal") == 0 || velocity.x / desiredMovement.x > 1) ? Mathf.Clamp(diffX, -drag, drag) : Mathf.Clamp(diffX, -Mathf.Abs(speedX), Mathf.Abs(speedX));
-		diffz = (Input.GetAxisRaw("Vertical") == 0 || velocity.z / desiredMovement.z > 1) ? Mathf.Clamp(diffz, -drag, drag) : Mathf.Clamp(diffz, -Mathf.Abs(speedZ), Mathf.Abs(speedZ));
-
+		diffX = Mathf.Clamp(diffX, -Mathf.Abs(desiredMovement.x), Mathf.Abs(desiredMovement.x));
+		diffz = Mathf.Clamp(diffz, -Mathf.Abs(desiredMovement.z), Mathf.Abs(desiredMovement.z));
+		
 		Vector3 movement = new Vector3(diffX, 0, diffz);
+		
 		characterRigidbody.velocity += movement;
-
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			StartCoroutine(Dash());
-		}
 
 		//Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
 	}
@@ -183,17 +198,21 @@ public class Character : MonoBehaviour
 
 	IEnumerator Dash()
 	{
-		Vector3 dashMovement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-		//Vector3 dashMovement = new Vector3(1, 0, 0);
+		Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+		if (alignWithCamera)
+		{
+			Vector3 camToPlayer = this.transform.position - Camera.main.transform.position;
+			camToPlayer.y = 0;
+			movementInput = Quaternion.LookRotation(camToPlayer) * movementInput;
+		}
+		movementInput = movementInput.normalized;
+
 		characterRigidbody.velocity = Vector3.zero;
 		speedX = 0; speedZ = 0;
-		characterRigidbody.AddForce(dashMovement.normalized * dashForce, ForceMode.Impulse);
+		characterRigidbody.AddForce(movementInput.normalized * dashForce, ForceMode.Impulse);
 		movementEnable = false;
 		yield return new WaitForSeconds(dashTime);
-
 		movementEnable = true;
-		speedX = Mathf.Clamp(characterRigidbody.velocity.x, -maxSpeed, maxSpeed);
-		speedZ = Mathf.Clamp(characterRigidbody.velocity.z, -maxSpeed, maxSpeed);
 	}
 
 	private void RotateWeapon()
@@ -215,7 +234,7 @@ public class Character : MonoBehaviour
 
 	void OnTriggerEnter(Collider collider)
 	{
-		if (collider.gameObject.name == "Cube")
+		if (collider.gameObject.name == "Jumppad")
 		{
 			AddForce(Vector3.up * 10f);
 		}

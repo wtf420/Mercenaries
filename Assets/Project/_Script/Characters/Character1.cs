@@ -32,14 +32,13 @@ public class Character1 : Character
 
 		if (myPet != null)
 		{
-			return;
+			//return;
 		}
 
 		// Summon pet
 		if(Input.GetKeyDown(KeyCode.R))
 		{
-			myPet = Drone.Create(transform);
-			myPet.Initialize(this.tag);
+			Drone drone = new Drone(this.gameObject);
 
 			Debug.Log("SUMMON DRONE");
 		}
