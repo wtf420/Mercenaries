@@ -36,6 +36,7 @@ public class Enemy: MonoBehaviour
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.DETECT_RANGE, stats.DETECT_RANGE);
 
 		enemyAgent.speed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
 
@@ -82,7 +83,7 @@ public class Enemy: MonoBehaviour
 			if (currentPosition >= path.NodeCount())
 				currentPosition = 0;
 
-			Debug.Log(currentPosition);
+			//Debug.Log(currentPosition);
 		}
 	}
 

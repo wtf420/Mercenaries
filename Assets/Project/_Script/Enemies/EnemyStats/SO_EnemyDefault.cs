@@ -11,5 +11,7 @@ class SO_EnemyDefault: ScriptableObject
     public float ATTACK_SPEED_DEFAULT = 2; // x times per second 
 
     public float MOVE_SPEED_DEFAULT = 6;
+
+    public float DETECT_RANGE = 6f;
 }
 

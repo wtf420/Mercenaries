@@ -29,6 +29,7 @@ public class GameConfig
 		ATTACK_RANGE,
 		EFFECT_SCOPE,
 		BULLET_SPEED,
+		DETECT_RANGE
 	}
 
 	public enum WEAPON
@@ -55,7 +56,7 @@ public class GameConfig
 	public enum PET
 	{ 
 		DRONE = 0,
-
+		TURRET
 	}
 
 }
