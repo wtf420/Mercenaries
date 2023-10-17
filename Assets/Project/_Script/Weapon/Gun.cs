@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +7,7 @@ public class Gun: Weapon
 {
 	#region Fields & Properties
 	[SerializeField] Bullet bulletPrefab;
+	[SerializeField] float inaccuracy;
 
 	#endregion
 
@@ -35,11 +36,15 @@ public class Gun: Weapon
 		if(currentBulletQuantity > 0)
 		{
 			// spawn bullet
+			Vector3 direction = (transform.forward).normalized;
+			Vector3 target = direction * 10f + Vector3.Cross(direction, transform.up).normalized * UnityEngine.Random.Range(-inaccuracy, inaccuracy);
+			direction = (target).normalized;
+
 			Bullet bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
 			bullet.Initialize(Stats[WEAPON_STAT_TYPE.DAMAGE],
 							  Stats[WEAPON_STAT_TYPE.ATTACK_RANGE],
 							  Stats[WEAPON_STAT_TYPE.SPEED],
-							 (transform.position - transform.parent.position).normalized);
+							 direction);
 			bullet.tag = this.tag;
 
 			currentBulletQuantity -= 1;

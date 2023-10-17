@@ -1,42 +1,3 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-
-// public class CameraController : MonoBehaviour
-// {
-// 	#region Fields & Properties
-// 	[SerializeField] bool isFollowPlayer = true;
-// 	[SerializeField] float speed;
-
-// 	private Vector3 offSet;
-// 	private Transform player;
-
-// 	#endregion
-
-// 	#region Methods
-
-// 	public void Initialize()
-// 	{
-// 		player = GameObject.FindGameObjectWithTag("Player").gameObject.transform;
-// 		offSet = player.position - transform.position;
-// 	}
-
-// 	public void UpdateCamera()
-// 	{
-// 		if (Input.GetKeyDown(KeyCode.C))
-// 			isFollowPlayer = !isFollowPlayer;
-
-// 		if (isFollowPlayer)
-// 			// Vector3 position = player.position - offSet;
-// 			// position = Vector3.Lerp(transform.position, position, speed * Time.deltaTime);
-// 			// position.y = player.position.y - offSet.y;
-// 			// transform.position = position;
-// 			transform.position = player.position - offSet;
-// 	}
-
-// 	#endregion
-// }
-
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -86,7 +47,7 @@ public class CameraController : MonoBehaviour
 			//look at player
 			if (LookAtPlayer)
 			{
-				Quaternion LookRotation = Quaternion.LookRotation(Player.transform.position - transform.position);
+				Quaternion LookRotation = Quaternion.LookRotation(Player.transform.position - transform.position, Vector3.up);
 				Camera.transform.rotation = Quaternion.Lerp(Camera.transform.rotation, LookRotation, RotationSpeed * Time.deltaTime);
 			}
 			else
