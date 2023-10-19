@@ -45,36 +45,6 @@ public class GameManager: MonoBehaviour
 		}	
 	}
 
-	private void FixedUpdate()
-	{
-		RemoveDeathEnemy();
-
-		if(!character.IsDeath)
-			character.UpdateCharacter(enemies);
-		myCamera.UpdateCamera();
-		foreach (var enemy in enemies)
-		{
-			enemy.UpdateEnemy(character);
-		}
-	}
-
-	private void LateUpdate()
-	{
-		
-	}
-
-	private void RemoveDeathEnemy()
-	{
-		for (int i = enemies.Count - 1; i >= 0; i--)
-		{
-			if(enemies[i].IsDead)
-			{
-				Destroy(enemies[i].gameObject);
-				enemies.RemoveAt(i);
-			}
-		}
-	}
-
 	public ScriptableObject GetStats(GameConfig.SO_TYPE type, int index = 0)
 	{
 		//Debug.Log($"Type: {type}, Index {index}");

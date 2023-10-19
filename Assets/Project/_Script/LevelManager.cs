@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameMode
 {
@@ -15,6 +16,7 @@ public class LevelManager : MonoBehaviour
     #region Fields & Properties
     public GameMode currentGameMode;
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
+    public GameObject text;
 
     private static LevelManager instance;
     public static LevelManager Instance
@@ -37,6 +39,8 @@ public class LevelManager : MonoBehaviour
         character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         myCamera = Camera.main.gameObject.GetComponent<CameraController>();
+
+        text.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -49,6 +53,15 @@ public class LevelManager : MonoBehaviour
         foreach (var enemy in enemies)
         {
             enemy.UpdateEnemy(character);
+        }
+        if (WinCondition())
+        {
+            text.SetActive(true);
+            text.GetComponent<Text>().text = "WIN";
+        } else if (LoseCondition())
+        {
+            text.SetActive(true);
+            text.GetComponent<Text>().text = "LOSE";
         }
     }
 
@@ -75,7 +88,9 @@ public class LevelManager : MonoBehaviour
         {
             default:
                 {
-                    return true;
+                    if (enemies.Count == 0)
+                        return true; else
+                        return false;
                 }
         }
     }
@@ -86,7 +101,7 @@ public class LevelManager : MonoBehaviour
         {
             default:
                 {
-                    return false;
+                    return character.IsDeath;
                 }
         }
     }

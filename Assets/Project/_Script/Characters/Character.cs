@@ -25,6 +25,8 @@ public class Character : MonoBehaviour
 	public float acceleration, deAcceleration, drag, dashForce, dashTime;
 	float speedX, speedZ, maxSpeed;
 
+	protected private Vector3 mousePos;
+
 	bool movementEnable = true;
 	#endregion
 
@@ -73,6 +75,7 @@ public class Character : MonoBehaviour
 
 	public void MouseController()
 	{
+		mousePos = GetMousePosition();
 		RotateWeapon();
 
 		if (Input.GetMouseButton(0))
@@ -217,19 +220,17 @@ public class Character : MonoBehaviour
 
 	private void RotateWeapon()
 	{
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hitData;
-		if (Physics.Raycast(ray, out hitData, 1000))
-		{
-			// Vector3 direction = (hitData.point - transform.position).normalized;
-			// Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-			// transform.rotation = lookRotation;
-			Vector3 location = new Vector3(hitData.point.x, this.transform.position.y, hitData.point.z);
-			var q = Quaternion.LookRotation(location - transform.position);
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
-		}
+		Vector3 location = mousePos;
+		var q = Quaternion.LookRotation(location - transform.position);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
+	}
 
-		//characterRigidbody.velocity = Vector3.zero;
+	private Vector3 GetMousePosition()
+	{
+		Plane plane = new Plane(Vector3.up, transform.position);
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		plane.Raycast(ray, out float distance);
+		return ray.GetPoint(distance);
 	}
 
 	void OnTriggerEnter(Collider collider)
