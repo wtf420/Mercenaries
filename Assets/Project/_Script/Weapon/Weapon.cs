@@ -27,11 +27,30 @@ public class Weapon : MonoBehaviour
 	#endregion
 
 	#region Methods
-	public virtual void Initialize(Transform parent = null)
+	public virtual void Initialize(Transform parent = null, SO_WeaponGunStats gunStats = null)
 	{
 		transform.parent = parent;
 		Stats = new Dictionary<WEAPON_STAT_TYPE, float>();
 		attackable = true;
+
+		if (gunStats == null)
+		{
+			SO_WeaponGunStats stats = (SO_WeaponGunStats)GameManager.Instance.GetStats(this);
+			Stats.Add(WEAPON_STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.SPEED, stats.SPEED_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.RELOAD_TIME, stats.RELOAD_TIME);
+			Stats.Add(WEAPON_STAT_TYPE.QUANTITY, stats.BULLET_QUANTITY);
+		} else
+		{
+			Stats.Add(WEAPON_STAT_TYPE.DAMAGE, gunStats.DAMAGE_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.ATTACK_RANGE, gunStats.ATTACK_RANGE_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.ATTACK_SPEED, gunStats.ATTACK_SPEED_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.SPEED, gunStats.SPEED_DEFAULT);
+			Stats.Add(WEAPON_STAT_TYPE.RELOAD_TIME, gunStats.RELOAD_TIME);
+			Stats.Add(WEAPON_STAT_TYPE.QUANTITY, gunStats.BULLET_QUANTITY);
+		}
 	}	
 
 	public void WeaponAttack()

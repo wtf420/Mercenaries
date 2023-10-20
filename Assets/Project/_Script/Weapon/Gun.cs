@@ -12,21 +12,11 @@ public class Gun: Weapon
 	#endregion
 
 	#region Methods
-	public override void Initialize(Transform parent = null)
+	public override void Initialize(Transform parent = null, SO_WeaponGunStats gunStats = null)
 	{
-		base.Initialize(parent);
-
-		SO_WeaponGunStats stats = (SO_WeaponGunStats)GameManager.Instance.GetStats(GameConfig.SO_TYPE.WEAPON, (int)GameConfig.WEAPON.RIFLE);
-		Stats.Add(WEAPON_STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
-		Stats.Add(WEAPON_STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
-		Stats.Add(WEAPON_STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);
-		Stats.Add(WEAPON_STAT_TYPE.SPEED, stats.SPEED_DEFAULT);
-		Stats.Add(WEAPON_STAT_TYPE.RELOAD_TIME, stats.RELOAD_TIME);
-		Stats.Add(WEAPON_STAT_TYPE.QUANTITY, stats.BULLET_QUANTITY);
-
-		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
-
 		Type = GameConfig.WEAPON.RIFLE;
+		base.Initialize(parent);
+		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
 	}
 
 	protected override void Attack()

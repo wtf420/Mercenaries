@@ -56,7 +56,7 @@ public class GameConfig
 	public enum PET
 	{ 
 		DRONE = 0,
-		TURRET
+		TURRET = 1
 	}
 
 }

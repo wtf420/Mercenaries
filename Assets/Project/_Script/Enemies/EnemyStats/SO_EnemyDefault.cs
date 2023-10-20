@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Enemy Data/Enemy Default Stats")]
-class SO_EnemyDefault: ScriptableObject
+public class SO_EnemyDefault: ScriptableObject
 {
     public float HP_DEFAULT = 100;
 

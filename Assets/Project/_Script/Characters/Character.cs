@@ -8,6 +8,7 @@ public class DicWeapon
 {
 	[SerializeField] public GameConfig.WEAPON _Type;
 	[SerializeField] public Weapon _Weapon;
+	[SerializeField] public SO_WeaponGunStats _WeaponStats;
 }
 
 public class Character : MonoBehaviour
@@ -18,6 +19,7 @@ public class Character : MonoBehaviour
 	[SerializeField] bool alignWithCamera = true;
 	protected Pet myPet;
 	int currentWeapon = 0;
+	List<WeaponSO> SO_Stats;
 
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
@@ -36,7 +38,8 @@ public class Character : MonoBehaviour
 	{
 		characterRigidbody = GetComponent<Rigidbody>();
 
-		SO_CharacterDefault stats = (SO_CharacterDefault)GameManager.Instance.GetStats(GameConfig.SO_TYPE.CHARACTER, (int)GameConfig.CHARACTER.CHARACTER_DEFAULT);
+		SO_Stats = GameManager.Instance.weaponStats;
+		SO_CharacterDefault stats = GameManager.Instance.characterStat;
 
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);

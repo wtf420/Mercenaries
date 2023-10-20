@@ -22,6 +22,13 @@ public class Pet : MonoBehaviour
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
 		IsDeath = false;
 		attackable = true;
+
+		SO_Turret stats = (SO_Turret)GameManager.Instance.GetStats(this);
+		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.BULLET_SPEED, stats.BULLET_SPEED);
+		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
 	}
 
 	public virtual void UpdatePet(List<Enemy> enemies = null)

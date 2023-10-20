@@ -31,8 +31,8 @@ public class Enemy: MonoBehaviour
 		enemyAgent = GetComponent<NavMeshAgent>();
 		characterRigidbody = GetComponent<Rigidbody>();
 
-		SO_EnemyDefault stats = (SO_EnemyDefault)GameManager.Instance.GetStats(GameConfig.SO_TYPE.ENEMY, (int)GameConfig.ENEMY.ENEMY_DEFAULT);
-
+		//SO_EnemyDefault stats = (SO_EnemyDefault)LevelManager.Instance.GetStats(GameConfig.SO_TYPE.ENEMY, (int)GameConfig.ENEMY.ENEMY_DEFAULT);
+		SO_EnemyDefault stats = LevelManager.Instance.GetStats(this);
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);

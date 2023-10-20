@@ -1368,9 +1368,12 @@ MonoBehaviour:
   currentGameMode: 0
   availableGameMode: 0000000001000000
   text: {fileID: 1588429435}
-  character: {fileID: 0}
+  EnemyStats:
+  - enemy: {fileID: 2042706826893566567, guid: 469b5716bac5e344383869b686731cf7, type: 3}
+    Stats: {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
+  character: {fileID: 745087699}
   enemies: []
-  myCamera: {fileID: 0}
+  myCamera: {fileID: 333826396}
 --- !u!1 &949101810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,9 +2172,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 745087699}
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: characterStat
+      value: 
+      objectReference: {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: petStats.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: enemies.Array.data[0]
       value: 
       objectReference: {fileID: 1697587448}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: weaponStats.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: petStats.Array.data[0].pet
+      value: 
+      objectReference: {fileID: 6344159607576122253, guid: c0e41aaac29c92947960b9af68b3342b, type: 3}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: petStats.Array.data[0].Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 127bf1027b6bbab42a2152aa2875bf75, type: 2}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: weaponStats.Array.data[0].Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 04bf7091ec616d44fa0c032d62368eb0, type: 2}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: weaponStats.Array.data[1].Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: weaponStats.Array.data[0].weapon
+      value: 
+      objectReference: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
+    - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
+      propertyPath: weaponStats.Array.data[1].weapon
+      value: 
+      objectReference: {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: SO_Stats.Array.data[1].Stats.Array.size
       value: 2
@@ -2183,10 +2222,10 @@ PrefabInstance:
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: SO_Stats.Array.data[1].Stats.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 04bf7091ec616d44fa0c032d62368eb0, type: 2}
+      objectReference: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: SO_Stats.Array.data[3].Stats.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 127bf1027b6bbab42a2152aa2875bf75, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}

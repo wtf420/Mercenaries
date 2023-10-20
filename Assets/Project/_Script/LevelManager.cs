@@ -1,8 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+
+// [Serializable]
+// public class DicSO
+// {
+//     [SerializeField] public GameConfig.SO_TYPE Type;
+//     [SerializeField] public List<ScriptableObject> Stats;
+// }
+
+[Serializable]
+public class EnemyDicSO
+{
+    [SerializeField] public Enemy enemy;
+    [SerializeField] public SO_EnemyDefault Stats;
+}
 
 public enum GameMode
 {
@@ -17,6 +32,8 @@ public class LevelManager : MonoBehaviour
     public GameMode currentGameMode;
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
     public GameObject text;
+    
+    public List<EnemyDicSO> EnemyStats;
 
     private static LevelManager instance;
     public static LevelManager Instance
@@ -34,12 +51,27 @@ public class LevelManager : MonoBehaviour
 
     #region Methods
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         myCamera = Camera.main.gameObject.GetComponent<CameraController>();
 
+        character.Initialize();
+        myCamera.Initialize(character.gameObject);
+        foreach (var enemy in enemies)
+        {
+            enemy.Initialize();
+        }
+    }
+
+    void Start()
+    {
         text.SetActive(false);
     }
 
@@ -68,6 +100,12 @@ public class LevelManager : MonoBehaviour
     private void LateUpdate()
     {
 
+    }
+
+    public SO_EnemyDefault GetStats(Enemy aEnemy)
+    {
+        //Debug.Log($"Type: {type}, Index {index}");
+        return EnemyStats.Find(element => element.enemy.GetType() == aEnemy.GetType()).Stats;
     }
 
     private void RemoveDeathEnemy()

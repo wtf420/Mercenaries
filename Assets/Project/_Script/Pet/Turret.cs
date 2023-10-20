@@ -20,14 +20,8 @@ public class Turret : Pet
 
 	public override void Initialize(string tag)
 	{
+		Type = GameConfig.PET.TURRET;
 		base.Initialize(tag);
-
-		SO_Turret stats = (SO_Turret)GameManager.Instance.GetStats(GameConfig.SO_TYPE.PET, (int)GameConfig.PET.TURRET);
-		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.ATTACK_SPEED, stats.ATTACK_SPEED_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.DAMAGE, stats.DAMAGE_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.BULLET_SPEED, stats.BULLET_SPEED);
-		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
 	}
 
 	public override void UpdatePet(List<Enemy> enemies = null)
