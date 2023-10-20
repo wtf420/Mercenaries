@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		SO_Stats = GameManager.Instance.weaponStats;
-		SO_CharacterDefault stats = GameManager.Instance.characterStat;
+		SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
 
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);

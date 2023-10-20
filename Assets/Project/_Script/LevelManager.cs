@@ -32,7 +32,8 @@ public class LevelManager : MonoBehaviour
     public GameMode currentGameMode;
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
     public GameObject text;
-    
+    public GameObject characterSpawner;
+
     public List<EnemyDicSO> EnemyStats;
 
     private static LevelManager instance;
@@ -42,6 +43,7 @@ public class LevelManager : MonoBehaviour
         private set => instance = value;
     }
 
+    public CharacterSO characterInfo;
     [SerializeField] Character character;
 
     [SerializeField] List<Enemy> enemies;
@@ -57,8 +59,16 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+    }
 
-        character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+    void Start()
+    {
+        Debug.Log(GameManager.Instance.selectedCharacter.characterPrefab);
+
+        CharacterSO c = GameManager.Instance.selectedCharacter;
+        GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);
+        character = charactergameobject.GetComponent<Character>();
+
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         myCamera = Camera.main.gameObject.GetComponent<CameraController>();
 
@@ -68,10 +78,7 @@ public class LevelManager : MonoBehaviour
         {
             enemy.Initialize();
         }
-    }
 
-    void Start()
-    {
         text.SetActive(false);
     }
 

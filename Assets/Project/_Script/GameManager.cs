@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+[Serializable]
+public class CharacterSO
+{
+	[SerializeField] public Character characterType;
+	[SerializeField] public GameObject characterPrefab;
+	[SerializeField] public SO_CharacterDefault characterStats;
+}
 
 [Serializable]
 public class WeaponSO
@@ -20,7 +29,8 @@ public class PetSO
 public class GameManager: MonoBehaviour
 {
 	#region Fields & Properties
-	public SO_CharacterDefault characterStat;
+	public CharacterSO selectedCharacter;
+	public List<CharacterSO> characterStats;
 	public List<WeaponSO> weaponStats;
 	public List<PetSO> petStats;
 
@@ -39,6 +49,18 @@ public class GameManager: MonoBehaviour
 			instance = this;
 		else
 			Destroy(gameObject);
+		DontDestroyOnLoad(gameObject);
+
+		if (selectedCharacter == null)
+		{
+			selectedCharacter = characterStats[1];
+			Debug.Log(selectedCharacter.characterPrefab);
+		}
+	}
+
+	public void BeginLevel(string levelname)
+	{
+		SceneManager.LoadScene(levelname);
 	}
 
 	public ScriptableObject GetStats(Weapon weapon)

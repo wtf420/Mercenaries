@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1489163875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489163876}
+  m_Layer: 0
+  m_Name: DroneFollow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1489163876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489163875}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2377049601946077564}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2377049601946077552
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +47,7 @@ GameObject:
   - component: {fileID: 2550206622280324625}
   m_Layer: 0
   m_Name: Character 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,6 +66,7 @@ Transform:
   m_Children:
   - {fileID: 9039684660347503592}
   - {fileID: 3328801666013577855}
+  - {fileID: 1489163876}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -110,12 +142,12 @@ Rigidbody:
   m_GameObject: {fileID: 2377049601946077552}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &2550206622280324625
 MonoBehaviour:
@@ -133,13 +165,15 @@ MonoBehaviour:
   weapons:
   - _Type: 0
     _Weapon: {fileID: 8839052357293150024}
+    _WeaponStats: {fileID: 0}
   - _Type: 1
     _Weapon: {fileID: 3328801666013577852}
-  myPet: {fileID: 1716529633535566275, guid: 209877cd3877fac46922922b4898f48b, type: 3}
+    _WeaponStats: {fileID: 0}
+  alignWithCamera: 1
   acceleration: 50
   deAcceleration: 50
   drag: 0
-  dashForce: 30
+  dashForce: 50
   dashTime: 0.1
 --- !u!1001 &4301806638405841422
 PrefabInstance:

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7599778889993836457}
   m_Layer: 0
   m_Name: Character 2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,7 +115,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &7599778889993836457
 MonoBehaviour:
@@ -133,8 +133,10 @@ MonoBehaviour:
   weapons:
   - _Type: 0
     _Weapon: {fileID: 8839052357293150024}
+    _WeaponStats: {fileID: 0}
   - _Type: 1
     _Weapon: {fileID: 3328801666013577852}
+    _WeaponStats: {fileID: 0}
   alignWithCamera: 1
   acceleration: 50
   deAcceleration: 50
@@ -264,6 +266,10 @@ PrefabInstance:
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
+      propertyPath: inaccuracy
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3594500877275242806, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_Name
