@@ -54,7 +54,12 @@ public class Bullet: MonoBehaviour
 			return;
 		}
 
-		if(IsCollideWithPlayer(collider))
+		if (IsCollideWithPlayer(collider))
+		{
+			return;
+		}
+
+		if (IsCollideWithPet(collider))
 		{
 			return;
 		}
@@ -78,6 +83,18 @@ public class Bullet: MonoBehaviour
 		if (character)
 		{
 			character.TakenDamage(dame);
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool IsCollideWithPet(Collider collider)
+	{
+		Pet pet = collider.GetComponent<Pet>();
+		if (pet)
+		{
+			pet.TakenDamage(dame);
 			return true;
 		}
 
