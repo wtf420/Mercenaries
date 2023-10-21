@@ -45,8 +45,11 @@ public class Enemy: MonoBehaviour
 
 	public virtual void UpdateEnemy(Character character)
 	{
-		weapon.WeaponAttack();
-		MovementBehaviour();
+		if(!IsDetectSuccessful(character))
+		{
+			MovementBehaviour();
+		}
+
 	}
 
 	public virtual void TakenDamage(float damage)
@@ -66,6 +69,38 @@ public class Enemy: MonoBehaviour
 				IsDead = true;
 			}
 		}
+	}
+
+	private bool IsDetectSuccessful(Character character)
+	{
+		if (character.myPet)
+		{
+			if (Vector3.Distance(transform.position, character.myPet.transform.position)
+			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
+			{
+				RotateWeapon(character.myPet.transform.position);
+				weapon.WeaponAttack();
+
+				return true;
+			}
+		}
+
+		if (Vector3.Distance(transform.position, character.transform.position)
+			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
+		{
+			RotateWeapon(character.transform.position);
+			weapon.WeaponAttack();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private void RotateWeapon(Vector3 location)
+	{
+		var q = Quaternion.LookRotation(location - transform.position);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
 	}
 
 	private void MovementBehaviour()
