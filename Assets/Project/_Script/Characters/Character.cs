@@ -17,7 +17,9 @@ public class Character : MonoBehaviour
 	[SerializeField] protected Rigidbody characterRigidbody;
 	[SerializeField] protected List<DicWeapon> weapons;
 	[SerializeField] bool alignWithCamera = true;
-	protected Pet myPet;
+
+	public Pet myPet { get; protected set; }
+
 	int currentWeapon = 0;
 	List<WeaponSO> SO_Stats;
 

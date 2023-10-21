@@ -22,7 +22,15 @@ public class Character2 : Character
 
 		if (myPet != null)
 		{
-			myPet.UpdatePet(enemies);
+			if(!myPet.IsDeath)
+			{
+				myPet.UpdatePet(enemies);
+			}
+			else
+			{
+				Destroy(myPet.gameObject);
+				myPet = null;
+			}
 		}
 	}
 
