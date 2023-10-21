@@ -63,6 +63,8 @@ public class Turret : Pet
 				IsDeath = true;
 			}
 		}
+
+		Debug.Log($"Pet hp: {Stats[GameConfig.STAT_TYPE.HP]}");
 	}
 
 	#endregion
