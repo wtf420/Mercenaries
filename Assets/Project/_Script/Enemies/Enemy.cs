@@ -20,6 +20,8 @@ public class Enemy: MonoBehaviour
 
 	public bool IsDead { get; protected set; }
 	//protected List<Weapon> weapons;
+
+	protected Transform target;
 	#endregion
 
 	#region Methods
@@ -37,6 +39,7 @@ public class Enemy: MonoBehaviour
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.DETECT_RANGE, stats.DETECT_RANGE);
+		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
 
 		enemyAgent.speed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
 
@@ -45,6 +48,25 @@ public class Enemy: MonoBehaviour
 
 	public virtual void UpdateEnemy(Character character)
 	{
+		if(target)
+		{
+			if (Vector3.Distance(transform.position, target.position)
+			<= Stats[GameConfig.STAT_TYPE.ATTACK_RANGE])
+			{
+				//stop walking and start attacking.
+				enemyAgent.SetDestination(transform.position);
+
+				RotateWeapon(target.position);
+				weapon.WeaponAttack();
+
+				return;
+			}
+
+			FindTarget();
+
+			return;
+		}
+
 		if(!IsDetectSuccessful(character))
 		{
 			MovementBehaviour();
@@ -78,8 +100,7 @@ public class Enemy: MonoBehaviour
 			if (Vector3.Distance(transform.position, character.myPet.transform.position)
 			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
 			{
-				RotateWeapon(character.myPet.transform.position);
-				weapon.WeaponAttack();
+				target = character.myPet.transform;
 
 				return true;
 			}
@@ -90,6 +111,7 @@ public class Enemy: MonoBehaviour
 		{
 			RotateWeapon(character.transform.position);
 			weapon.WeaponAttack();
+			target = character.transform;
 
 			return true;
 		}
@@ -101,6 +123,11 @@ public class Enemy: MonoBehaviour
 	{
 		var q = Quaternion.LookRotation(location - transform.position);
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
+	}
+
+	private void FindTarget()
+	{
+		enemyAgent.SetDestination(target.transform.position);
 	}
 
 	private void MovementBehaviour()
