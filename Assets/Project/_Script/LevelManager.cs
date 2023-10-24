@@ -85,7 +85,8 @@ public class LevelManager : MonoBehaviour
         myCamera.UpdateCamera();
         foreach (var enemy in enemies)
         {
-            enemy.UpdateEnemy(character);
+            if (!enemy.IsDead)
+                enemy.UpdateEnemy(character);
         }
         if (WinCondition())
         {
@@ -115,7 +116,8 @@ public class LevelManager : MonoBehaviour
         {
             if (enemies[i].IsDead)
             {
-                Destroy(enemies[i].gameObject);
+                if (enemies[i].deleteUponDeath)
+                    Destroy(enemies[i].gameObject);
                 enemies.RemoveAt(i);
             }
         }

@@ -9,7 +9,6 @@ public class Bullet: MonoBehaviour
 	float speed;
 
 	Vector3 direction;
-
 	Vector3 previousPosition;
 	#endregion
 
@@ -70,7 +69,7 @@ public class Bullet: MonoBehaviour
 		Enemy enemy = collider.GetComponent<Enemy>();
 		if(enemy)
 		{
-			enemy.TakenDamage(dame);
+			enemy.TakenDamage(dame, enemy.transform.position - transform.position, 10f);
 			return true;
 		}
 

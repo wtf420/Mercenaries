@@ -2140,6 +2140,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 389721439}
     - target: {fileID: 2042706826893566567, guid: 469b5716bac5e344383869b686731cf7, type: 3}
+      propertyPath: deleteUponDeath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042706826893566567, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: characterRigidbody
       value: 
       objectReference: {fileID: 1697587449}
@@ -2149,7 +2153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566568, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566569, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_Name
@@ -2157,7 +2161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566569, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566569, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_TagString

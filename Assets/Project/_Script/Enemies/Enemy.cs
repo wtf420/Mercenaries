@@ -10,6 +10,7 @@ public class Enemy: MonoBehaviour
 	[SerializeField] protected Weapon weapon;
 
 	[SerializeField] protected Path path;
+	[SerializeField] public bool deleteUponDeath = true;
 
 	protected NavMeshAgent enemyAgent;
 
@@ -74,7 +75,7 @@ public class Enemy: MonoBehaviour
 
 	}
 
-	public virtual void TakenDamage(float damage)
+	public virtual void TakenDamage(float Damage, Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		if(IsDead)
 		{
@@ -83,13 +84,27 @@ public class Enemy: MonoBehaviour
 
 		if(Stats[GameConfig.STAT_TYPE.HP] > 0)
 		{
-			Stats[GameConfig.STAT_TYPE.HP] -= damage;
+			Stats[GameConfig.STAT_TYPE.HP] -= Damage;
 			Debug.Log($"Enemy hp: {Stats[GameConfig.STAT_TYPE.HP]}");
 			if(Stats[GameConfig.STAT_TYPE.HP] <= 0)
 			{
-				Debug.Log("Enemy die");
-				IsDead = true;
+				OnDeath(DamageDirection, punch);
 			}
+		}
+	}
+
+	public virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
+	{
+		Debug.Log("Enemy die");
+		IsDead = true;
+		if (DamageDirection != null)
+		{
+			Vector3 damageDirection = (Vector3)DamageDirection;
+
+			enemyAgent.enabled = false;
+			characterRigidbody.isKinematic = false;
+			characterRigidbody.freezeRotation = false;
+			characterRigidbody.AddForce(damageDirection.normalized * punch, ForceMode.Impulse);
 		}
 	}
 
