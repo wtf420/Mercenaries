@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2056973393869145788}
   - component: {fileID: 2056973393869145791}
+  - component: {fileID: 1483923404}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,10 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1251d37fe3889b14d9a13495c2f99661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DataBank: {fileID: 1483923404}
   selectedCharacter:
     characterType: {fileID: 0}
     characterPrefab: {fileID: 0}
     characterStats: {fileID: 0}
+--- !u!114 &1483923404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056973393869145790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b48b889d785ed14b9cb32c0e06bd328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   characterStats:
   - characterType: {fileID: 2550206622280324625, guid: f384fc06238bff64ba4f271b3199ec8c, type: 3}
     characterPrefab: {fileID: 2377049601946077552, guid: f384fc06238bff64ba4f271b3199ec8c, type: 3}
@@ -63,3 +77,4 @@ MonoBehaviour:
   petStats:
   - pet: {fileID: 6344159607576122253, guid: c0e41aaac29c92947960b9af68b3342b, type: 3}
     Stats: {fileID: 11400000, guid: 127bf1027b6bbab42a2152aa2875bf75, type: 2}
+  EnemyStats: []

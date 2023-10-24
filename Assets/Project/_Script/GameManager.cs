@@ -3,36 +3,14 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-[Serializable]
-public class CharacterSO
-{
-	[SerializeField] public Character characterType;
-	[SerializeField] public GameObject characterPrefab;
-	[SerializeField] public SO_CharacterDefault characterStats;
-}
-
-[Serializable]
-public class WeaponSO
-{
-	[SerializeField] public Weapon weapon;
-	[SerializeField] public SO_WeaponGunStats Stats;
-}
-
-[Serializable]
-public class PetSO
-{
-	[SerializeField] public Pet pet;
-	[SerializeField] public ScriptableObject Stats;
-}
+using Unity.VisualScripting;
 
 public class GameManager: MonoBehaviour
 {
 	#region Fields & Properties
-	public CharacterSO selectedCharacter;
-	public List<CharacterSO> characterStats;
-	public List<WeaponSO> weaponStats;
-	public List<PetSO> petStats;
+	[SerializeField]
+	public DataBank DataBank;
+	public CharacterSO selectedCharacter = null;
 
 	private static GameManager instance;
 	public static GameManager Instance
@@ -51,10 +29,10 @@ public class GameManager: MonoBehaviour
 			Destroy(gameObject);
 		DontDestroyOnLoad(gameObject);
 
-		if (selectedCharacter == null)
+		DataBank = this.GetComponent<DataBank>();
+		if (selectedCharacter == null || selectedCharacter.characterPrefab == null)
 		{
-			selectedCharacter = characterStats[1];
-			Debug.Log(selectedCharacter.characterPrefab);
+			selectedCharacter = DataBank.characterStats[0];
 		}
 	}
 
@@ -66,13 +44,13 @@ public class GameManager: MonoBehaviour
 	public ScriptableObject GetStats(Weapon weapon)
 	{
 		//Debug.Log($"Type: {type}, Index {index}");
-		return weaponStats.Find(element => element.weapon.GetType() == weapon.GetType()).Stats;
+		return DataBank.weaponStats.Find(element => element.weapon.GetType() == weapon.GetType()).Stats;
 	}
 
 	public ScriptableObject GetStats(Pet pet)
 	{
 		//Debug.Log($"Type: {type}, Index {index}");
-		return petStats.Find(element => element.pet.GetType() == pet.GetType()).Stats;
+		return DataBank.petStats.Find(element => element.pet.GetType() == pet.GetType()).Stats;
 	}
 
 	// public ScriptableObject GetStats(GameConfig.SO_TYPE type, int index = 0)

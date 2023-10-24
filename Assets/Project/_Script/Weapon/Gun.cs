@@ -9,6 +9,8 @@ public class Gun: Weapon
 	[SerializeField] Bullet bulletPrefab;
 	[SerializeField] float inaccuracy;
 
+	private AudioSource gunSound;
+
 	#endregion
 
 	#region Methods
@@ -17,13 +19,15 @@ public class Gun: Weapon
 		Type = GameConfig.WEAPON.RIFLE;
 		base.Initialize(parent);
 		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
+
+		gunSound = GetComponent<AudioSource>();
 	}
 
 	protected override void Attack()
 	{
 		base.Attack();
 
-		if(currentBulletQuantity > 0)
+		if (currentBulletQuantity > 0)
 		{
 			// spawn bullet
 			Vector3 direction = (transform.forward).normalized;
@@ -36,6 +40,9 @@ public class Gun: Weapon
 							  Stats[WEAPON_STAT_TYPE.SPEED],
 							 direction);
 			bullet.tag = this.tag;
+
+			gunSound.Stop();
+			gunSound.Play();
 
 			currentBulletQuantity -= 1;
 			if (currentBulletQuantity == 0)

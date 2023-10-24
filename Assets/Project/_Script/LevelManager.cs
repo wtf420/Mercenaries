@@ -12,13 +12,6 @@ using UnityEngine.UI;
 //     [SerializeField] public List<ScriptableObject> Stats;
 // }
 
-[Serializable]
-public class EnemyDicSO
-{
-    [SerializeField] public Enemy enemy;
-    [SerializeField] public SO_EnemyDefault Stats;
-}
-
 public enum GameMode
 {
     Sweep,
@@ -34,7 +27,8 @@ public class LevelManager : MonoBehaviour
     public GameObject text;
     public GameObject characterSpawner;
 
-    public List<EnemyDicSO> EnemyStats;
+    [SerializeField]
+    public DataBank DataBank;
 
     private static LevelManager instance;
     public static LevelManager Instance
@@ -59,12 +53,12 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
+        DataBank = GetComponent<DataBank>();
     }
 
     void Start()
     {
-        Debug.Log(GameManager.Instance.selectedCharacter.characterPrefab);
-
         CharacterSO c = GameManager.Instance.selectedCharacter;
         GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);
         character = charactergameobject.GetComponent<Character>();
@@ -112,7 +106,7 @@ public class LevelManager : MonoBehaviour
     public SO_EnemyDefault GetStats(Enemy aEnemy)
     {
         //Debug.Log($"Type: {type}, Index {index}");
-        return EnemyStats.Find(element => element.enemy.GetType() == aEnemy.GetType()).Stats;
+        return DataBank.EnemyStats.Find(element => element.enemy.GetType() == aEnemy.GetType()).Stats;
     }
 
     private void RemoveDeathEnemy()

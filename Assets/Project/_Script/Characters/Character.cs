@@ -40,7 +40,7 @@ public class Character : MonoBehaviour
 	{
 		characterRigidbody = GetComponent<Rigidbody>();
 
-		SO_Stats = GameManager.Instance.weaponStats;
+		SO_Stats = GameManager.Instance.DataBank.weaponStats;
 		SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
 
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
@@ -197,7 +197,7 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	void AddForce(Vector3 direction)
+	public void AddForce(Vector3 direction)
 	{
 		//characterRigidbody.velocity = Vector3.zero;
 		speedX = 0; speedZ = 0;
@@ -236,14 +236,6 @@ public class Character : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		plane.Raycast(ray, out float distance);
 		return ray.GetPoint(distance);
-	}
-
-	void OnTriggerEnter(Collider collider)
-	{
-		if (collider.gameObject.name == "Jumppad")
-		{
-			AddForce(Vector3.up * 10f);
-		}
 	}
 	#endregion
 }
