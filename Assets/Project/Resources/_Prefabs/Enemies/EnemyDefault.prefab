@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2603301261375995108}
   m_Layer: 0
   m_Name: EnemyDefault
-  m_TagString: Untagged
+  m_TagString: ENEMY
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   characterRigidbody: {fileID: 0}
   weapon: {fileID: 1930386088879084078}
   path: {fileID: 0}
+  deleteUponDeath: 1
 --- !u!54 &2042706826893566568
 Rigidbody:
   m_ObjectHideFlags: 0

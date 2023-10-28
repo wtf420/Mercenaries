@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1071379151}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,8 +104,11 @@ MonoBehaviour:
   weapons:
   - _Type: 0
     _Weapon: {fileID: 8839052357293150024}
+    _WeaponStats: {fileID: 0}
   - _Type: 1
     _Weapon: {fileID: 3328801666013577852}
+    _WeaponStats: {fileID: 0}
+  alignWithCamera: 1
   acceleration: 50
   deAcceleration: 50
   drag: 0
