@@ -36,7 +36,8 @@ public class GameConfig
 	{
 		RIFLE = 0,
 		GERNADETHROWER = 1,
-		BOOM,
+		MINE_PRODUCER,
+
 	}
 
 	public enum CHARACTER

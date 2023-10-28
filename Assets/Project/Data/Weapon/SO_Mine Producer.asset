@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7de586380c060e943a258b6e128970a4, type: 3}
-  m_Name: SO_Weapon GernadeThrower
+  m_Name: SO_Mine Producer
   m_EditorClassIdentifier: 
   DAMAGE_DEFAULT: 20
-  ATTACK_RANGE_DEFAULT: 10
+  ATTACK_RANGE_DEFAULT: 20
   ATTACK_SPEED_DEFAULT: 1
-  SPEED_DEFAULT: 6
-  RELOAD_TIME: 0
+  SPEED_DEFAULT: 50
+  RELOAD_TIME: 3
   BULLET_QUANTITY: 3

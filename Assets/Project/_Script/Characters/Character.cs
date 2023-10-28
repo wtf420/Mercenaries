@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 	public bool IsDeath { get; protected set; }
-	public float acceleration, deAcceleration, drag, dashForce, dashTime;
+	public float acceleration = 50f, deAcceleration = 50f, drag, dashForce = 50f, dashTime = 0.1f;
 	float speedX, speedZ, maxSpeed;
 
 	protected private Vector3 mousePos;
@@ -176,7 +176,7 @@ public class Character : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
-			int index = weapons.FindIndex(weapon => weapon._Type == GameConfig.WEAPON.RIFLE);
+			int index = 0;//weapons.FindIndex(weapon => weapon._Type == GameConfig.WEAPON.RIFLE);
 			if(index != -1)
 			{
 				currentWeapon = index;
@@ -188,7 +188,7 @@ public class Character : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
 		{
 			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
-			int index = weapons.FindIndex(weapon => weapon._Type == GameConfig.WEAPON.GERNADETHROWER);
+			int index = 1;
 			if (index != -1)
 			{
 				currentWeapon = index;

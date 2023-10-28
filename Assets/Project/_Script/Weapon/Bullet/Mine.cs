@@ -13,10 +13,15 @@ public class Mine : MonoBehaviour
 	#region Methods
 	public static Mine Create(Vector3 position, string tag)
 	{
-		Mine turret = Instantiate(Resources.Load<Mine>("_Prefabs/Bullet/Mine"), position, new Quaternion());
-		turret.tag = tag;
-		return turret;
+		Mine mine = Instantiate(Resources.Load<Mine>("_Prefabs/Bullet/Mine"), position, new Quaternion());
+		mine.tag = tag;
+		return mine;
 	}
+
+	//public void Initialize(float damage, float explosionRadius)
+	//{
+
+	//}
 
 	private void OnTriggerEnter(Collider collider)
 	{
@@ -28,6 +33,7 @@ public class Mine : MonoBehaviour
 		CalculateExplosionRange();
 
 		Destroy(gameObject);
+		Debug.Log("Mine Explosion");
 	}
 
 	private void CalculateExplosionRange()

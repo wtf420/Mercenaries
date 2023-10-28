@@ -32,7 +32,7 @@ public class GameManager: MonoBehaviour
 		DataBank = this.GetComponent<DataBank>();
 		if (selectedCharacter == null || selectedCharacter.characterPrefab == null)
 		{
-			selectedCharacter = DataBank.characterStats[0];
+			selectedCharacter = DataBank.characterStats[2];
 		}
 	}
 
