@@ -188,12 +188,13 @@ public class Character : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
 		{
 			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
-			int index = 1;
-			if (index != -1)
-			{
-				currentWeapon = index;
-			}
-			Debug.Log("Change to grenade");
+			//int index = 1;
+			//if (index != -1)
+			//{
+			//	currentWeapon = index;
+			//}
+			currentWeapon = 1;
+			Debug.Log("Change to second weapon");
 		}
 	}
 

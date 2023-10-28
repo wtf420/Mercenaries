@@ -135,7 +135,7 @@ MonoBehaviour:
     _Weapon: {fileID: 6561982045777315283}
     _WeaponStats: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
   - _Type: 2
-    _Weapon: {fileID: 1846742174769061668}
+    _Weapon: {fileID: 2079851491227958991}
     _WeaponStats: {fileID: 11400000, guid: be9d0dca1b730c64b89836e5bb7bb059, type: 2}
   alignWithCamera: 1
   acceleration: 50
@@ -200,15 +200,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51504a19cd78f5d4c916ad31092cf9d4, type: 3}
---- !u!114 &1846742174769061668 stripped
+--- !u!114 &2079851491227958991 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4258652837890702536, guid: 51504a19cd78f5d4c916ad31092cf9d4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4495764374481132835, guid: 51504a19cd78f5d4c916ad31092cf9d4, type: 3}
   m_PrefabInstance: {fileID: 2502088278807192556}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73ce2931ce2413a43b698b80d4fbf70a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fbc4472ec4b6dc4d8ebc24cb552d559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5543640861904179140 stripped

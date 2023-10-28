@@ -16,6 +16,7 @@ public class Gun: Weapon
 	#region Methods
 	public override void Initialize(Transform parent = null, SO_WeaponGunStats gunStats = null)
 	{
+		Debug.Log("Gun init");
 		Type = GameConfig.WEAPON.RIFLE;
 		base.Initialize(parent);
 		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
