@@ -8,9 +8,10 @@ using Unity.VisualScripting;
 public class GameManager: MonoBehaviour
 {
 	#region Fields & Properties
-	[SerializeField]
-	public DataBank DataBank;
-	public CharacterSO selectedCharacter = null;
+
+	//public DataBank DataBank;
+	//public CharacterSO selectedCharacter = null;
+	public GameConfig.CHARACTER SelectedCharacter;
 
 	private static GameManager instance;
 	public static GameManager Instance
@@ -29,11 +30,7 @@ public class GameManager: MonoBehaviour
 			Destroy(gameObject);
 		DontDestroyOnLoad(gameObject);
 
-		DataBank = this.GetComponent<DataBank>();
-		if (selectedCharacter == null || selectedCharacter.characterPrefab == null)
-		{
-			selectedCharacter = DataBank.characterStats[2];
-		}
+		SelectedCharacter = GameConfig.CHARACTER.CHARACTER_3;
 	}
 
 	public void BeginLevel(string levelname)
@@ -41,17 +38,17 @@ public class GameManager: MonoBehaviour
 		SceneManager.LoadScene(levelname);
 	}
 
-	public ScriptableObject GetStats(Weapon weapon)
-	{
-		//Debug.Log($"Type: {type}, Index {index}");
-		return DataBank.weaponStats.Find(element => element.weapon.GetType() == weapon.GetType()).Stats;
-	}
+	//public ScriptableObject GetStats(Weapon weapon)
+	//{
+	//	//Debug.Log($"Type: {type}, Index {index}");
+	//	return DataBank.weaponStats.Find(element => element.weapon.GetType() == weapon.GetType()).Stats;
+	//}
 
-	public ScriptableObject GetStats(Pet pet)
-	{
-		//Debug.Log($"Type: {type}, Index {index}");
-		return DataBank.petStats.Find(element => element.pet.GetType() == pet.GetType()).Stats;
-	}
+	//public ScriptableObject GetStats(Pet pet)
+	//{
+	//	//Debug.Log($"Type: {type}, Index {index}");
+	//	return DataBank.petStats.Find(element => element.pet.GetType() == pet.GetType()).Stats;
+	//}
 
 	// public ScriptableObject GetStats(GameConfig.SO_TYPE type, int index = 0)
 	// {

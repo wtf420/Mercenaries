@@ -223,7 +223,7 @@ PrefabInstance:
     - target: {fileID: 1483923404, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: weaponStats.Array.data[2].weapon
       value: 
-      objectReference: {fileID: 4258652837890702536, guid: 51504a19cd78f5d4c916ad31092cf9d4, type: 3}
+      objectReference: {fileID: 4495764374481132835, guid: 51504a19cd78f5d4c916ad31092cf9d4, type: 3}
     - target: {fileID: 1483923404, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: characterStats.Array.data[2].characterType
       value: 

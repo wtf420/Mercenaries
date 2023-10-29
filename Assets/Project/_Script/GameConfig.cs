@@ -42,8 +42,8 @@ public class GameConfig
 
 	public enum CHARACTER
 	{
-		CHARACTER_DEFAULT = 0,
-		CHARACTER_1,
+		//CHARACTER_DEFAULT = 0,
+		CHARACTER_1 = 0,
 		CHARACTER_2,
 		CHARACTER_3
 	}

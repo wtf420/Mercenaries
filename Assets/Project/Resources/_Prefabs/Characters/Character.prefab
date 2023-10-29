@@ -109,6 +109,7 @@ MonoBehaviour:
     _Weapon: {fileID: 3328801666013577852}
     _WeaponStats: {fileID: 0}
   alignWithCamera: 1
+  soStats: {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
   acceleration: 50
   deAcceleration: 50
   drag: 0

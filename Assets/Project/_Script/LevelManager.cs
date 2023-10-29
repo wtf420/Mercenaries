@@ -27,8 +27,8 @@ public class LevelManager : MonoBehaviour
     public GameObject text;
     public GameObject characterSpawner;
 
-    [SerializeField]
-    public DataBank DataBank;
+    //[SerializeField]
+    //public DataBank DataBank;
 
     private static LevelManager instance;
     public static LevelManager Instance
@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
         private set => instance = value;
     }
 
-    public CharacterSO characterInfo;
+    //public CharacterSO characterInfo;
     [SerializeField] Character character;
 
     [SerializeField] List<Enemy> enemies;
@@ -54,14 +54,28 @@ public class LevelManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        DataBank = GetComponent<DataBank>();
+        //DataBank = GetComponent<DataBank>();
     }
 
     void Start()
     {
-        CharacterSO c = GameManager.Instance.selectedCharacter;
-        GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);
-        character = charactergameobject.GetComponent<Character>();
+        switch(GameManager.Instance.SelectedCharacter)
+		{
+            case GameConfig.CHARACTER.CHARACTER_1:
+                character = Character1.Create(null, characterSpawner.transform.position);
+                break;
+
+            case GameConfig.CHARACTER.CHARACTER_2:
+                character = Character2.Create(null, characterSpawner.transform.position);
+                break;
+
+            case GameConfig.CHARACTER.CHARACTER_3:
+                character = Character3.Create(null, characterSpawner.transform.position);
+                break;
+        }
+        //CharacterSO c = GameManager.Instance.selectedCharacter;
+        //GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);
+        //character = charactergameobject.GetComponent<Character>();
 
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         myCamera = Camera.main.gameObject.GetComponent<CameraController>();
@@ -104,11 +118,11 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public SO_EnemyDefault GetStats(Enemy aEnemy)
-    {
-        //Debug.Log($"Type: {type}, Index {index}");
-        return DataBank.EnemyStats.Find(element => element.enemy.GetType() == aEnemy.GetType()).Stats;
-    }
+    //public SO_EnemyDefault GetStats(Enemy aEnemy)
+    //{
+    //    //Debug.Log($"Type: {type}, Index {index}");
+    //    return DataBank.EnemyStats.Find(element => element.enemy.GetType() == aEnemy.GetType()).Stats;
+    //}
 
     private void RemoveDeathEnemy()
     {

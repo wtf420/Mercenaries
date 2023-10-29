@@ -8,7 +8,7 @@ public class Enemy: MonoBehaviour
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
 	[SerializeField] protected Weapon weapon;
-
+	[SerializeField] protected SO_EnemyDefault soStats;
 	[SerializeField] protected Path path;
 	[SerializeField] public bool deleteUponDeath = true;
 
@@ -35,12 +35,12 @@ public class Enemy: MonoBehaviour
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_EnemyDefault stats = (SO_EnemyDefault)LevelManager.Instance.GetStats(GameConfig.SO_TYPE.ENEMY, (int)GameConfig.ENEMY.ENEMY_DEFAULT);
-		SO_EnemyDefault stats = LevelManager.Instance.GetStats(this);
+		//SO_EnemyDefault stats = LevelManager.Instance.GetStats(this);
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
-		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.DETECT_RANGE, stats.DETECT_RANGE);
-		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, stats.ATTACK_RANGE_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, soStats.MOVE_SPEED_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.HP, soStats.HP_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.DETECT_RANGE, soStats.DETECT_RANGE);
+		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, soStats.ATTACK_RANGE_DEFAULT);
 
 		enemyAgent.speed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
 

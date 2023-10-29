@@ -14,11 +14,11 @@ public class Gun: Weapon
 	#endregion
 
 	#region Methods
-	public override void Initialize(Transform parent = null, SO_WeaponGunStats gunStats = null)
+	public override void Initialize(Transform parent = null)
 	{
-		Debug.Log("Gun init");
-		Type = GameConfig.WEAPON.RIFLE;
 		base.Initialize(parent);
+
+		Type = GameConfig.WEAPON.RIFLE;
 		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
 
 		gunSound = GetComponent<AudioSource>();

@@ -133,11 +133,12 @@ MonoBehaviour:
   weapons:
   - _Type: 0
     _Weapon: {fileID: 8839052357293150024}
-    _WeaponStats: {fileID: 0}
+    _WeaponStats: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
   - _Type: 1
     _Weapon: {fileID: 3328801666013577852}
-    _WeaponStats: {fileID: 0}
+    _WeaponStats: {fileID: 11400000, guid: 04bf7091ec616d44fa0c032d62368eb0, type: 2}
   alignWithCamera: 1
+  soStats: {fileID: 11400000, guid: b01a2edb0617b8b429743c3ff136b214, type: 2}
   acceleration: 50
   deAcceleration: 50
   drag: 0

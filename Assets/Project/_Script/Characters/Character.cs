@@ -8,7 +8,6 @@ public class DicWeapon
 {
 	[SerializeField] public GameConfig.WEAPON _Type;
 	[SerializeField] public Weapon _Weapon;
-	[SerializeField] public SO_WeaponGunStats _WeaponStats;
 }
 
 public class Character : MonoBehaviour
@@ -17,11 +16,12 @@ public class Character : MonoBehaviour
 	[SerializeField] protected Rigidbody characterRigidbody;
 	[SerializeField] protected List<DicWeapon> weapons;
 	[SerializeField] bool alignWithCamera = true;
+	[SerializeField] protected SO_CharacterDefault soStats;
 
 	public Pet myPet { get; protected set; }
 
 	int currentWeapon = 0;
-	List<WeaponSO> SO_Stats;
+	//List<WeaponSO> SO_Stats;
 
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
@@ -40,12 +40,12 @@ public class Character : MonoBehaviour
 	{
 		characterRigidbody = GetComponent<Rigidbody>();
 
-		SO_Stats = GameManager.Instance.DataBank.weaponStats;
-		SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
+		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
+		//SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
 
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
-		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, stats.MOVE_SPEED_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.HP, stats.HP_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, soStats.MOVE_SPEED_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.HP, soStats.HP_DEFAULT);
 
 		foreach(var weapon in weapons)
 		{

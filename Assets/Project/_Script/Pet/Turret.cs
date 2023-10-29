@@ -7,7 +7,7 @@ public class Turret : Pet
 {
 	#region Fields & Properties
 	[SerializeField] private Bullet bulletPrefab;
-
+	[SerializeField] protected SO_Turret soStats;
 	#endregion
 
 	#region Methods
@@ -22,6 +22,12 @@ public class Turret : Pet
 	{
 		Type = GameConfig.PET.TURRET;
 		base.Initialize(tag);
+
+		Stats.Add(GameConfig.STAT_TYPE.HP, soStats.HP_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.ATTACK_SPEED, soStats.ATTACK_SPEED_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.DAMAGE, soStats.DAMAGE_DEFAULT);
+		Stats.Add(GameConfig.STAT_TYPE.BULLET_SPEED, soStats.BULLET_SPEED);
+		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, soStats.ATTACK_RANGE_DEFAULT);
 	}
 
 	public override void UpdatePet(List<Enemy> enemies = null)

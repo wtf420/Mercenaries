@@ -10,6 +10,13 @@ public class Character3 : Character
 	#endregion
 
 	#region Methods
+	public static Character3 Create(Transform parent, Vector3 position)
+	{
+		Character3 character = Instantiate(Resources.Load<Character3>("_Prefabs/Characters/Character 3"), parent);
+		character.transform.position = position;
+
+		return character;
+	}
 
 	public override void Initialize()
 	{

@@ -15,22 +15,22 @@ public class MainMenu : MonoBehaviour
         switch (index)
         {
             case 0:
-            {
-                GameManager.Instance.selectedCharacter = GameManager.Instance.DataBank.characterStats.Find(element => element.characterType.GetType().Name == nameof(Character1));
-                break;
-            }
+                {
+                    GameManager.Instance.SelectedCharacter = GameConfig.CHARACTER.CHARACTER_1;
+                    break;
+                }
             case 1:
-            {
-                GameManager.Instance.selectedCharacter = GameManager.Instance.DataBank.characterStats.Find(element => element.characterType.GetType().Name == nameof(Character2));
-                break;
-            }
+                {
+                    GameManager.Instance.SelectedCharacter = GameConfig.CHARACTER.CHARACTER_2;
+                    break;
+                }
             default:
-            {
-                GameManager.Instance.selectedCharacter = GameManager.Instance.DataBank.characterStats.Find(element => element.characterType.GetType().Name == nameof(Character1));
-                break;
-            }
+                {
+                    GameManager.Instance.SelectedCharacter = GameConfig.CHARACTER.CHARACTER_3;
+                    break;
+                }
         }
-        
+
     }
 
     public void Begin(string levelname)

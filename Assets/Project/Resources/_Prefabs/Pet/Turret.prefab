@@ -112,3 +112,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7334829851252093682, guid: 63f569150ab46bc4eb22f4e94c77aaad, type: 3}
+  soStats: {fileID: 11400000, guid: 127bf1027b6bbab42a2152aa2875bf75, type: 2}

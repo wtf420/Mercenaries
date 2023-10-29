@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6186c625e29ea4ab487f9177247547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soStats: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
   bulletPrefab: {fileID: 7334829851252093682, guid: 63f569150ab46bc4eb22f4e94c77aaad, type: 3}
   inaccuracy: 0
 --- !u!82 &-6724973946691357696

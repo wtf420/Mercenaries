@@ -11,10 +11,11 @@ public class Thrower : Weapon
     #endregion
 
     #region Methods
-    public override void Initialize(Transform parent = null, SO_WeaponGunStats gunStats = null)
+    public override void Initialize(Transform parent = null)
     {
-        Type = GameConfig.WEAPON.GERNADETHROWER;
         base.Initialize(parent);
+
+        Type = GameConfig.WEAPON.GERNADETHROWER;
         currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
     }
 

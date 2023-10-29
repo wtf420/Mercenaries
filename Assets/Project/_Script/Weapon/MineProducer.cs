@@ -10,11 +10,12 @@ public class MineProducer : Weapon
 	#endregion
 
 	#region Methods
-	public override void Initialize(Transform parent = null, SO_WeaponGunStats gunStats = null)
+	public override void Initialize(Transform parent = null)
 	{
-		Debug.Log("Mine producer init");
-		Type = GameConfig.WEAPON.MINE_PRODUCER;
 		base.Initialize(parent);
+
+		Type = GameConfig.WEAPON.MINE_PRODUCER;
+
 		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
 
 	}
