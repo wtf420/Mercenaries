@@ -72,6 +72,10 @@ public class LevelManager : MonoBehaviour
             case GameConfig.CHARACTER.CHARACTER_3:
                 character = Character3.Create(null, characterSpawner.transform.position);
                 break;
+
+            case GameConfig.CHARACTER.CHARACTER_4:
+                character = Character4.Create(null, characterSpawner.transform.position);
+                break;
         }
         //CharacterSO c = GameManager.Instance.selectedCharacter;
         //GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);

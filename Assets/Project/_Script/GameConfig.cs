@@ -37,7 +37,7 @@ public class GameConfig
 		RIFLE = 0,
 		GERNADETHROWER = 1,
 		MINE_PRODUCER,
-
+		BULLETPROOF_WALL
 	}
 
 	public enum CHARACTER
@@ -45,7 +45,8 @@ public class GameConfig
 		//CHARACTER_DEFAULT = 0,
 		CHARACTER_1 = 0,
 		CHARACTER_2,
-		CHARACTER_3
+		CHARACTER_3,
+		CHARACTER_4
 	}
 
 	public enum ENEMY

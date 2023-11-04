@@ -1281,11 +1281,6 @@ MonoBehaviour:
   availableGameMode: 0000000001000000
   text: {fileID: 1588429435}
   characterSpawner: {fileID: 1196731271}
-  DataBank: {fileID: 0}
-  characterInfo:
-    characterType: {fileID: 0}
-    characterPrefab: {fileID: 0}
-    characterStats: {fileID: 0}
   character: {fileID: 0}
   enemies: []
   myCamera: {fileID: 333826396}
@@ -1301,12 +1296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b48b889d785ed14b9cb32c0e06bd328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterStats: []
-  weaponStats: []
-  petStats: []
-  EnemyStats:
-  - enemy: {fileID: 2042706826893566567, guid: 469b5716bac5e344383869b686731cf7, type: 3}
-    Stats: {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
 --- !u!1 &949101810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566563, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.976
+      value: 8.73
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566563, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_LocalPosition.y

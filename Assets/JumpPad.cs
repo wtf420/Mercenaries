@@ -11,7 +11,10 @@ public class JumpPad : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             Character c = collider.gameObject.GetComponent<Character>();
-            c.AddForce(Vector3.up * force);
+            if (c)
+            {
+                c.AddForce(Vector3.up * force);
+            }
         }
     }
 }

@@ -45,6 +45,7 @@ public class Enemy: MonoBehaviour
 		enemyAgent.speed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
 
 		weapon.Initialize(transform);
+		weapon.tag = this.tag;
 	}
 
 	public virtual void UpdateEnemy(Character character)

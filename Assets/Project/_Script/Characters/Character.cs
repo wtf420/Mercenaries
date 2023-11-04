@@ -21,7 +21,6 @@ public class Character : MonoBehaviour
 	public Pet myPet { get; protected set; }
 
 	int currentWeapon = 0;
-	//List<WeaponSO> SO_Stats;
 
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
@@ -170,7 +169,7 @@ public class Character : MonoBehaviour
 		//Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
 	}
 
-	private void SwapWeapon()
+	public virtual void SwapWeapon()
 	{
 		// Main Weapon
 		if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))

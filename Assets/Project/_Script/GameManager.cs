@@ -30,7 +30,7 @@ public class GameManager: MonoBehaviour
 			Destroy(gameObject);
 		DontDestroyOnLoad(gameObject);
 
-		SelectedCharacter = GameConfig.CHARACTER.CHARACTER_3;
+		SelectedCharacter = GameConfig.CHARACTER.CHARACTER_4;
 	}
 
 	public void BeginLevel(string levelname)
