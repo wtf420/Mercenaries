@@ -45,20 +45,20 @@ public class Character4 : Character
 		}
 
 		// Summon pet
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			myPet = Turret.Create();
-			myPet.transform.position = transform.position;
-			myPet.Initialize(this.tag);
+		// if (Input.GetKeyDown(KeyCode.R))
+		// {
+		// 	myPet = Turret.Create();
+		// 	myPet.transform.position = transform.position;
+		// 	myPet.Initialize(this.tag);
 
-			Debug.Log("SUMMON Turret");
-		}
+		// 	Debug.Log("SUMMON Turret");
+		// }
 	}
 
 	public override void SwapWeapon()
 	{
 		//	Use bulletproof Wall
-		if (Input.GetKey(KeyCode.Alpha2))
+		if (Input.GetKey(KeyCode.R))
 		{
 			var wall = BulletproofWall.Create(null, transform.position, weapons[0]._Weapon.transform.rotation);
 			wall.Initialize();

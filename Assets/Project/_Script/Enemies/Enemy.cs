@@ -27,7 +27,7 @@ public class Enemy: MonoBehaviour
 
 	#region Methods
 
-	public virtual void Initialize()
+	public virtual void Initialize(Path p = null)
 	{
 		this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
 
@@ -43,6 +43,10 @@ public class Enemy: MonoBehaviour
 		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, soStats.ATTACK_RANGE_DEFAULT);
 
 		enemyAgent.speed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+		if (p != null)
+		{
+			path = p;
+		}
 
 		weapon.Initialize(transform);
 		weapon.tag = this.tag;

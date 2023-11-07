@@ -43,6 +43,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] List<Enemy> enemies;
 
     [SerializeField] CameraController myCamera;
+
+    float possibleEnemyCount;
     #endregion
 
     #region Methods
@@ -92,6 +94,12 @@ public class LevelManager : MonoBehaviour
         }
 
         text.SetActive(false);
+
+        possibleEnemyCount = enemies.Count;
+        foreach (EnemySpawner es in GameObject.FindObjectsOfType<EnemySpawner>())
+        {
+            possibleEnemyCount += es.enemySpawnLimit;
+        }
     }
 
     private void FixedUpdate()
@@ -139,6 +147,11 @@ public class LevelManager : MonoBehaviour
                 enemies.RemoveAt(i);
             }
         }
+    }
+
+    public void AddEnemy(Enemy e)
+    {
+        enemies.Add(e);
     }
 
     virtual public bool WinCondition()
