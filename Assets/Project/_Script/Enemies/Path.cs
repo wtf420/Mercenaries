@@ -37,7 +37,10 @@ public class Path : MonoBehaviour
 
         Gizmos.color = Color.red;
         foreach (var node in pathNodes)
-            Gizmos.DrawSphere(node.position, 1);
+        {
+            if (node != null)
+                Gizmos.DrawSphere(node.position, 0.25f);
+        }
     }
 }
 

@@ -1436,11 +1436,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04522abe80bacb4a902c27574e8cf77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnEnemy: {fileID: 2042706826893566569, guid: 469b5716bac5e344383869b686731cf7, type: 3}
+  spawnEnemy: {fileID: 4180480237279032941, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
   path: {fileID: 1181139569}
   button: 0
-  enemySpawnLimit: 3
-  enemySpawnInterval: 3
+  enemySpawnLimit: 10
+  enemySpawnInterval: 1
 --- !u!4 &1177938307
 Transform:
   m_ObjectHideFlags: 0
@@ -2145,7 +2145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566569, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2042706826893566569, guid: 469b5716bac5e344383869b686731cf7, type: 3}
       propertyPath: m_TagString

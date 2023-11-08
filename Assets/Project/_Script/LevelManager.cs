@@ -38,16 +38,25 @@ public class LevelManager : MonoBehaviour
     }
 
     //public CharacterSO characterInfo;
-    [SerializeField] Character character;
+    [SerializeField] protected Character character;
 
-    [SerializeField] List<Enemy> enemies;
+    [SerializeField] protected List<Enemy> enemies;
 
     [SerializeField] CameraController myCamera;
 
-    float possibleEnemyCount;
+    protected float possibleEnemyCount, enemiesLeft;
     #endregion
 
     #region Methods
+    private void OnDrawGizmos()
+    {
+        if (characterSpawner == null)
+            return;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(characterSpawner.transform.position, 0.5f);
+    }
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -100,6 +109,7 @@ public class LevelManager : MonoBehaviour
         {
             possibleEnemyCount += es.enemySpawnLimit;
         }
+        enemiesLeft = possibleEnemyCount;
     }
 
     private void FixedUpdate()
@@ -145,6 +155,7 @@ public class LevelManager : MonoBehaviour
                 if (enemies[i].deleteUponDeath)
                     Destroy(enemies[i].gameObject);
                 enemies.RemoveAt(i);
+                enemiesLeft -= 1;
             }
         }
     }

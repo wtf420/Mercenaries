@@ -127,7 +127,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2377049601946077552}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 64bafeb2fc7e7734594a0d051c13a988, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -165,10 +165,8 @@ MonoBehaviour:
   weapons:
   - _Type: 0
     _Weapon: {fileID: 8839052357293150024}
-    _WeaponStats: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
   - _Type: 1
     _Weapon: {fileID: 3328801666013577852}
-    _WeaponStats: {fileID: 11400000, guid: 04bf7091ec616d44fa0c032d62368eb0, type: 2}
   alignWithCamera: 1
   soStats: {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
   acceleration: 50

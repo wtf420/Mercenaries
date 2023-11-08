@@ -48,4 +48,11 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(enemySpawnInterval);
         spawnAble = true;
     }
+
+    [ExecuteInEditMode]
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(this.transform.position, 0.5f);
+    }
 }
