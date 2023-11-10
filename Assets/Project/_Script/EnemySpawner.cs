@@ -11,8 +11,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     Path path;
     [SerializeField]
-    bool button;
-    bool buttonCheck, spawnAble = true;
+    bool spawnAble = true;
 
     public int enemySpawnLimit; //9999 means infinite
     public float enemySpawnInterval;
@@ -26,11 +25,6 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (button != buttonCheck)
-        // {
-        //     SpawnEnemy();
-        // }
-        // button = buttonCheck;
         if (spawnAble && enemySpawnLimit > 0)
             StartCoroutine(SpawnEnemy());
     }

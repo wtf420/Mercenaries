@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class DicWeapon
@@ -17,6 +18,7 @@ public class Character : MonoBehaviour
 	[SerializeField] protected List<DicWeapon> weapons;
 	[SerializeField] bool alignWithCamera = true;
 	[SerializeField] protected SO_CharacterDefault soStats;
+	[SerializeField] protected Slider healthbar;
 
 	public Pet myPet { get; protected set; }
 
@@ -51,6 +53,9 @@ public class Character : MonoBehaviour
 			weapon._Weapon.Initialize(transform);
 			weapon._Weapon.tag = this.tag;
 		}
+		healthbar.minValue = 0;
+		healthbar.maxValue = Stats[GameConfig.STAT_TYPE.HP];
+		healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
 
 		IsDeath = false;
 
@@ -62,6 +67,8 @@ public class Character : MonoBehaviour
 
 	public virtual void UpdateCharacter(List<Enemy> enemies = null)
 	{
+		healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
+		healthbar.transform.LookAt(transform.position + Camera.main.transform.forward);
 		KeyboardController();
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -93,6 +100,7 @@ public class Character : MonoBehaviour
 		if (Stats[GameConfig.STAT_TYPE.HP] > 0)
 		{
 			Stats[GameConfig.STAT_TYPE.HP] -= damage;
+			healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
 			Debug.Log($"Character hp: {Stats[GameConfig.STAT_TYPE.HP]}");
 			if (Stats[GameConfig.STAT_TYPE.HP] <= 0)
 			{
