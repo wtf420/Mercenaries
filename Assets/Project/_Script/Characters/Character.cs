@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +15,22 @@ public class DicWeapon
 public class Character : MonoBehaviour
 {
 	#region Fields & Properties
-	[SerializeField] protected Rigidbody characterRigidbody;
+	[Header("_~* 	Prefabs, Weapons & Stats")]
 	[SerializeField] protected List<DicWeapon> weapons;
-	[SerializeField] bool alignWithCamera = true;
 	[SerializeField] protected SO_CharacterDefault soStats;
+
+	[Header("_~* 	User Interface")]
+	[SerializeField] protected Canvas worldCanvas;
+	[SerializeField] protected Canvas screenCanvas;
+
 	[SerializeField] protected Slider healthbar;
+	[SerializeField] protected TextMeshProUGUI worldText;
+	[SerializeField] protected TextMeshProUGUI screenText;
+
+	[Header("_~* 	Movement & control")]
+	[SerializeField] protected Rigidbody characterRigidbody;
+	[SerializeField] bool alignWithCamera = true;
+	[SerializeField] float acceleration = 50f, deAcceleration = 50f, drag, dashForce = 50f, dashTime = 0.1f;
 
 	public Pet myPet { get; protected set; }
 
@@ -27,7 +39,7 @@ public class Character : MonoBehaviour
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 	public bool IsDeath { get; protected set; }
-	public float acceleration = 50f, deAcceleration = 50f, drag, dashForce = 50f, dashTime = 0.1f;
+	
 	float speedX, speedZ, maxSpeed;
 
 	protected private Vector3 mousePos;
@@ -65,16 +77,21 @@ public class Character : MonoBehaviour
 		//characterRigidbody.drag = drag;
 	}
 
-	public virtual void UpdateCharacter(List<Enemy> enemies = null)
+	public virtual void UpdateUI()
 	{
 		healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
-		healthbar.transform.LookAt(transform.position + Camera.main.transform.forward);
+		worldCanvas.transform.LookAt(transform.position + Camera.main.transform.forward);
+	}
+
+	public virtual void UpdateCharacter(List<Enemy> enemies = null)
+	{
 		KeyboardController();
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			StartCoroutine(Dash());
 		}
 		MouseController();
+		UpdateUI();
 	}
 
 	public virtual void KeyboardController()
@@ -244,6 +261,16 @@ public class Character : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		plane.Raycast(ray, out float distance);
 		return ray.GetPoint(distance);
+	}
+
+	public void SetWorldText(string t)
+	{
+		worldText.SetText(t);
+	}
+
+	public void SetScreenText(string t)
+	{
+		screenText.SetText(t);
 	}
 	#endregion
 }

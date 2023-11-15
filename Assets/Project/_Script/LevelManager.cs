@@ -24,7 +24,6 @@ public class LevelManager : MonoBehaviour
     #region Fields & Properties
     public GameMode currentGameMode;
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
-    public GameObject text;
     public GameObject characterSpawner;
 
     //[SerializeField]
@@ -104,8 +103,6 @@ public class LevelManager : MonoBehaviour
             enemy.Initialize();
         }
 
-        text.SetActive(false);
-
         possibleEnemyCount = enemies.Count;
         foreach (EnemySpawner es in GameObject.FindObjectsOfType<EnemySpawner>())
         {
@@ -128,12 +125,10 @@ public class LevelManager : MonoBehaviour
         }
         if (WinCondition())
         {
-            text.SetActive(true);
-            text.GetComponent<Text>().text = "WIN";
+            character.SetScreenText("You Win!");
         } else if (LoseCondition())
         {
-            text.SetActive(true);
-            text.GetComponent<Text>().text = "LOSE";
+            character.SetScreenText("You Lose!");
         }
     }
 

@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour
 	[SerializeField] protected SO_WeaponGunStats soStats;
 
 	public Dictionary<WEAPON_STAT_TYPE, float> Stats { get; protected set; }
-
+	protected Character character;
 	public GameConfig.WEAPON Type { get; protected set; }
 	protected int currentBulletQuantity;
 	private bool attackable;
@@ -31,7 +31,9 @@ public class Weapon : MonoBehaviour
 	#region Methods
 	public virtual void Initialize(Transform parent = null)
 	{
-		transform.parent = parent;
+		if (parent != null)
+			transform.parent = parent;
+		character = GetComponentInParent<Character>();
 		Stats = new Dictionary<WEAPON_STAT_TYPE, float>();
 		attackable = true;
 
@@ -60,8 +62,10 @@ public class Weapon : MonoBehaviour
 
 	protected IEnumerator IE_Reload()
 	{
+		character.SetWorldText("Reloading...");
 		yield return new WaitForSeconds(Stats[WEAPON_STAT_TYPE.RELOAD_TIME]);
 		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
+		character.SetWorldText("");
 	}
 
 	IEnumerator IE_CompleteAttack()
