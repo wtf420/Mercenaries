@@ -70,24 +70,26 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        switch(GameManager.Instance.SelectedCharacter)
-		{
-            case GameConfig.CHARACTER.CHARACTER_1:
-                character = Character1.Create(null, characterSpawner.transform.position);
-                break;
+        character = GameObject.FindObjectOfType<Character>();
+        if (character == null)
+            switch (GameManager.Instance.SelectedCharacter)
+            {
+                case GameConfig.CHARACTER.CHARACTER_1:
+                    character = Character1.Create(null, characterSpawner.transform.position);
+                    break;
 
-            case GameConfig.CHARACTER.CHARACTER_2:
-                character = Character2.Create(null, characterSpawner.transform.position);
-                break;
+                case GameConfig.CHARACTER.CHARACTER_2:
+                    character = Character2.Create(null, characterSpawner.transform.position);
+                    break;
 
-            case GameConfig.CHARACTER.CHARACTER_3:
-                character = Character3.Create(null, characterSpawner.transform.position);
-                break;
+                case GameConfig.CHARACTER.CHARACTER_3:
+                    character = Character3.Create(null, characterSpawner.transform.position);
+                    break;
 
-            case GameConfig.CHARACTER.CHARACTER_4:
-                character = Character4.Create(null, characterSpawner.transform.position);
-                break;
-        }
+                case GameConfig.CHARACTER.CHARACTER_4:
+                    character = Character4.Create(null, characterSpawner.transform.position);
+                    break;
+            }
         //CharacterSO c = GameManager.Instance.selectedCharacter;
         //GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);
         //character = charactergameobject.GetComponent<Character>();

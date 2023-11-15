@@ -41,6 +41,11 @@ public class Path : MonoBehaviour
             if (node != null)
                 Gizmos.DrawSphere(node.position, 0.25f);
         }
+        for (int i = 1; i < pathNodes.Count; i++)
+        {
+            if (pathNodes[i] != null && pathNodes[i-1] != null)
+                Gizmos.DrawLine(pathNodes[i].position, pathNodes[i - 1].position);
+        }
     }
 }
 

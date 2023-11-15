@@ -48,5 +48,11 @@ public class EnemySpawner : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(this.transform.position, 0.5f);
+
+        if (path.GetNodePosition(1) != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(this.transform.position, path.GetNodePosition(0));
+        }
     }
 }
