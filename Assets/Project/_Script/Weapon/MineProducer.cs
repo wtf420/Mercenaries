@@ -3,26 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MineProducer : Weapon
+public class MineProducer : IWeapon
 {
 	#region Fields & Properties
-
+	private float currentBulletQuantity;
 	#endregion
 
 	#region Methods
-	public override void Initialize(Transform parent = null)
+	public override void Initialize()
 	{
-		base.Initialize(parent);
-
 		Type = GameConfig.WEAPON.MINE_PRODUCER;
-
-		currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
-
+		currentBulletQuantity = 3;
 	}
 
-	protected override void Attack()
+	public override void AttemptAttack()
 	{
-		base.Attack();
+		if (currentBulletQuantity > 0)
+		{
+			Attack();
+		}
+		else if (currentBulletQuantity <= 0)
+		{
+			
+		}
+	}
+
+	protected void Attack()
+	{
 		Debug.Log("Spawn Mine");
 		if (currentBulletQuantity > 0)
 		{
@@ -32,7 +39,9 @@ public class MineProducer : Weapon
 
 			currentBulletQuantity -= 1;
 			if (currentBulletQuantity == 0)
-				StartCoroutine(IE_Reload());
+			{
+
+			}
 		}
 	}
 

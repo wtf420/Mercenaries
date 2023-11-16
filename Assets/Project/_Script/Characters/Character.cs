@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class DicWeapon
 {
 	[SerializeField] public GameConfig.WEAPON _Type;
-	[SerializeField] public Weapon _Weapon;
+	[SerializeField] public IWeapon _Weapon;
 }
 
 public class Character : MonoBehaviour
@@ -62,7 +62,7 @@ public class Character : MonoBehaviour
 
 		foreach(var weapon in weapons)
 		{
-			weapon._Weapon.Initialize(transform);
+			weapon._Weapon.Initialize();
 			weapon._Weapon.tag = this.tag;
 		}
 		healthbar.minValue = 0;
@@ -108,7 +108,7 @@ public class Character : MonoBehaviour
 
 		if (Input.GetMouseButton(0))
 		{
-			weapons[currentWeapon]._Weapon.WeaponAttack();
+			weapons[currentWeapon]._Weapon.AttemptAttack();
 		}
 	}
 

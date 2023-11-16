@@ -1,39 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
-public class Thrower : Weapon
+public class Thrower : IWeapon
 {
     #region Fields & Properties
+    [SerializeField] SO_WeaponThrowerStats soStats;
     [SerializeField] GameObject gernadePrefab;
     public Vector3 throwAngleOffset;
+
+    protected float _damage;
+    protected float _attackRange;
+    protected float _attackSpeed;
+    protected float _cooldown;
+    protected float _throwforce;
+    protected int _maxGernadeCount;
+
+    protected float cooldownTimer = 0f;
+    protected bool attackable = true;
+    protected int currentGernadeCount;
+    protected float delayBetweenThrow;
 
     #endregion
 
     #region Methods
-    public override void Initialize(Transform parent = null)
+    public override void Initialize()
     {
-        base.Initialize(parent);
-
         Type = GameConfig.WEAPON.GERNADETHROWER;
-        currentBulletQuantity = (int)Stats[WEAPON_STAT_TYPE.QUANTITY];
+        _damage = soStats.DAMAGE_DEFAULT;
+        _attackRange = soStats.ATTACK_RANGE_DEFAULT;
+        _attackSpeed = soStats.ATTACK_SPEED_DEFAULT;
+        _cooldown = soStats.COOLDOWN;
+        _throwforce = soStats.THROWFORCE;
+        _maxGernadeCount = soStats.MAX_GERNADE_COUNT;
+
+        delayBetweenThrow = 60f / _attackSpeed;
+        currentGernadeCount = _maxGernadeCount;
     }
 
-    protected override void Attack()
+    public override void AttemptAttack()
     {
-        base.Attack();
+        if (currentGernadeCount > 0 && attackable)
+            StartCoroutine(Attack());
+    }
 
-        if (currentBulletQuantity > 0)
+    void Update()
+    {
+        if (cooldownTimer > 0)
         {
-            // spawn bullet
-            GameObject gernade = Instantiate(gernadePrefab, this.transform.position, new Quaternion());
-            gernade.GetComponent<Rigidbody>().AddForce((transform.forward + throwAngleOffset).normalized * 20f, ForceMode.Impulse);
-            Debug.Log(gernade.GetComponent<Rigidbody>().velocity);
-
-            currentBulletQuantity -= 1;
-            if (currentBulletQuantity == 0)
-                StartCoroutine(IE_Reload());
+            cooldownTimer -= Time.deltaTime;
+        } else
+        if (currentGernadeCount < _maxGernadeCount)
+        {
+            currentGernadeCount++;
+            cooldownTimer = _cooldown;
         }
+    }
+
+    protected IEnumerator Attack()
+    {
+        attackable = false;
+        currentGernadeCount--;
+        GameObject gernade = Instantiate(gernadePrefab, this.transform.position, new Quaternion());
+        gernade.GetComponent<Rigidbody>().AddForce((transform.forward + throwAngleOffset).normalized * _throwforce, ForceMode.Impulse);
+        yield return new WaitForSeconds(delayBetweenThrow);
+        attackable = true;
     }
 
     #endregion

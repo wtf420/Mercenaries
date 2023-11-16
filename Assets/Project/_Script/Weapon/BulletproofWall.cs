@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BulletproofWall : Weapon
+public class BulletproofWall : IWeapon
 {
 	#region Fields & Properties
 	float remainingTime = 3f;
@@ -20,18 +20,10 @@ public class BulletproofWall : Weapon
 		return wall;
 	}
 
-	public override void Initialize(Transform parent = null)
+	public override void Initialize()
 	{
-		base.Initialize(parent);
-
 		Type = GameConfig.WEAPON.BULLETPROOF_WALL;
-
 		StartCoroutine(IE_RemainingTime());
-	}
-
-	protected override void Attack()
-	{
-		
 	}
 
 	private void OnTriggerEnter(Collider other)

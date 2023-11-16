@@ -7,7 +7,7 @@ public class Enemy: MonoBehaviour
 {
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
-	[SerializeField] protected Weapon weapon;
+	[SerializeField] protected IWeapon weapon;
 	[SerializeField] protected SO_EnemyDefault soStats;
 	[SerializeField] protected Path path;
 	[SerializeField] public bool deleteUponDeath = true;
@@ -48,7 +48,7 @@ public class Enemy: MonoBehaviour
 			path = p;
 		}
 
-		weapon.Initialize(transform);
+		weapon.Initialize();
 		weapon.tag = this.tag;
 	}
 
@@ -63,7 +63,7 @@ public class Enemy: MonoBehaviour
 				enemyAgent.SetDestination(transform.position);
 
 				RotateWeapon(target.position);
-				weapon.WeaponAttack();
+				weapon.AttemptAttack();
 
 				return;
 			}
@@ -130,7 +130,7 @@ public class Enemy: MonoBehaviour
 			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
 		{
 			RotateWeapon(character.transform.position);
-			weapon.WeaponAttack();
+			weapon.AttemptAttack();
 			target = character.transform;
 
 			return true;
