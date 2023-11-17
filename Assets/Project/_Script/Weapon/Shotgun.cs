@@ -8,7 +8,7 @@ public class Shotgun : Gun
 {
     #region Fields & Properties
 
-    [SerializeField] float _bulletPerShot;
+    [SerializeField] int _bulletPerShot;
     #endregion
 
     #region Methods

@@ -14,7 +14,7 @@ public class DicWeapon
 
 public class Character : MonoBehaviour
 {
-	public static Character Instance { get; private set; }
+	public static Character Instance { get; protected set; }
 
 	#region Fields & Properties
 	[Header("_~* 	Prefabs, Weapons & Stats")]
@@ -49,11 +49,17 @@ public class Character : MonoBehaviour
 	#endregion
 
 	#region Methods
+	public static Character Create(Transform parent, Vector3 position)
+	{
+		Character character = Instantiate(Resources.Load<Character>("_Prefabs/Characters/Character"), parent);
+		character.transform.position = position;
+
+		return character;
+	}
 
 	public virtual void Initialize()
 	{
 		Instance = this;
-
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;

@@ -11,7 +11,7 @@ public class Character4 : Character
 
 	bool canPlaceWall = true;
 
-	public static Character4 Create(Transform parent, Vector3 position)
+	new public static Character4 Create(Transform parent, Vector3 position)
 	{
 		Character4 character = Instantiate(Resources.Load<Character4>("_Prefabs/Characters/Character 4"), parent);
 		character.transform.position = position;

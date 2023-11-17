@@ -63,8 +63,6 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        //DataBank = GetComponent<DataBank>();
     }
 
     void Start()
@@ -88,16 +86,17 @@ public class LevelManager : MonoBehaviour
                 case GameConfig.CHARACTER.CHARACTER_4:
                     character = Character4.Create(null, characterSpawner.transform.position);
                     break;
+
+                default:
+                    character = Character.Create(null, characterSpawner.transform.position);
+                    break;
             }
-        //CharacterSO c = GameManager.Instance.selectedCharacter;
-        //GameObject charactergameobject = Instantiate(c.characterPrefab, characterSpawner.transform.position, characterSpawner.transform.rotation);
-        //character = charactergameobject.GetComponent<Character>();
+        character.Initialize();
+
+        myCamera = Camera.main.gameObject.GetComponent<CameraController>();
+        myCamera.Initialize();
 
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
-        myCamera = Camera.main.gameObject.GetComponent<CameraController>();
-
-        character.Initialize();
-        myCamera.Initialize(character.gameObject);
         foreach (var enemy in enemies)
         {
             enemy.Initialize();
@@ -137,12 +136,6 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    //public SO_EnemyDefault GetStats(Enemy aEnemy)
-    //{
-    //    //Debug.Log($"Type: {type}, Index {index}");
-    //    return DataBank.EnemyStats.Find(element => element.enemy.GetType() == aEnemy.GetType()).Stats;
-    //}
-
     private void RemoveDeathEnemy()
     {
         for (int i = enemies.Count - 1; i >= 0; i--)
@@ -171,7 +164,7 @@ public class LevelManager : MonoBehaviour
         {
             default:
                 {
-                    if (enemies.Count == 0)
+                    if (possibleEnemyCount == 0)
                         return true; else
                         return false;
                 }

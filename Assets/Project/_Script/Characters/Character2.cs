@@ -10,7 +10,7 @@ public class Character2 : Character
 	#endregion
 
 	#region Methods
-	public static Character2 Create(Transform parent, Vector3 position)
+	new public static Character2 Create(Transform parent, Vector3 position)
 	{
 		Character2 character = Instantiate(Resources.Load<Character2>("_Prefabs/Characters/Character 2"), parent);
 		character.transform.position = position;

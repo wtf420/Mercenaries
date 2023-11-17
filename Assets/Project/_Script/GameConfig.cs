@@ -43,11 +43,11 @@ public class GameConfig
 
 	public enum CHARACTER
 	{
-		//CHARACTER_DEFAULT = 0,
-		CHARACTER_1 = 0,
-		CHARACTER_2,
-		CHARACTER_3,
-		CHARACTER_4
+		CHARACTER_DEFAULT = 0,
+		CHARACTER_1 = 1,
+		CHARACTER_2 = 2,
+		CHARACTER_3 = 3,
+		CHARACTER_4 = 4
 	}
 
 	public enum ENEMY

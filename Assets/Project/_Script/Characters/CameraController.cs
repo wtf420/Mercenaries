@@ -22,10 +22,10 @@ public class CameraController : MonoBehaviour
 
 	#region Methods
 
-	public void Initialize(GameObject player)
+	public void Initialize()
 	{
 		//offSet = player.position - transform.position;
-		Player = player;
+		Player = Character.Instance.gameObject;
 		Camera = this.gameObject;
 	}
 

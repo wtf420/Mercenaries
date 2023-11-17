@@ -88,5 +88,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soStats: {fileID: 11400000, guid: ed24e0c77b88af4449f534bc37c46a31, type: 2}
-  bulletPrefab: {fileID: 7334829851252093682, guid: 63f569150ab46bc4eb22f4e94c77aaad, type: 3}
+  bulletPrefab: {fileID: 6365927832070498317, guid: 2736e310cb57cd44dbe3344687ab64bd, type: 3}
   _bulletPerShot: 5
