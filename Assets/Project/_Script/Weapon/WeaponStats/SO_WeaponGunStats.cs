@@ -9,7 +9,7 @@ public class SO_WeaponGunStats : ScriptableObject
     public float RELOAD_TIME = 1;
     public int MAGAZINE_CAPACITY = 30;
     
-    public float INACCURACY = 0.1f;
+    public float INACCURACY = 0.01f;
 
     public float BULLET_SPEED = 10;
 }

@@ -30,10 +30,8 @@ public class MineProducer : IWeapon
 
 	protected void Attack()
 	{
-		Debug.Log("Spawn Mine");
 		if (currentBulletQuantity > 0)
 		{
-			Debug.Log("Spawn Mine");
 			// spawn mine
 			Mine mine = Mine.Create(transform.position, this.tag);
 

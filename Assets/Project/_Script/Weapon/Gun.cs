@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
 
 public class Gun: IWeapon
 {
 	#region Fields & Properties
 	[SerializeField] protected SO_WeaponGunStats soStats;
-	[SerializeField] Bullet bulletPrefab;
+	[SerializeField] protected Bullet bulletPrefab;
 
 	protected float _damage;
 	protected float _attackRange;
@@ -20,6 +19,7 @@ public class Gun: IWeapon
 	protected float _bulletSpeed;
 
 	protected bool attackable = true;
+	protected bool isReloading = false;
 	protected float currentBulletQuantity;
 	protected float delayBetweenShots;
 
@@ -49,7 +49,7 @@ public class Gun: IWeapon
 
     public override void AttemptAttack()
     {
-        if (currentBulletQuantity > 0 && attackable)
+        if (currentBulletQuantity > 0 && attackable && !isReloading)
 		{
 			StartCoroutine(Attack());
 		} else if (currentBulletQuantity <= 0)
@@ -66,53 +66,52 @@ public class Gun: IWeapon
 		}
 	}
 
-	protected IEnumerator Attack()
+	protected virtual IEnumerator Attack()
 	{
-		if (currentBulletQuantity > 0)
-		{
-			// spawn bullet
-			Vector3 direction = (transform.forward).normalized;
-			Vector3 target = direction * 10f + Vector3.Cross(direction, transform.up).normalized * UnityEngine.Random.Range(-_inaccuracy, _inaccuracy);
-			direction = (target).normalized;
+		attackable = false;
+		// spawn bullet
+		Vector3 direction = (transform.forward).normalized;
+		Vector3 target = direction * 10f + Vector3.Cross(direction, transform.up).normalized * UnityEngine.Random.Range(-_inaccuracy, _inaccuracy);
+		direction = (target).normalized;
 
-			Bullet bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
-			bullet.Initialize(_damage, _attackRange, _bulletSpeed, direction);
-			bullet.tag = this.tag;
+		Bullet bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
+		bullet.Initialize(_damage, _attackRange, _bulletSpeed, direction);
+		bullet.tag = this.tag;
 
-			gunSound.Stop();
-			gunSound.Play();
+		gunSound.Stop();
+		gunSound.Play();
 
-			currentBulletQuantity -= 1;
-			attackable = false;
-			yield return new WaitForSeconds(delayBetweenShots);
-			if (currentBulletQuantity == 0)
-				StartCoroutine(IE_Reload());
-			attackable = true;
-		}
+		currentBulletQuantity -= 1;
+		yield return new WaitForSeconds(delayBetweenShots);
+		if (currentBulletQuantity == 0)
+			StartCoroutine(IE_Reload());
+		attackable = true;
 	}
 
 	protected IEnumerator IE_Reload()
 	{
-		attackable = false;
+		isReloading = true;
 		character.SetWorldText("Reloading...");
 
 		yield return new WaitForSeconds(_reloadTime);
 		currentBulletQuantity = _magazineCapacity;
 		character.SetWorldText("");
-		attackable = true;
+		isReloading = false;
 	}
 
 	[ExecuteInEditMode]
 	private void OnDrawGizmos()
 	{
-		if (soStats != null && Selection.Contains(gameObject))
+		if (soStats != null)
 		{
-			float _inaccuracy = soStats.INACCURACY;
+			if (this.tag == "Player")
+				Gizmos.color = Color.blue;
+			else
+				Gizmos.color = Color.red;
 
-			Gizmos.color = Color.blue;
 			Vector3 direction = (transform.forward).normalized;
-			Vector3 target1 = direction * 10f + Vector3.Cross(direction, transform.up).normalized * -_inaccuracy;
-			Vector3 target2 = direction * 10f + Vector3.Cross(direction, transform.up).normalized * _inaccuracy;
+			Vector3 target1 = direction * soStats.ATTACK_RANGE_DEFAULT + Vector3.Cross(direction, transform.up).normalized * -soStats.INACCURACY;
+			Vector3 target2 = direction * soStats.ATTACK_RANGE_DEFAULT + Vector3.Cross(direction, transform.up).normalized * soStats.INACCURACY;
 			Gizmos.DrawLine(this.transform.position, this.transform.position + target1);
 			Gizmos.DrawLine(this.transform.position, this.transform.position + target2);
 		}

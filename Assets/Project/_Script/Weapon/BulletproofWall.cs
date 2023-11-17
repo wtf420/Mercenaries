@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletproofWall : IWeapon
@@ -11,9 +12,13 @@ public class BulletproofWall : IWeapon
 	#endregion
 
 	#region Methods
-	public static BulletproofWall Create(Transform parent = null, Vector3? position = null, Quaternion? rotation = null)
+	public static BulletproofWall Create(Vector3? size = null, Vector3? position = null, Quaternion? rotation = null)
 	{
-		BulletproofWall wall = Instantiate(Resources.Load<BulletproofWall>("_Prefabs/Weapon/BulletProofWall"), parent);
+		BulletproofWall wall = Instantiate(Resources.Load<BulletproofWall>("_Prefabs/Weapon/BulletProofWall"));
+		if (size != null)
+		{
+			wall.transform.localScale = (Vector3)size;
+		}
 		wall.transform.rotation = (Quaternion)rotation;
 		wall.transform.position =  (Vector3)position + wall.transform.forward * 2f;
 

@@ -14,6 +14,8 @@ public class DicWeapon
 
 public class Character : MonoBehaviour
 {
+	public static Character Instance { get; private set; }
+
 	#region Fields & Properties
 	[Header("_~* 	Prefabs, Weapons & Stats")]
 	[SerializeField] protected List<DicWeapon> weapons;
@@ -41,16 +43,17 @@ public class Character : MonoBehaviour
 	public bool IsDeath { get; protected set; }
 	
 	float speedX, speedZ, maxSpeed;
-
 	protected private Vector3 mousePos;
-
 	bool movementEnable = true;
+
 	#endregion
 
 	#region Methods
 
 	public virtual void Initialize()
 	{
+		Instance = this;
+
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
@@ -60,7 +63,14 @@ public class Character : MonoBehaviour
 		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, soStats.MOVE_SPEED_DEFAULT);
 		Stats.Add(GameConfig.STAT_TYPE.HP, soStats.HP_DEFAULT);
 
-		foreach(var weapon in weapons)
+		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
+		{
+			DicWeapon dw = new DicWeapon();
+			dw._Type = w.Type;
+			dw._Weapon = w;
+			weapons.Add(dw);
+		}
+		foreach (var weapon in weapons)
 		{
 			weapon._Weapon.Initialize();
 			weapon._Weapon.tag = this.tag;
@@ -85,6 +95,7 @@ public class Character : MonoBehaviour
 
 	public virtual void UpdateCharacter(List<Enemy> enemies = null)
 	{
+		Debug.Log(Instance);
 		KeyboardController();
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -122,6 +133,7 @@ public class Character : MonoBehaviour
 			if (Stats[GameConfig.STAT_TYPE.HP] <= 0)
 			{
 				Debug.Log("Character die");
+				StopAllCoroutines();
 				IsDeath = true;
 			}
 		}
@@ -271,6 +283,18 @@ public class Character : MonoBehaviour
 	public void SetScreenText(string t)
 	{
 		screenText.SetText(t);
+	}
+
+	[ExecuteInEditMode]
+	private void ApplyChanges()
+	{
+		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
+		{
+			DicWeapon dw = new DicWeapon();
+			dw._Type = w.Type;
+			dw._Weapon = w;
+			weapons.Add(dw);
+		}
 	}
 	#endregion
 }

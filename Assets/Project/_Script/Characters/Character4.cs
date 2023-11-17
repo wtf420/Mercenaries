@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Character4 : Character
 {
+	[Header("_~* 	Character 4 Unique stuff")]
+	[SerializeField] protected Vector3 WallDimension;
+	[SerializeField] protected float wallCoolDown;
+
+	bool canPlaceWall = true;
+
 	public static Character4 Create(Transform parent, Vector3 position)
 	{
 		Character4 character = Instantiate(Resources.Load<Character4>("_Prefabs/Characters/Character 4"), parent);
@@ -53,17 +60,20 @@ public class Character4 : Character
 
 		// 	Debug.Log("SUMMON Turret");
 		// }
-	}
 
-	public override void SwapWeapon()
-	{
-		//	Use bulletproof Wall
-		if (Input.GetKey(KeyCode.R))
+		if (Input.GetKey(KeyCode.R) && canPlaceWall)
 		{
-			var wall = BulletproofWall.Create(null, transform.position, weapons[0]._Weapon.transform.rotation);
-			wall.Initialize();
-			wall.tag = this.tag;
+			StartCoroutine(PlaceWall());
 		}
 	}
 
+	IEnumerator PlaceWall()
+	{
+		canPlaceWall = false;
+		var wall = BulletproofWall.Create(WallDimension, transform.position, weapons[0]._Weapon.transform.rotation);
+		wall.Initialize();
+		wall.tag = this.tag;
+		yield return new WaitForSeconds(wallCoolDown);
+		canPlaceWall = true;
+	}
 }

@@ -36,8 +36,9 @@ public class GameConfig
 	{
 		RIFLE = 0,
 		GERNADETHROWER = 1,
-		MINE_PRODUCER,
-		BULLETPROOF_WALL
+		MINE_PRODUCER = 2,
+		BULLETPROOF_WALL = 3,
+		SHOTGUN = 4,
 	}
 
 	public enum CHARACTER

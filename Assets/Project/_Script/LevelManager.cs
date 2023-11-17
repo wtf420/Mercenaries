@@ -150,7 +150,10 @@ public class LevelManager : MonoBehaviour
             if (enemies[i].IsDead)
             {
                 if (enemies[i].deleteUponDeath)
+                {
+                    enemies[i].StopAllCoroutines();
                     Destroy(enemies[i].gameObject);
+                }
                 enemies.RemoveAt(i);
                 enemiesLeft -= 1;
             }
