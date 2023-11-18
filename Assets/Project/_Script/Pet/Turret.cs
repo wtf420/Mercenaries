@@ -30,6 +30,19 @@ public class Turret : Pet
 		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, soStats.ATTACK_RANGE_DEFAULT);
 	}
 
+	void Start()
+	{
+		this.tag = "Player";
+		StartCoroutine(ignoreCollision());
+	}
+
+	IEnumerator ignoreCollision()
+	{
+		Physics.IgnoreCollision(this.GetComponent<Collider>(), Character.Instance.GetComponent<Collider>(), true);
+		yield return new WaitForSeconds(0.5f);
+		Physics.IgnoreCollision(this.GetComponent<Collider>(), Character.Instance.GetComponent<Collider>(), false);
+	}
+
 	public override void UpdatePet(List<Enemy> enemies = null)
 	{
 		base.UpdatePet(enemies);
@@ -71,6 +84,16 @@ public class Turret : Pet
 		}
 
 		Debug.Log($"Pet hp: {Stats[GameConfig.STAT_TYPE.HP]}");
+	}
+
+	[ExecuteInEditMode]
+	protected virtual void OnDrawGizmos()
+	{
+		if (soStats != null)
+		{
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawWireSphere(this.transform.position, soStats.ATTACK_RANGE_DEFAULT);
+		}
 	}
 
 	#endregion

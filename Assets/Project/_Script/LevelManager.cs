@@ -122,6 +122,7 @@ public class LevelManager : MonoBehaviour
             if (!enemy.IsDead)
                 enemy.UpdateEnemy(character);
         }
+
         if (WinCondition())
         {
             character.SetScreenText("You Win!");
@@ -164,7 +165,7 @@ public class LevelManager : MonoBehaviour
         {
             default:
                 {
-                    if (possibleEnemyCount == 0)
+                    if (enemiesLeft == 0)
                         return true; else
                         return false;
                 }

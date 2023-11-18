@@ -214,6 +214,9 @@ MonoBehaviour:
   drag: 0
   dashForce: 50
   dashTime: 0.1
+  drone: {fileID: 1716529633535566275, guid: 209877cd3877fac46922922b4898f48b, type: 3}
+  skillCooldown: 5
+  droneThrowForce: 3
 --- !u!1 &2595221357135229615
 GameObject:
   m_ObjectHideFlags: 0

@@ -273,7 +273,7 @@ public class Character : MonoBehaviour
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
 	}
 
-	private Vector3 GetMousePosition()
+	public Vector3 GetMousePosition()
 	{
 		Plane plane = new Plane(Vector3.up, transform.position);
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

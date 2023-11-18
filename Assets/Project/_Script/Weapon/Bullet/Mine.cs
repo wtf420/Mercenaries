@@ -5,8 +5,9 @@ using UnityEngine;
 public class Mine : MonoBehaviour
 {
 	#region Fields & Properties
-	[SerializeField] float explosionRadius = 3f;
-	[SerializeField] float damage = 40f;
+	[SerializeField] float _explosionRadius = 3f, _damage = 40f, _activateTimer, _aliveTimer = 10f, _detectionRange = 1f;
+	[SerializeField] bool _damageScaleWithDistance;
+	bool canExplode = false;
 
 	#endregion
 
@@ -23,6 +24,26 @@ public class Mine : MonoBehaviour
 
 	//}
 
+	void Update()
+	{
+		if (_activateTimer > 0)
+		{
+			_activateTimer -= Time.deltaTime;
+		} else
+		{
+			canExplode = true;
+		}
+
+		if (_aliveTimer > 0)
+		{
+			_aliveTimer -= Time.deltaTime;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	private void OnTriggerEnter(Collider collider)
 	{
 		if (this.CompareTag(collider.tag))
@@ -30,67 +51,75 @@ public class Mine : MonoBehaviour
 			return;
 		}
 
-		CalculateExplosionRange();
-
-		Destroy(gameObject);
-		Debug.Log("Mine Explosion");
+		CollisionCheck();
+		if (canExplode)
+		{
+			Explode();
+		}
 	}
 
-	private void CalculateExplosionRange()
+	protected virtual void CollisionCheck()
 	{
-		RaycastHit[] hits;
-
-		hits = Physics.SphereCastAll(transform.position, explosionRadius, transform.forward, explosionRadius);
+		RaycastHit[] hits = Physics.SphereCastAll(transform.position, _detectionRange, transform.forward, _detectionRange);
 		if (hits.Length > 0)
 		{
 			foreach (var e in hits)
 			{
-				if (IsCollideWithCharacter(e.collider.GetComponent<Character>()))
-					continue;
-
-				if (IsCollideWithEnemy(e.collider.GetComponent<Enemy>()))
-					continue;
-
-				if (IsCollideWithPet(e.collider.GetComponent<Pet>()))
-					continue;
+				if (e.collider.gameObject.GetComponent<Enemy>() && this.tag == "Player")
+				{
+					Explode();
+				} else
+				if ((e.collider.gameObject.GetComponent<Character>() || e.collider.gameObject.GetComponent<Pet>()) && this.tag == "Enemy")
+				{
+					Explode();
+				}
 			}
 		}
 	}
 
-	private bool IsCollideWithCharacter(Character character)
+	protected virtual void Explode()
 	{
-		if (!character)
+		RaycastHit[] hits = Physics.SphereCastAll(transform.position, _explosionRadius, transform.forward, _explosionRadius);
+		if (hits.Length > 0)
 		{
-			return false;
+			foreach (var e in hits)
+			{
+				if (this.CompareTag(e.collider.tag))
+				{
+					continue;
+				}
+
+				float damage = _damage;
+				if (_damageScaleWithDistance)
+				{
+					float distance = Vector3.Distance(this.transform.position, e.point);
+					damage = _damage * (distance / _explosionRadius);
+				}
+				if (e.collider.gameObject.GetComponent<Enemy>() && this.tag == "Player")
+				{
+					e.collider.gameObject.GetComponent<Enemy>().TakenDamage(damage);
+				} else
+				if (e.collider.gameObject.GetComponent<Character>() && this.tag == "Enemy")
+				{
+					e.collider.gameObject.GetComponent<Character>().TakenDamage(damage);
+				} else
+				if (e.collider.gameObject.GetComponent<Pet>() && this.tag == "Enemy")
+				{
+					e.collider.gameObject.GetComponent<Pet>().TakenDamage(damage);
+				}
+			}
 		}
-
-		character.TakenDamage(damage);
-
-		return true;
+		Debug.Log("Mine Explosion");
+		Destroy(gameObject);
 	}
 
-	private bool IsCollideWithEnemy(Enemy enemy)
+	[ExecuteInEditMode]
+	protected virtual void OnDrawGizmos()
 	{
-		if (!enemy)
-		{
-			return false;
-		}
-
-		enemy.TakenDamage(damage);
-
-		return true;
-	}
-
-	private bool IsCollideWithPet(Pet pet)
-	{
-		if (!pet)
-		{
-			return false;
-		}
-
-		pet.TakenDamage(damage);
-
-		return true;
+		Gizmos.color = Color.blue;
+		Gizmos.DrawWireSphere(this.transform.position, _detectionRange);
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(this.transform.position, _explosionRadius);
 	}
 	#endregion
 }

@@ -6,6 +6,10 @@ using UnityEngine;
 public class Character1 : Character
 {
 	#region Fields & Properties
+	[Header("_~* 	Character 4 Unique stuff")]
+	[SerializeField] protected Drone drone;
+	[SerializeField] protected float skillCooldown, droneThrowForce;
+	bool canSummonDrone = true;
 
 	#endregion
 
@@ -42,15 +46,20 @@ public class Character1 : Character
 			//return;
 		}
 
-		// Summon pet
-		if(Input.GetKeyDown(KeyCode.R))
+		if (Input.GetKey(KeyCode.R) && canSummonDrone)
 		{
-			Drone drone = new Drone(this.gameObject);
-
-			Debug.Log("SUMMON DRONE");
+			StartCoroutine(SummonDrone());
 		}
 	}
 
+	IEnumerator SummonDrone()
+	{
+		canSummonDrone = false;
+		Drone drone = Drone.Create(this.transform.position, this.transform.rotation);
+		drone.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * droneThrowForce, ForceMode.Impulse);
+		yield return new WaitForSeconds(skillCooldown);
+		canSummonDrone = true;
+	}
 
 	#endregion
 }

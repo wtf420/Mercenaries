@@ -8,7 +8,6 @@ public class Character4 : Character
 	[Header("_~* 	Character 4 Unique stuff")]
 	[SerializeField] protected Vector3 WallDimension;
 	[SerializeField] protected float wallCoolDown;
-
 	bool canPlaceWall = true;
 
 	new public static Character4 Create(Transform parent, Vector3 position)

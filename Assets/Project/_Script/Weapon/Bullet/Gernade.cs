@@ -12,12 +12,12 @@ public class Gernade : MonoBehaviour
     void Start()
     {
         player = Character.Instance;
-        Physics.IgnoreCollision(this.GetComponent<Collider>(), player.GetComponent<Collider>());
         StartCoroutine(ignoreCollision());
     }
 
     IEnumerator ignoreCollision()
     {
+        Physics.IgnoreCollision(this.GetComponent<Collider>(), player.GetComponent<Collider>());
         yield return new WaitForSeconds(0.1f);
         Physics.IgnoreCollision(this.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
     }
