@@ -12,7 +12,7 @@ public class DicWeapon
 	[SerializeField] public IWeapon _Weapon;
 }
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IDamageable
 {
 	public static Character Instance { get; protected set; }
 
@@ -129,7 +129,7 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	public void TakenDamage(float damage)
+	public void TakenDamage(float damage, Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		if (Stats[GameConfig.STAT_TYPE.HP] > 0)
 		{

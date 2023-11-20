@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy: MonoBehaviour
+public class Enemy: MonoBehaviour, IDamageable
 {
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
@@ -19,7 +19,7 @@ public class Enemy: MonoBehaviour
 	//public CHARACTER_TYPE Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 
-	public bool IsDead { get; protected set; }
+	public bool IsDead { get; protected set; } = false;
 	//protected List<Weapon> weapons;
 
 	protected Transform target;
@@ -80,7 +80,7 @@ public class Enemy: MonoBehaviour
 
 	}
 
-	public virtual void TakenDamage(float Damage, Vector3? DamageDirection = null, float punch = 0.0f)
+	public void TakenDamage(float Damage, Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		if(IsDead)
 		{

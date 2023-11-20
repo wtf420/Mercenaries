@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2056973393869145788}
   - component: {fileID: 2056973393869145791}
-  - component: {fileID: 1483923404}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,36 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1251d37fe3889b14d9a13495c2f99661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DataBank: {fileID: 1483923404}
-  selectedCharacter:
-    characterType: {fileID: 0}
-    characterPrefab: {fileID: 0}
-    characterStats: {fileID: 0}
---- !u!114 &1483923404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056973393869145790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b48b889d785ed14b9cb32c0e06bd328, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterStats:
-  - characterType: {fileID: 2550206622280324625, guid: f384fc06238bff64ba4f271b3199ec8c, type: 3}
-    characterPrefab: {fileID: 2377049601946077552, guid: f384fc06238bff64ba4f271b3199ec8c, type: 3}
-    characterStats: {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
-  - characterType: {fileID: 7599778889993836457, guid: 221ba4b2860d44c47a7f8717f8bd560d, type: 3}
-    characterPrefab: {fileID: 2377049601946077552, guid: 221ba4b2860d44c47a7f8717f8bd560d, type: 3}
-    characterStats: {fileID: 11400000, guid: b01a2edb0617b8b429743c3ff136b214, type: 2}
-  weaponStats:
-  - weapon: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
-    Stats: {fileID: 11400000, guid: 04bf7091ec616d44fa0c032d62368eb0, type: 2}
-  - weapon: {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
-    Stats: {fileID: 11400000, guid: 2feb338cff506924a951fddcea34de9a, type: 2}
-  petStats:
-  - pet: {fileID: 6344159607576122253, guid: c0e41aaac29c92947960b9af68b3342b, type: 3}
-    Stats: {fileID: 11400000, guid: 127bf1027b6bbab42a2152aa2875bf75, type: 2}
-  EnemyStats: []
+  SelectedCharacter: 0
