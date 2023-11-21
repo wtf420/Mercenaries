@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet: MonoBehaviour
 {
 	#region Fields & Properties
-	float dame;
+	public float Damage { get; protected set; }
 	float range;
 	float speed;
 
@@ -15,7 +15,7 @@ public class Bullet: MonoBehaviour
 	#region Methods
 	public void Initialize(float dame, float range, float speed, Vector3 direction)
 	{
-		this.dame = dame;
+		this.Damage = dame;
 		this.range = range;
 		this.speed = speed;
 		this.direction = direction;
@@ -47,76 +47,19 @@ public class Bullet: MonoBehaviour
 			return;
 		}
 		
+		IDamagable damagable = collider.GetComponent<IDamagable>();
+		if (damagable != null && !this.CompareTag(collider.tag))
+		{
+			if (collider.GetComponent<Enemy>())
+			{
+				collider.GetComponent<Enemy>().TakenDamage(Damage, collider.transform.position - transform.position, 10f);
+			} else
+			{
+				damagable.TakenDamage(Damage);
+			}
+		}
 		Destroy(gameObject);
-		if (IsCollideWithEnemy(collider))
-		{
-			return;
-		}
-
-		if (IsCollideWithPlayer(collider))
-		{
-			return;
-		}
-
-		if (IsCollideWithPet(collider))
-		{
-			return;
-		}
-
-		if (IsCollideWithWall(collider))
-		{
-			return;
-		}
 	}
-
-	private bool IsCollideWithEnemy(Collider collider)
-	{
-		Enemy enemy = collider.GetComponent<Enemy>();
-		if(enemy)
-		{
-			enemy.TakenDamage(dame, enemy.transform.position - transform.position, 10f);
-			return true;
-		}
-
-		return false;
-	}
-
-	private bool IsCollideWithPlayer(Collider collider)
-	{
-		Character character = collider.GetComponent<Character>();
-		if (character)
-		{
-			character.TakenDamage(dame);
-			return true;
-		}
-
-		return false;
-	}
-
-	private bool IsCollideWithPet(Collider collider)
-	{
-		Pet pet = collider.GetComponent<Pet>();
-		if (pet)
-		{
-			pet.TakenDamage(dame);
-			return true;
-		}
-
-		return false;
-	}
-
-	private bool IsCollideWithWall(Collider collider)
-	{
-		BulletproofWall wall = collider.GetComponent<BulletproofWall>();
-		if (wall)
-		{
-			wall.TakenDamage(dame);
-			return true;
-		}
-
-		return false;
-	}
-
 	#endregion
 }
 

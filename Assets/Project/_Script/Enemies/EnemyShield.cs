@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyShield : Enemy
 {
-    [SerializeField] public BulletproofWall Shield;
+    [Header("_~* 	Shield Enemy Unique stuff")]
     [SerializeField] Vector3 _offSet;
     [SerializeField] float _skillCooldown;
     [SerializeField] float _skillDuration;
@@ -12,6 +12,7 @@ public class EnemyShield : Enemy
     [SerializeField] float wallHP;
     [SerializeField] Vector3 wallDimension;
 
+    protected BulletproofWall Shield;
     protected bool canUseSkill = true;
     protected bool shieldBroken = false;
 
@@ -44,8 +45,9 @@ public class EnemyShield : Enemy
             MovementBehaviour();
         }
 
-        if (!Shield && !shieldBroken)
+        if (!Shield && shieldBroken)
         {
+            shieldBroken = true;
             StartCoroutine(SkillCooldown());
         }
     }

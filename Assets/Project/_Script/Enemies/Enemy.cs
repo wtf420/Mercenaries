@@ -8,25 +8,24 @@ using UnityEngine.AI;
 public class Enemy: MonoBehaviour, IDamagable
 {
 	#region Fields & Properties
+	[Header("_~* 	Prefabs, Weapons & Stats")]
 	[SerializeField] protected Rigidbody characterRigidbody;
 	[SerializeField] protected IWeapon weapon;
 	[SerializeField] protected SO_EnemyDefault soStats;
 	[SerializeField] protected Path path;
 	[SerializeField] public bool deleteUponDeath = true;
+	public bool IsDead { get; protected set; }
+	public float AttackPriority { get; protected set; }
 
 	protected NavMeshAgent enemyAgent;
 	private int currentPosition = 0;
 
-	//public CHARACTER_TYPE Type { get; protected set; }
+	[Header("_~* 	Movement & control")]
 	protected float _moveSpeed;
 	protected float _HP;
 	protected float _detectRange;
 	protected float _attackRange;
 	[SerializeField] protected float _turningSpeed;
-
-	public bool IsDead { get; protected set; }
-	public float AttackPriority { get; protected set; }
-	//protected List<Weapon> weapons;
 
 	protected IDamagable target;
 	#endregion

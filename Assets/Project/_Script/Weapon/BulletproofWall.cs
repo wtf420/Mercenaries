@@ -52,15 +52,11 @@ public class BulletproofWall : IWeapon, IDamagable
 		{
 			return;
 		}
-
-		if (other.GetComponent<Bullet>() != null)
-		{
-			Destroy(other.gameObject);
-		}
 	}
 
 	public void TakenDamage(float Damage)
 	{
+		Debug.Log(_HP);
 		if (_HP > 0)
 		{
 			_HP -= Damage;
