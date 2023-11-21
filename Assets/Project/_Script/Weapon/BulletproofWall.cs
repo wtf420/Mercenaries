@@ -5,14 +5,18 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BulletproofWall : IWeapon
+public class BulletproofWall : IWeapon, IDamagable
 {
 	#region Fields & Properties
-	float remainingTime = 3f;
+	[SerializeField] protected float _HP = 100f;
+	[SerializeField] protected float remainingTime = Mathf.Infinity;
+
+	public float AttackPriority { get; protected set; }
+	public bool IsDead { get; protected set; }
 	#endregion
 
 	#region Methods
-	public static BulletproofWall Create(Vector3? size = null, Vector3? position = null, Quaternion? rotation = null)
+	public static BulletproofWall Create(Vector3? size = null, float HP = 100f, float time = 3f, Vector3? position = null, Quaternion? rotation = null)
 	{
 		BulletproofWall wall = Instantiate(Resources.Load<BulletproofWall>("_Prefabs/Weapon/BulletProofWall"));
 		if (size != null)
@@ -21,6 +25,9 @@ public class BulletproofWall : IWeapon
 		}
 		wall.transform.rotation = (Quaternion)rotation;
 		wall.transform.position =  (Vector3)position + wall.transform.forward * 2f;
+		wall._HP = HP;
+		wall.remainingTime = time;
+		wall.IsDead = false;
 
 		return wall;
 	}
@@ -28,7 +35,15 @@ public class BulletproofWall : IWeapon
 	public override void Initialize()
 	{
 		Type = GameConfig.WEAPON.BULLETPROOF_WALL;
-		StartCoroutine(IE_RemainingTime());
+		if (remainingTime != Mathf.Infinity)
+		{
+			StartCoroutine(IE_RemainingTime());
+		}
+	}
+
+	private void Start()
+	{
+		IsDead = false;
 	}
 
 	private void OnTriggerEnter(Collider other)
@@ -44,10 +59,25 @@ public class BulletproofWall : IWeapon
 		}
 	}
 
+	public void TakenDamage(float Damage)
+	{
+		if (_HP > 0)
+		{
+			_HP -= Damage;
+			Debug.Log($"Enemy hp: {_HP}");
+			if (_HP <= 0)
+			{
+				IsDead = true;
+				StopAllCoroutines();
+				Destroy(gameObject);
+			}
+		}
+	}
+
 	private IEnumerator IE_RemainingTime()
 	{
 		yield return new WaitForSeconds(remainingTime);
-
+		IsDead = true;
 		Destroy(gameObject);
 	}
 	#endregion

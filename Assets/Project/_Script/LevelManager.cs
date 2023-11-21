@@ -38,10 +38,9 @@ public class LevelManager : MonoBehaviour
 
     //public CharacterSO characterInfo;
     [SerializeField] protected Character character;
-
     [SerializeField] protected List<Enemy> enemies;
-
     [SerializeField] CameraController myCamera;
+    public List<IDamagable> damagables;
 
     protected float possibleEnemyCount, enemiesLeft;
     #endregion
@@ -67,6 +66,8 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        damagables = new List<IDamagable>();
+        
         character = GameObject.FindObjectOfType<Character>();
         if (character == null)
             switch (GameManager.Instance.SelectedCharacter)
@@ -114,7 +115,7 @@ public class LevelManager : MonoBehaviour
     {
         RemoveDeathEnemy();
 
-        if (!character.IsDeath)
+        if (!character.IsDead)
             character.UpdateCharacter(enemies);
         myCamera.UpdateCamera();
         foreach (var enemy in enemies)
@@ -178,7 +179,7 @@ public class LevelManager : MonoBehaviour
         {
             default:
                 {
-                    return character.IsDeath;
+                    return character.IsDead;
                 }
         }
     }

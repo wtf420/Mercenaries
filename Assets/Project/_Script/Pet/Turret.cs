@@ -79,7 +79,7 @@ public class Turret : Pet
 			Stats[GameConfig.STAT_TYPE.HP] -= damage;
 			if(Stats[GameConfig.STAT_TYPE.HP] <= 0)
 			{
-				IsDeath = true;
+				IsDead = true;
 			}
 		}
 

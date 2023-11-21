@@ -12,7 +12,7 @@ public class DicWeapon
 	[SerializeField] public IWeapon _Weapon;
 }
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IDamagable
 {
 	public static Character Instance { get; protected set; }
 
@@ -20,6 +20,7 @@ public class Character : MonoBehaviour
 	[Header("_~* 	Prefabs, Weapons & Stats")]
 	[SerializeField] protected List<DicWeapon> weapons;
 	[SerializeField] protected SO_CharacterDefault soStats;
+	[SerializeField] protected bool invulnerable = false;
 
 	[Header("_~* 	User Interface")]
 	[SerializeField] protected Canvas worldCanvas;
@@ -34,14 +35,18 @@ public class Character : MonoBehaviour
 	[SerializeField] bool alignWithCamera = true;
 	[SerializeField] float acceleration = 50f, deAcceleration = 50f, drag, dashForce = 50f, dashTime = 0.1f;
 
-	public Pet myPet { get; protected set; }
-
 	int currentWeapon = 0;
 
+	public float AttackPriority { get; protected set; }
+	public Pet myPet { get; protected set; }
 	public GameConfig.CHARACTER Type { get; protected set; }
-	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
-	public bool IsDeath { get; protected set; }
-	
+	public bool IsDead { get; protected set; }
+
+	protected float _HP;
+	protected float _damage;
+	protected float _moveSpeed;
+	protected float _skillCooldown;
+
 	float speedX, speedZ, maxSpeed;
 	protected private Vector3 mousePos;
 	bool movementEnable = true;
@@ -60,14 +65,15 @@ public class Character : MonoBehaviour
 	public virtual void Initialize()
 	{
 		Instance = this;
+		LevelManager.Instance.damagables.Add(this);
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
 		//SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
 
-		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
-		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, soStats.MOVE_SPEED_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.HP, soStats.HP_DEFAULT);
+		_moveSpeed = soStats.MOVE_SPEED_DEFAULT;
+		_HP = soStats.HP_DEFAULT;
+		_skillCooldown = soStats.SKILL_COOLDOWN;
 
 		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
 		{
@@ -82,26 +88,25 @@ public class Character : MonoBehaviour
 			weapon._Weapon.tag = this.tag;
 		}
 		healthbar.minValue = 0;
-		healthbar.maxValue = Stats[GameConfig.STAT_TYPE.HP];
-		healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
+		healthbar.maxValue = _HP;
+		healthbar.value = _HP;
 
-		IsDeath = false;
+		IsDead = false;
 
 		speedX = 0;
 		speedZ = 0;
-		maxSpeed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+		maxSpeed = _moveSpeed;
 		//characterRigidbody.drag = drag;
 	}
 
 	public virtual void UpdateUI()
 	{
-		healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
+		healthbar.value = _HP;
 		worldCanvas.transform.LookAt(transform.position + Camera.main.transform.forward);
 	}
 
 	public virtual void UpdateCharacter(List<Enemy> enemies = null)
 	{
-		Debug.Log(Instance);
 		KeyboardController();
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -131,16 +136,15 @@ public class Character : MonoBehaviour
 
 	public void TakenDamage(float damage)
 	{
-		if (Stats[GameConfig.STAT_TYPE.HP] > 0)
+		if (_HP > 0 && !invulnerable)
 		{
-			Stats[GameConfig.STAT_TYPE.HP] -= damage;
-			healthbar.value = Stats[GameConfig.STAT_TYPE.HP];
-			Debug.Log($"Character hp: {Stats[GameConfig.STAT_TYPE.HP]}");
-			if (Stats[GameConfig.STAT_TYPE.HP] <= 0)
+			_HP -= damage;
+			healthbar.value = _HP;
+			Debug.Log($"Character hp: {_HP}");
+			if (_HP <= 0)
 			{
 				Debug.Log("Character die");
-				StopAllCoroutines();
-				IsDeath = true;
+				OnDeath();
 			}
 		}
 	}
@@ -210,6 +214,13 @@ public class Character : MonoBehaviour
 		characterRigidbody.velocity += movement;
 
 		//Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
+	}
+
+	public virtual void OnDeath()
+	{
+		LevelManager.Instance.damagables.Remove(this);
+		StopAllCoroutines();
+		IsDead = true;
 	}
 
 	public virtual void SwapWeapon()

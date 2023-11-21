@@ -7,6 +7,8 @@ public class Character4 : Character
 {
 	[Header("_~* 	Character 4 Unique stuff")]
 	[SerializeField] protected Vector3 WallDimension;
+	[SerializeField] protected float wallHP;
+	[SerializeField] protected float wallDuration;
 	[SerializeField] protected float wallCoolDown;
 	bool canPlaceWall = true;
 
@@ -29,7 +31,7 @@ public class Character4 : Character
 
 		if (myPet != null)
 		{
-			if (!myPet.IsDeath)
+			if (!myPet.IsDead)
 			{
 				myPet.UpdatePet(enemies);
 			}
@@ -69,7 +71,7 @@ public class Character4 : Character
 	IEnumerator PlaceWall()
 	{
 		canPlaceWall = false;
-		var wall = BulletproofWall.Create(WallDimension, transform.position, weapons[0]._Weapon.transform.rotation);
+		var wall = BulletproofWall.Create(WallDimension, wallHP, wallDuration, transform.position, weapons[0]._Weapon.transform.rotation);
 		wall.Initialize();
 		wall.tag = this.tag;
 		yield return new WaitForSeconds(wallCoolDown);

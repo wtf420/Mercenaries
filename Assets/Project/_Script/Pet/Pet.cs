@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Pet : MonoBehaviour
+public class Pet : MonoBehaviour, IDamagable
 {
 	#region Fields & Properties
 
 	public GameConfig.PET Type { get; protected set; }
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
-	public bool IsDeath { get; protected set; }
+	public bool IsDead { get; protected set; }
+	public float AttackPriority { get; protected set; }
 
 	protected Transform target;
 	protected bool attackable;
@@ -19,8 +20,9 @@ public class Pet : MonoBehaviour
 	public virtual void Initialize(string tag)
 	{
 		this.tag = tag;
+		LevelManager.Instance.damagables.Add(this);
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
-		IsDeath = false;
+		IsDead = false;
 		attackable = true;
 
 	}
@@ -48,6 +50,11 @@ public class Pet : MonoBehaviour
 	protected virtual void Attack()
 	{
 		
+	}
+
+	protected virtual void OnDeath()
+	{
+		LevelManager.Instance.damagables.Remove(this);
 	}
 
 	protected IEnumerator IE_Reload()

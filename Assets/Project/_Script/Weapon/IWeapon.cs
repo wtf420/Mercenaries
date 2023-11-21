@@ -8,4 +8,8 @@ public class IWeapon : MonoBehaviour
     public virtual void Initialize() {}
     public virtual void AttemptAttack() {}
     public virtual void AttemptReload() { }
+    protected void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }

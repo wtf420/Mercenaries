@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy: MonoBehaviour
+public class Enemy: MonoBehaviour, IDamagable
 {
 	#region Fields & Properties
 	[SerializeField] protected Rigidbody characterRigidbody;
@@ -13,16 +15,20 @@ public class Enemy: MonoBehaviour
 	[SerializeField] public bool deleteUponDeath = true;
 
 	protected NavMeshAgent enemyAgent;
-
 	private int currentPosition = 0;
 
 	//public CHARACTER_TYPE Type { get; protected set; }
-	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
+	protected float _moveSpeed;
+	protected float _HP;
+	protected float _detectRange;
+	protected float _attackRange;
+	[SerializeField] protected float _turningSpeed;
 
 	public bool IsDead { get; protected set; }
+	public float AttackPriority { get; protected set; }
 	//protected List<Weapon> weapons;
 
-	protected Transform target;
+	protected IDamagable target;
 	#endregion
 
 	#region Methods
@@ -30,19 +36,20 @@ public class Enemy: MonoBehaviour
 	public virtual void Initialize(Path p = null)
 	{
 		this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
+		LevelManager.Instance.damagables.Add(this);
 
 		enemyAgent = GetComponent<NavMeshAgent>();
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_EnemyDefault stats = (SO_EnemyDefault)LevelManager.Instance.GetStats(GameConfig.SO_TYPE.ENEMY, (int)GameConfig.ENEMY.ENEMY_DEFAULT);
 		//SO_EnemyDefault stats = LevelManager.Instance.GetStats(this);
-		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
-		Stats.Add(GameConfig.STAT_TYPE.MOVE_SPEED, soStats.MOVE_SPEED_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.HP, soStats.HP_DEFAULT);
-		Stats.Add(GameConfig.STAT_TYPE.DETECT_RANGE, soStats.DETECT_RANGE);
-		Stats.Add(GameConfig.STAT_TYPE.ATTACK_RANGE, soStats.ATTACK_RANGE_DEFAULT);
+		_moveSpeed = soStats.MOVE_SPEED_DEFAULT;
+		_HP = soStats.HP_DEFAULT;
+		_detectRange = soStats.DETECT_RANGE;
+		_attackRange = soStats.ATTACK_RANGE_DEFAULT;
+		
 
-		enemyAgent.speed = Stats[GameConfig.STAT_TYPE.MOVE_SPEED];
+		enemyAgent.speed = _moveSpeed;
 		if (p != null)
 		{
 			path = p;
@@ -54,26 +61,25 @@ public class Enemy: MonoBehaviour
 
 	public virtual void UpdateEnemy(Character character)
 	{
-		if(target)
+		target = DetectTarget();
+		if (target != null)
 		{
-			if (Vector3.Distance(transform.position, target.position)
-			<= Stats[GameConfig.STAT_TYPE.ATTACK_RANGE])
+			Transform targetTransform = (target as MonoBehaviour).transform;
+			if (Vector3.Distance(transform.position, targetTransform.position)
+			<= _attackRange)
 			{
 				//stop walking and start attacking.
 				enemyAgent.SetDestination(transform.position);
 
-				RotateWeapon(target.position);
+				RotateWeapon(targetTransform.position);
 				weapon.AttemptAttack();
-
-				return;
+			} else
+			{
+				enemyAgent.SetDestination(targetTransform.position);
 			}
 
-			FindTarget();
-
 			return;
-		}
-
-		if(!IsDetectSuccessful(character))
+		} else
 		{
 			MovementBehaviour();
 		}
@@ -87,20 +93,21 @@ public class Enemy: MonoBehaviour
 			return;
 		}
 
-		if(Stats[GameConfig.STAT_TYPE.HP] > 0)
+		if(_HP > 0)
 		{
-			Stats[GameConfig.STAT_TYPE.HP] -= Damage;
-			Debug.Log($"Enemy hp: {Stats[GameConfig.STAT_TYPE.HP]}");
-			if(Stats[GameConfig.STAT_TYPE.HP] <= 0)
+			_HP -= Damage;
+			Debug.Log($"Enemy hp: {_HP}");
+			if(_HP <= 0)
 			{
 				OnDeath(DamageDirection, punch);
 			}
 		}
 	}
 
-	public virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
+	protected virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		Debug.Log("Enemy die");
+		LevelManager.Instance.damagables.Remove(this);
 		IsDead = true;
 		if (DamageDirection != null)
 		{
@@ -113,44 +120,40 @@ public class Enemy: MonoBehaviour
 		}
 	}
 
-	private bool IsDetectSuccessful(Character character)
+	protected virtual IDamagable DetectTarget()
 	{
-		if (character.myPet)
+		IDamagable target = null;
+		float maxPriority = -9999;
+		foreach (IDamagable damagable in LevelManager.Instance.damagables)
 		{
-			if (Vector3.Distance(transform.position, character.myPet.transform.position)
-			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
+			Transform damagableTransform = (damagable as MonoBehaviour).transform;
+			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= _detectRange)
 			{
-				target = character.myPet.transform;
+				if (damagableTransform.tag == this.tag)
+					continue;
 
-				return true;
+				if (damagableTransform.gameObject.GetComponent<IDamagable>().IsDead)
+					continue;
+				else
+				{
+					if (damagableTransform.gameObject.GetComponent<IDamagable>().AttackPriority > maxPriority)
+					{
+						target = damagableTransform.gameObject.GetComponent<IDamagable>();
+						maxPriority = damagableTransform.gameObject.GetComponent<IDamagable>().AttackPriority;
+					}
+				}
 			}
 		}
-
-		if (Vector3.Distance(transform.position, character.transform.position)
-			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
-		{
-			RotateWeapon(character.transform.position);
-			weapon.AttemptAttack();
-			target = character.transform;
-
-			return true;
-		}
-
-		return false;
+		return target;
 	}
 
-	private void RotateWeapon(Vector3 location)
+	protected void RotateWeapon(Vector3 location)
 	{
 		var q = Quaternion.LookRotation(location - transform.position);
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, _turningSpeed * Time.deltaTime);
 	}
 
-	private void FindTarget()
-	{
-		enemyAgent.SetDestination(target.transform.position);
-	}
-
-	private void MovementBehaviour()
+	protected virtual void MovementBehaviour()
 	{
 		if (enemyAgent == null)
 		{
@@ -169,6 +172,22 @@ public class Enemy: MonoBehaviour
 		}
 	}
 
+	protected virtual IEnumerator Skill()
+	{
+		yield return null;
+	}
+
+	[ExecuteInEditMode]
+	private void OnDrawGizmos()
+	{
+		if (soStats != null && Selection.Contains(gameObject))
+		{
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawWireSphere(transform.position, soStats.DETECT_RANGE);
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere(transform.position, soStats.ATTACK_RANGE_DEFAULT);
+		}
+	}
 	#endregion
 }
 

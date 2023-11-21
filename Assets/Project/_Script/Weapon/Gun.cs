@@ -91,11 +91,13 @@ public class Gun: IWeapon
 	protected IEnumerator IE_Reload()
 	{
 		isReloading = true;
-		character.SetWorldText("Reloading...");
+		if (character)
+			character.SetWorldText("Reloading...");
 
 		yield return new WaitForSeconds(_reloadTime);
 		currentBulletQuantity = _magazineCapacity;
-		character.SetWorldText("");
+		if (character)
+			character.SetWorldText("");
 		isReloading = false;
 	}
 

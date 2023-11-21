@@ -29,7 +29,7 @@ public class Character3 : Character
 
 		if (myPet != null)
 		{
-			if (!myPet.IsDeath)
+			if (!myPet.IsDead)
 			{
 				myPet.UpdatePet(enemies);
 			}

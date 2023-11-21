@@ -62,6 +62,11 @@ public class Bullet: MonoBehaviour
 		{
 			return;
 		}
+
+		if (IsCollideWithWall(collider))
+		{
+			return;
+		}
 	}
 
 	private bool IsCollideWithEnemy(Collider collider)
@@ -94,6 +99,18 @@ public class Bullet: MonoBehaviour
 		if (pet)
 		{
 			pet.TakenDamage(dame);
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool IsCollideWithWall(Collider collider)
+	{
+		BulletproofWall wall = collider.GetComponent<BulletproofWall>();
+		if (wall)
+		{
+			wall.TakenDamage(dame);
 			return true;
 		}
 
