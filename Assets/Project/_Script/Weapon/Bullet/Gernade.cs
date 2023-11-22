@@ -7,22 +7,20 @@ public class Gernade : MonoBehaviour
     [SerializeField] protected float explosionTimer, _explosionRadius, _damage;
     [SerializeField] protected bool _damageScaleWithDistance;
 
-    Character player;
-
     void Start()
     {
-        player = Character.Instance;
         StartCoroutine(ignoreCollision());
     }
 
     IEnumerator ignoreCollision()
     {
-        Physics.IgnoreCollision(this.GetComponent<Collider>(), player.GetComponent<Collider>());
+        Debug.Log(Character.Instance.gameObject.GetComponent<Collider>());
+        //Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), Character.Instance.gameObject.GetComponent<Collider>());
         yield return new WaitForSeconds(0.1f);
-        Physics.IgnoreCollision(this.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+        //Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), Character.Instance.gameObject.GetComponent<Collider>(), false);
     }
 
-    void Update()
+    public virtual void Update()
     {
         if (explosionTimer > 0)
         {
@@ -49,6 +47,7 @@ public class Gernade : MonoBehaviour
                     hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(_damage);
             }
         }
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 

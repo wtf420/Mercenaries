@@ -62,12 +62,8 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-    }
 
-    void Start()
-    {
         damagables = new List<IDamagable>();
-        
         character = GameObject.FindObjectOfType<Character>();
         if (character == null)
             switch (GameManager.Instance.SelectedCharacter)
@@ -93,7 +89,10 @@ public class LevelManager : MonoBehaviour
                     break;
             }
         character.Initialize();
+    }
 
+    void Start()
+    {
         myCamera = Camera.main.gameObject.GetComponent<CameraController>();
         myCamera.Initialize();
 

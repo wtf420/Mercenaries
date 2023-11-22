@@ -58,7 +58,7 @@ public class Character : MonoBehaviour, IDamagable
 	{
 		Character character = Instantiate(Resources.Load<Character>("_Prefabs/Characters/Character"), parent);
 		character.transform.position = position;
-
+		
 		return character;
 	}
 
@@ -125,7 +125,7 @@ public class Character : MonoBehaviour, IDamagable
 
 	public void MouseController()
 	{
-		mousePos = GetMousePosition();
+		mousePos = GetWorldMousePosition();
 		RotateWeapon();
 
 		if (Input.GetMouseButton(0))
@@ -284,7 +284,7 @@ public class Character : MonoBehaviour, IDamagable
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
 	}
 
-	public Vector3 GetMousePosition()
+	public Vector3 GetWorldMousePosition()
 	{
 		Plane plane = new Plane(Vector3.up, transform.position);
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -707,6 +707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons: []
   soStats: {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
+  invulnerable: 0
   worldCanvas: {fileID: 8716066031764227126}
   screenCanvas: {fileID: 996022756082669384}
   healthbar: {fileID: 4728601169773927339}
@@ -720,6 +721,8 @@ MonoBehaviour:
   dashForce: 50
   dashTime: 0.1
   WallDimension: {x: 5, y: 2, z: 0.1}
+  wallHP: 100
+  wallDuration: Infinity
   wallCoolDown: 3
 --- !u!1 &8737201074905464904
 GameObject:
@@ -962,6 +965,10 @@ PrefabInstance:
       propertyPath: gernadePrefab
       value: 
       objectReference: {fileID: 7338858789482379710, guid: f5208531eda058b4f9223e35ceeefdea, type: 3}
+    - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
+      propertyPath: throwAngleOffset
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
 --- !u!4 &370180728850408070 stripped

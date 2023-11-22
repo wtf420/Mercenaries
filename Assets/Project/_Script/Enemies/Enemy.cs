@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -25,7 +25,7 @@ public class Enemy: MonoBehaviour, IDamagable
 	protected float _HP;
 	protected float _detectRange;
 	protected float _attackRange;
-	[SerializeField] protected float _turningSpeed;
+	protected float _turningSpeed;
 
 	protected IDamagable target;
 	#endregion
@@ -95,7 +95,7 @@ public class Enemy: MonoBehaviour, IDamagable
 		if(_HP > 0)
 		{
 			_HP -= Damage;
-			Debug.Log($"Enemy hp: {_HP}");
+			//Debug.Log($"Enemy hp: {_HP}");
 			if(_HP <= 0)
 			{
 				OnDeath(DamageDirection, punch);
@@ -105,7 +105,7 @@ public class Enemy: MonoBehaviour, IDamagable
 
 	protected virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
 	{
-		Debug.Log("Enemy die");
+		//Debug.Log("Enemy die");
 		LevelManager.Instance.damagables.Remove(this);
 		IsDead = true;
 		if (DamageDirection != null)

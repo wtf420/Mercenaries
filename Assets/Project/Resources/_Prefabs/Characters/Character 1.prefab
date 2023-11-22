@@ -992,6 +992,10 @@ PrefabInstance:
       propertyPath: soStats
       value: 
       objectReference: {fileID: 11400000, guid: c3b5c0333e570704daff6b3d4b326243, type: 2}
+    - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
+      propertyPath: throwAngleOffset
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
 --- !u!4 &6475861987554449148 stripped

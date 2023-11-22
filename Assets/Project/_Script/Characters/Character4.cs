@@ -71,7 +71,7 @@ public class Character4 : Character
 	IEnumerator PlaceWall()
 	{
 		canPlaceWall = false;
-		var wall = BulletproofWall.Create(WallDimension, wallHP, wallDuration, transform.position, weapons[0]._Weapon.transform.rotation);
+		var wall = BulletproofWall.Create(WallDimension, wallHP, wallDuration, GetWorldMousePosition(), weapons[0]._Weapon.transform.rotation);
 		wall.Initialize();
 		wall.tag = this.tag;
 		yield return new WaitForSeconds(wallCoolDown);

@@ -8,7 +8,7 @@ public class Thrower : IWeapon
     #region Fields & Properties
     [SerializeField] SO_WeaponThrowerStats soStats;
     [SerializeField] GameObject gernadePrefab;
-    public Vector3 throwAngleOffset;
+    public float throwAngleOffset = 30; //in degrees
 
     protected float _damage;
     protected float _attackRange;
@@ -63,9 +63,26 @@ public class Thrower : IWeapon
         attackable = false;
         currentGernadeCount--;
         GameObject gernade = Instantiate(gernadePrefab, this.transform.position, new Quaternion());
-        gernade.GetComponent<Rigidbody>().AddForce((transform.forward + throwAngleOffset).normalized * _throwforce, ForceMode.Impulse);
+        gernade.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Throw(Character.Instance.GetWorldMousePosition(), gernade);
+        //gernade.GetComponent<Rigidbody>().AddForce((transform.forward + throwAngleOffset).normalized * _throwforce, ForceMode.Impulse);
         yield return new WaitForSeconds(delayBetweenThrow);
         attackable = true;
+    }
+
+    void Throw(Vector3 target, GameObject gernade)
+    {
+        Vector3 direction = target - gernade.transform.position;
+        float h = direction.y;
+        direction.y = 0;
+        float distance = direction.magnitude;
+        float a = throwAngleOffset * Mathf.Deg2Rad;
+        direction.y = distance * Mathf.Tan(a);
+        distance += h / Mathf.Tan(a);
+
+        // calculate velocity
+        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+        gernade.GetComponent<Rigidbody>().AddForce(velocity * direction.normalized, ForceMode.Impulse);
     }
 
     #endregion

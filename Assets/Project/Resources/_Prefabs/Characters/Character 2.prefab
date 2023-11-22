@@ -268,6 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons: []
   soStats: {fileID: 11400000, guid: b01a2edb0617b8b429743c3ff136b214, type: 2}
+  invulnerable: 0
   worldCanvas: {fileID: 864132232087853552}
   screenCanvas: {fileID: 145677184695053749}
   healthbar: {fileID: 6851440792850343240}
@@ -956,6 +957,10 @@ PrefabInstance:
       propertyPath: soStats
       value: 
       objectReference: {fileID: 11400000, guid: c3b5c0333e570704daff6b3d4b326243, type: 2}
+    - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
+      propertyPath: throwAngleOffset
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
 --- !u!4 &6152481514714394284 stripped
