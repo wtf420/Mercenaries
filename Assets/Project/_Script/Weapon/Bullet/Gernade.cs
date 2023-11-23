@@ -7,19 +7,6 @@ public class Gernade : MonoBehaviour
     [SerializeField] protected float explosionTimer, _explosionRadius, _damage;
     [SerializeField] protected bool _damageScaleWithDistance;
 
-    void Start()
-    {
-        StartCoroutine(ignoreCollision());
-    }
-
-    IEnumerator ignoreCollision()
-    {
-        Debug.Log(Character.Instance.gameObject.GetComponent<Collider>());
-        //Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), Character.Instance.gameObject.GetComponent<Collider>());
-        yield return new WaitForSeconds(0.1f);
-        //Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), Character.Instance.gameObject.GetComponent<Collider>(), false);
-    }
-
     public virtual void Update()
     {
         if (explosionTimer > 0)

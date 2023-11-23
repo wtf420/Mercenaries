@@ -12,15 +12,14 @@ public class Thrower : IWeapon
 
     protected float _damage;
     protected float _attackRange;
-    protected float _attackSpeed;
+    protected float _delayBetweenThrow;
     protected float _cooldown;
-    protected float _throwforce;
+    protected float _maxRange;
     protected int _maxGernadeCount;
 
     protected float cooldownTimer = 0f;
     protected bool attackable = true;
     protected int currentGernadeCount;
-    protected float delayBetweenThrow;
 
     #endregion
 
@@ -29,13 +28,11 @@ public class Thrower : IWeapon
     {
         Type = GameConfig.WEAPON.GERNADETHROWER;
         _damage = soStats.DAMAGE_DEFAULT;
-        _attackRange = soStats.ATTACK_RANGE_DEFAULT;
-        _attackSpeed = soStats.ATTACK_SPEED_DEFAULT;
+        _delayBetweenThrow = soStats.DELAY_BETWEEN_THROW;
         _cooldown = soStats.COOLDOWN;
-        _throwforce = soStats.THROWFORCE;
+        _maxRange = soStats.MAX_RANGE;
         _maxGernadeCount = soStats.MAX_GERNADE_COUNT;
 
-        delayBetweenThrow = 60f / _attackSpeed;
         currentGernadeCount = _maxGernadeCount;
     }
 
@@ -63,10 +60,20 @@ public class Thrower : IWeapon
         attackable = false;
         currentGernadeCount--;
         GameObject gernade = Instantiate(gernadePrefab, this.transform.position, new Quaternion());
+        gernade.tag = this.tag;
         gernade.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        Throw(Character.Instance.GetWorldMousePosition(), gernade);
-        //gernade.GetComponent<Rigidbody>().AddForce((transform.forward + throwAngleOffset).normalized * _throwforce, ForceMode.Impulse);
-        yield return new WaitForSeconds(delayBetweenThrow);
+        StartCoroutine(IgnoreCollision(gernade.gameObject));
+
+        Vector3 targetPosition;
+        if (this.tag == "Player") targetPosition = Character.Instance.GetWorldMousePosition();
+        else targetPosition = Character.Instance.transform.position;
+        if (Vector3.Distance(this.transform.position, targetPosition) > _maxRange)
+        {
+            targetPosition = this.transform.position + (targetPosition - this.transform.position).normalized * _maxRange;
+        }
+        Throw(targetPosition, gernade);
+
+        yield return new WaitForSeconds(_delayBetweenThrow);
         attackable = true;
     }
 
@@ -77,12 +84,27 @@ public class Thrower : IWeapon
         direction.y = 0;
         float distance = direction.magnitude;
         float a = throwAngleOffset * Mathf.Deg2Rad;
-        direction.y = distance * Mathf.Tan(a);
-        distance += h / Mathf.Tan(a);
+        if (Mathf.Tan(a) == 0)
+        {
+            gernade.GetComponent<Rigidbody>().AddForce(_maxRange * direction.normalized, ForceMode.Impulse);
+        }
+        else
+        {
+            direction.y = distance * Mathf.Tan(a);
+            distance += h / Mathf.Tan(a);
 
-        // calculate velocity
-        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
-        gernade.GetComponent<Rigidbody>().AddForce(velocity * direction.normalized, ForceMode.Impulse);
+            float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+            gernade.GetComponent<Rigidbody>().AddForce(velocity * direction.normalized, ForceMode.Impulse);
+        }
+
+    }
+
+    IEnumerator IgnoreCollision(GameObject a)
+    {
+        Debug.Log(transform.parent.gameObject);
+        Physics.IgnoreCollision(a.GetComponent<Collider>(), transform.parent.gameObject.GetComponent<Collider>(), true);
+        yield return new WaitForSeconds(0.1f);
+        Physics.IgnoreCollision(a.GetComponent<Collider>(), transform.parent.gameObject.GetComponent<Collider>(), false);
     }
 
     #endregion
