@@ -48,8 +48,11 @@ public class Enemy: MonoBehaviour, IDamageable
 			path = p;
 		}
 
-		weapon.Initialize();
-		weapon.tag = this.tag;
+		if(weapon)
+		{
+			weapon.Initialize();
+			weapon.tag = this.tag;
+		}
 	}
 
 	public virtual void UpdateEnemy(Character character)
@@ -113,7 +116,12 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 	}
 
-	private bool IsDetectSuccessful(Character character)
+	protected void FindTarget()
+	{
+		enemyAgent.SetDestination(target.transform.position);
+	}
+
+	protected bool IsDetectSuccessful(Character character)
 	{
 		if (character.myPet)
 		{
@@ -129,28 +137,14 @@ public class Enemy: MonoBehaviour, IDamageable
 		if (Vector3.Distance(transform.position, character.transform.position)
 			<= Stats[GameConfig.STAT_TYPE.DETECT_RANGE])
 		{
-			RotateWeapon(character.transform.position);
-			weapon.AttemptAttack();
 			target = character.transform;
-
 			return true;
 		}
 
 		return false;
 	}
 
-	private void RotateWeapon(Vector3 location)
-	{
-		var q = Quaternion.LookRotation(location - transform.position);
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
-	}
-
-	private void FindTarget()
-	{
-		enemyAgent.SetDestination(target.transform.position);
-	}
-
-	private void MovementBehaviour()
+	protected void MovementBehaviour()
 	{
 		if (enemyAgent == null)
 		{
@@ -159,7 +153,7 @@ public class Enemy: MonoBehaviour, IDamageable
 
 		Vector3 destination = path.GetNodePosition(currentPosition);
 		enemyAgent.SetDestination(destination);
-		if(Vector3.Distance(transform.position, destination) < 1f)
+		if (Vector3.Distance(transform.position, destination) < 1f)
 		{
 			currentPosition++;
 			if (currentPosition >= path.NodeCount())
@@ -167,6 +161,12 @@ public class Enemy: MonoBehaviour, IDamageable
 
 			//Debug.Log(currentPosition);
 		}
+	}
+
+	private void RotateWeapon(Vector3 location)
+	{
+		var q = Quaternion.LookRotation(location - transform.position);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
 	}
 
 	#endregion

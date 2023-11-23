@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db53010b6ebfb9749873886aa892431e, type: 3}
-  m_Name: Melee
+  m_Name: SuicideAttacker
   m_EditorClassIdentifier: 
   HP_DEFAULT: 100
-  DAMAGE_DEFAULT: 20
-  ATTACK_RANGE_DEFAULT: 3
+  DAMAGE_DEFAULT: 50
+  ATTACK_RANGE_DEFAULT: 2.5
   ATTACK_SPEED_DEFAULT: 1
-  MOVE_SPEED_DEFAULT: 6
+  MOVE_SPEED_DEFAULT: 10
   DETECT_RANGE: 6
