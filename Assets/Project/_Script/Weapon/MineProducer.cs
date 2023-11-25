@@ -7,7 +7,7 @@ using UnityEngine;
 public class MineProducer : IWeapon
 {
 	#region Fields & Properties
-	[SerializeField] float _maxBulletCount, _cooldown, _attackRange, _attackSpeed;
+	[SerializeField] float _maxBulletCount, _cooldown, _attackRange, _attackSpeed, _maxRange, _fuseTime;
 
 	private float currentBulletQuantity, cooldownTimer, delayBetweenThrow;
 	private bool canPlaceMine = true;

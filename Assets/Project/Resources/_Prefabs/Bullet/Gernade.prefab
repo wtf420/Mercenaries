@@ -130,4 +130,4 @@ MonoBehaviour:
   explosionTimer: 1
   _explosionRadius: 3
   _damage: 100
-  _damageScaleWithDistance: 1
+  _damageScaleWithDistance: 0

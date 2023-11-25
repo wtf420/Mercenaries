@@ -46,7 +46,7 @@ public class Enemy: MonoBehaviour, IDamagable
 		_HP = soStats.HP_DEFAULT;
 		_detectRange = soStats.DETECT_RANGE;
 		_attackRange = soStats.ATTACK_RANGE_DEFAULT;
-		
+		_turningSpeed = soStats.TURNING_SPEED;
 
 		enemyAgent.speed = _moveSpeed;
 		if (p != null)
@@ -64,28 +64,43 @@ public class Enemy: MonoBehaviour, IDamagable
 		if (target != null)
 		{
 			Transform targetTransform = (target as MonoBehaviour).transform;
-			if (Vector3.Distance(transform.position, targetTransform.position)
-			<= _attackRange)
+			if (Vector3.Distance(transform.position, targetTransform.position) <= _attackRange)
 			{
 				//stop walking and start attacking.
 				enemyAgent.SetDestination(transform.position);
-
 				RotateWeapon(targetTransform.position);
 				weapon.AttemptAttack();
 			} else
 			{
 				enemyAgent.SetDestination(targetTransform.position);
+				MovementBehaviour();
 			}
-
-			return;
+			Debug.DrawLine(transform.position, targetTransform.position, Color.blue);
 		} else
 		{
 			MovementBehaviour();
 		}
-
 	}
 
-	public virtual void TakenDamage(float Damage, Vector3? DamageDirection = null, float punch = 0.0f)
+	public virtual void TakenDamage(float Damage)
+	{
+		if (IsDead)
+		{
+			return;
+		}
+
+		if (_HP > 0)
+		{
+			_HP -= Damage;
+			//Debug.Log($"Enemy hp: {_HP}");
+			if (_HP <= 0)
+			{
+				OnDeath();
+			}
+		}
+	}
+
+	public virtual void TakenDamage(float Damage, Vector3? DamageDirection = null, float? punch = 0.0f)
 	{
 		if(IsDead)
 		{
@@ -98,7 +113,7 @@ public class Enemy: MonoBehaviour, IDamagable
 			//Debug.Log($"Enemy hp: {_HP}");
 			if(_HP <= 0)
 			{
-				OnDeath(DamageDirection, punch);
+				OnDeath(DamageDirection, (float)punch);
 			}
 		}
 	}

@@ -909,6 +909,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GernadeThrower
       objectReference: {fileID: 0}
+    - target: {fileID: 1549608953278574704, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1549608953278574705, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -956,14 +960,14 @@ PrefabInstance:
     - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
       propertyPath: soStats
       value: 
-      objectReference: {fileID: 11400000, guid: 3af0607cc1a3b3b4c998691741ef8e54, type: 2}
+      objectReference: {fileID: 11400000, guid: c3b5c0333e570704daff6b3d4b326243, type: 2}
     - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
       propertyPath: gernadePrefab
       value: 
-      objectReference: {fileID: 8360075332104661726, guid: ced1f54b4fc5bab4580164acf79d0f2a, type: 3}
+      objectReference: {fileID: 2506289262012767424, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
     - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
       propertyPath: throwAngleOffset
-      value: 70
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}

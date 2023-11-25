@@ -101,7 +101,6 @@ public class Thrower : IWeapon
 
     IEnumerator IgnoreCollision(GameObject a)
     {
-        Debug.Log(transform.parent.gameObject);
         Physics.IgnoreCollision(a.GetComponent<Collider>(), transform.parent.gameObject.GetComponent<Collider>(), true);
         yield return new WaitForSeconds(0.1f);
         Physics.IgnoreCollision(a.GetComponent<Collider>(), transform.parent.gameObject.GetComponent<Collider>(), false);

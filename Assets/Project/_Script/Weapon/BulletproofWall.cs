@@ -56,11 +56,10 @@ public class BulletproofWall : IWeapon, IDamagable
 
 	public void TakenDamage(float Damage)
 	{
-		Debug.Log(_HP);
-		if (_HP > 0)
+		if (_HP >= 0)
 		{
 			_HP -= Damage;
-			Debug.Log($"Enemy hp: {_HP}");
+			Debug.Log($"Wall hp: {_HP}");
 			if (_HP <= 0)
 			{
 				IsDead = true;

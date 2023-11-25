@@ -1290,11 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04522abe80bacb4a902c27574e8cf77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnEnemy: {fileID: 4180480237279032941, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
-  path: {fileID: 1181139569}
-  spawnAble: 1
-  enemySpawnLimit: 10
-  enemySpawnInterval: 1
+  waves: []
 --- !u!4 &1177938307
 Transform:
   m_ObjectHideFlags: 0
@@ -1403,17 +1399,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3511a48ee5134c345a0d3eea77c30259, type: 3}
---- !u!114 &1181139569 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7408836705498395879, guid: 3511a48ee5134c345a0d3eea77c30259, type: 3}
-  m_PrefabInstance: {fileID: 1181139568}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d69e258ab39ac6145a4ec86b322df5db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1196731271
 GameObject:
   m_ObjectHideFlags: 0
