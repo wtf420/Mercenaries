@@ -7,7 +7,7 @@ public class IWeapon : MonoBehaviour
     public GameConfig.WEAPON Type { get; protected set; }
     public virtual void Initialize() {}
     public virtual void AttemptAttack() {}
-    public virtual void AttemptReload() { }
+    public virtual void AttemptReload() {}
     protected void OnDestroy()
     {
         StopAllCoroutines();

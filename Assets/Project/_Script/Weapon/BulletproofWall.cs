@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public class BulletproofWall : IWeapon, IDamagable
+public class BulletproofWall : IWeapon, IDamageable
 {
 	#region Fields & Properties
 	[SerializeField] protected float _HP = 100f;

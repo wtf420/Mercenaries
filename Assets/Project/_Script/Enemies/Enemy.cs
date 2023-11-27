@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy: MonoBehaviour, IDamagable
+public class Enemy: MonoBehaviour, IDamageable
 {
 	#region Fields & Properties
 	[Header("_~* 	Prefabs, Weapons & Stats")]
@@ -27,7 +27,7 @@ public class Enemy: MonoBehaviour, IDamagable
 	protected float _attackRange;
 	protected float _turningSpeed;
 
-	protected IDamagable target;
+	protected IDamageable target;
 	#endregion
 
 	#region Methods
@@ -76,7 +76,6 @@ public class Enemy: MonoBehaviour, IDamagable
 			} else
 			{
 				enemyAgent.SetDestination(targetTransform.position);
-				MovementBehaviour();
 			}
 			Debug.DrawLine(transform.position, targetTransform.position, Color.blue);
 		} else
@@ -137,11 +136,11 @@ public class Enemy: MonoBehaviour, IDamagable
 		}
 	}
 
-	protected virtual IDamagable DetectTarget()
+	protected virtual IDamageable DetectTarget()
 	{
-		IDamagable target = null;
+		IDamageable target = null;
 		float maxPriority = -9999;
-		foreach (IDamagable damagable in LevelManager.Instance.damagables)
+		foreach (IDamageable damagable in LevelManager.Instance.damagables)
 		{
 			Transform damagableTransform = (damagable as MonoBehaviour).transform;
 			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= _detectRange)
@@ -149,14 +148,14 @@ public class Enemy: MonoBehaviour, IDamagable
 				if (damagableTransform.tag == this.tag)
 					continue;
 
-				if (damagableTransform.gameObject.GetComponent<IDamagable>().IsDead)
+				if (damagableTransform.gameObject.GetComponent<IDamageable>().IsDead)
 					continue;
 				else
 				{
-					if (damagableTransform.gameObject.GetComponent<IDamagable>().AttackPriority > maxPriority)
+					if (damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority > maxPriority)
 					{
-						target = damagableTransform.gameObject.GetComponent<IDamagable>();
-						maxPriority = damagableTransform.gameObject.GetComponent<IDamagable>().AttackPriority;
+						target = damagableTransform.gameObject.GetComponent<IDamageable>();
+						maxPriority = damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority;
 					}
 				}
 			}

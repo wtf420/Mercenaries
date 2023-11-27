@@ -57,7 +57,7 @@ public class SuicideAttacker : Enemy
 				continue;
 			}
 
-			IDamagable target = hit.collider.gameObject.GetComponent<IDamagable>();
+			IDamageable target = hit.collider.gameObject.GetComponent<IDamageable>();
 			if (target != null) 
 			{
 				target.TakenDamage(_damageDefault);

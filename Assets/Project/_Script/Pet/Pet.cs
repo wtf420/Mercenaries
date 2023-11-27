@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Pet : MonoBehaviour, IDamagable
+public class Pet : MonoBehaviour, IDamageable
 {
 	#region Fields & Properties
 

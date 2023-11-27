@@ -54,7 +54,7 @@ public class Sword : IWeapon
 			return;
 		}
 
-		IDamagable target = other.GetComponent<IDamagable>();
+		IDamageable target = other.GetComponent<IDamageable>();
 		if (target != null)
 		{
 			target.TakenDamage(_damage);

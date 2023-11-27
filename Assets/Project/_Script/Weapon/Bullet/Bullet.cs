@@ -47,7 +47,7 @@ public class Bullet: MonoBehaviour
 			return;
 		}
 		
-		IDamagable damagable = collider.GetComponent<IDamagable>();
+		IDamageable damagable = collider.GetComponent<IDamageable>();
 		if (damagable != null && !this.CompareTag(collider.tag))
 		{
 			if (collider.GetComponent<Enemy>())

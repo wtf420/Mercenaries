@@ -1,22 +1,28 @@
 using System.Collections;
-using System.Linq;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Gernade : MonoBehaviour
+public class SuicideBomb : IWeapon
 {
-    [SerializeField] protected float explosionTimer, _explosionRadius, _damage;
-    [SerializeField] protected bool _damageScaleWithDistance;
-
-    public virtual void Update()
+    [SerializeField] protected float _explosionTimer, _explosionRadius, _damage, _selfDamage;
+    [SerializeField] protected bool _damageScaleWithDistance, _damageAllies;
+    
+    public override void Initialize()
     {
-        if (explosionTimer > 0)
-        {
-            explosionTimer -= Time.deltaTime;
-        } else
-        {
-            Explode();
-        }
+        this.tag = transform.parent.tag;
+    }
+
+    public override void AttemptAttack()
+    {
+        StartCoroutine(Attack());
+    }
+
+    public override void AttemptReload() { }
+
+    IEnumerator Attack()
+    {
+        yield return new WaitForSeconds(_explosionTimer);
+        Explode();
     }
 
     protected virtual void Explode()
@@ -25,11 +31,11 @@ public class Gernade : MonoBehaviour
         RaycastHit[] info = Physics.SphereCastAll(this.transform.position, _explosionRadius, Vector3.up, 0, layermask);
         foreach (RaycastHit hit in info)
         {
-            if (this.tag == hit.transform.tag)
+            if ((_damageAllies && this.tag == hit.transform.tag) || (transform.root.gameObject == hit.collider.gameObject))
             {
                 continue;
             }
-            
+
             //check if theres a wall between
             bool c = false;
             Vector3 hitlocation = (hit.point == Vector3.zero) ? hit.transform.position : hit.point;
@@ -60,7 +66,11 @@ public class Gernade : MonoBehaviour
             Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
         StopAllCoroutines();
-        Destroy(gameObject);
+        Debug.Log(gameObject.GetComponent<IDamageable>());
+        if (gameObject.GetComponentInParent<IDamageable>() != null)
+        {
+            gameObject.GetComponentInParent<IDamageable>().TakenDamage(_selfDamage);
+        }
     }
 
     [ExecuteInEditMode]
@@ -74,4 +84,3 @@ public class Gernade : MonoBehaviour
         Gizmos.DrawWireSphere(this.transform.position, _explosionRadius);
     }
 }
-

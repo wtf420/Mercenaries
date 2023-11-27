@@ -12,7 +12,7 @@ public class DicWeapon
 	[SerializeField] public IWeapon _Weapon;
 }
 
-public class Character : MonoBehaviour, IDamagable
+public class Character : MonoBehaviour, IDamageable
 {
 	public static Character Instance { get; protected set; }
 
