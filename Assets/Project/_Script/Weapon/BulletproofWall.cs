@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class BulletproofWall : IWeapon, IDamagable
@@ -51,6 +52,20 @@ public class BulletproofWall : IWeapon, IDamagable
 		if (this.CompareTag(other.tag))
 		{
 			return;
+		}
+
+		//bounce back gernades
+		if (other.gameObject.GetComponent<Gernade>())
+		{
+			Rigidbody rb = other.GetComponent<Rigidbody>();
+			Vector3 direction = Vector3.Angle(transform.forward, rb.transform.position - this.transform.position) < 90f ?
+			transform.forward : -transform.forward;
+			//Debug.DrawRay(this.transform.position, direction, Color.blue, 5f);
+			//Debug.DrawRay(this.transform.position, other.transform.position - this.transform.position, Color.red, 5f);
+			direction = Vector3.Reflect(rb.velocity.normalized, direction);
+			direction = direction.normalized * rb.velocity.magnitude;
+			rb.AddForce(direction, ForceMode.Impulse);
+			//Debug.DrawRay(this.transform.position, direction, Color.green, 5f);
 		}
 	}
 

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6122080341522598807}
   - component: {fileID: 2143783793}
   - component: {fileID: 2143783794}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SuicideAttacker
   m_TagString: ENEMY
   m_Icon: {fileID: 0}
@@ -117,6 +117,7 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: ace20e8fde39ba041bd1a2a3e3a0a6d1, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
+  _damageDefault: 100
 --- !u!54 &2143783793
 Rigidbody:
   m_ObjectHideFlags: 0

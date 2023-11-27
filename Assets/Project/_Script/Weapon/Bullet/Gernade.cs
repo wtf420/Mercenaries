@@ -21,42 +21,33 @@ public class Gernade : MonoBehaviour
 
     protected virtual void Explode()
     {
-        RaycastHit[] info = Physics.SphereCastAll(this.transform.position, _explosionRadius, Vector3.up, _explosionRadius);
+        int layermask = LayerMask.GetMask("Damagables");
+        RaycastHit[] info = Physics.SphereCastAll(this.transform.position, _explosionRadius, Vector3.up, 0, layermask);
         foreach (RaycastHit hit in info)
         {
             if (this.tag == hit.transform.tag)
             {
                 continue;
             }
+            
+            //check if theres a wall between
             bool c = false;
-            RaycastHit[] info2 = Physics.RaycastAll(this.transform.position, hit.transform.position, Vector3.Distance(this.transform.position, hit.transform.position));
+            Vector3 hitlocation = (hit.point == Vector3.zero) ? hit.transform.position : hit.point;
+            RaycastHit[] info2 = Physics.RaycastAll(this.transform.position, hitlocation, Vector3.Distance(this.transform.position, hit.transform.position));
             foreach (RaycastHit hit2 in info2)
             {
                 //theres an object blocking
                 if (hit2.collider.gameObject.GetComponent<BulletproofWall>() || (hit2.collider.gameObject.GetComponent<IDamagable>() == null))
                 {
-                    if (hit2.collider.gameObject.GetComponent<BulletproofWall>())
-                    {
-                        if (_damageScaleWithDistance)
-                        {
-                            float distance = Vector3.Distance(this.transform.position, hit.point);
-                            hit2.collider.gameObject.GetComponent<BulletproofWall>().TakenDamage(_damage * (distance / _explosionRadius));
-                        }
-                        else
-                            hit2.collider.gameObject.GetComponent<BulletproofWall>().TakenDamage(_damage);
-                        return;
-                    }
                     c = true;
                 }
             }
-
             if (c) continue;
 
             if (hit.collider.gameObject.GetComponent<IDamagable>() != null)
             {
-                float distance = Vector3.Distance(this.transform.position, hit.point);
+                float distance = hit.distance;
                 float Damage = _damageScaleWithDistance ? _damage * (1 / (distance / _explosionRadius)) : _damage;
-                hit.collider.gameObject.GetComponent<IDamagable>().TakenDamage(Damage);
                 if (hit.collider.gameObject.GetComponent<Enemy>())
                 {
                     hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(Damage, hit.point - hit.transform.position, 10f);
@@ -66,6 +57,7 @@ public class Gernade : MonoBehaviour
                     hit.collider.gameObject.GetComponent<IDamagable>().TakenDamage(Damage);
                 }
             }
+            Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
         StopAllCoroutines();
         Destroy(gameObject);

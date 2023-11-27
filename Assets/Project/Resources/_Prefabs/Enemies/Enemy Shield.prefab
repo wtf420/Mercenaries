@@ -63,6 +63,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Shield
       objectReference: {fileID: 0}
+    - target: {fileID: 4180480237279032941, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4366011426774533674, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
       propertyPath: soStats
       value: 
@@ -118,7 +122,6 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: 06d49bb22de11d9479870c01b2a4a095, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
-  _turningSpeed: 180
   _offSet: {x: 0, y: 0, z: 2}
   _skillCooldown: 5
   _skillDuration: Infinity

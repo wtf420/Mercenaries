@@ -54,8 +54,11 @@ public class Enemy: MonoBehaviour, IDamagable
 			path = p;
 		}
 
-		weapon.Initialize();
-		weapon.tag = this.tag;
+		if (weapon)
+		{
+			weapon.Initialize();
+			weapon.tag = this.tag;
+		}
 	}
 
 	public virtual void UpdateEnemy(Character character)

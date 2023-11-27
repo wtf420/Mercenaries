@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2468711618574643045}
   - component: {fileID: 2468711618574643046}
   - component: {fileID: 2468711618574643047}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletProofWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,3 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8958edc955ae7247aadfe42cfaa0b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _HP: 0
+  remainingTime: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2506289262012767430}
   - component: {fileID: 2506289262012767425}
   - component: {fileID: 1313693705}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gernade
   m_TagString: Untagged
   m_Icon: {fileID: 0}

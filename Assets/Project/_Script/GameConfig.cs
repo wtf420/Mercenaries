@@ -39,6 +39,7 @@ public class GameConfig
 		MINE_PRODUCER = 2,
 		BULLETPROOF_WALL = 3,
 		SHOTGUN = 4,
+		SWORD = 5,
 	}
 
 	public enum CHARACTER

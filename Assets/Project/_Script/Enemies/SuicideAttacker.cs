@@ -7,6 +7,8 @@ public class SuicideAttacker : Enemy
 {
 	#region Fields & Properties
 
+	public float _damageDefault;
+
 	#endregion
 
 	#region Methods
@@ -19,22 +21,24 @@ public class SuicideAttacker : Enemy
 	public override void UpdateEnemy(Character character)
 	{
 		Debug.LogWarning(target);
-		if (target)
+		target = DetectTarget();
+		if (target != null)
 		{
-			if (Vector3.Distance(transform.position, target.position)
-			<= Stats[GameConfig.STAT_TYPE.ATTACK_RANGE])
+			Transform targetTransform = (target as MonoBehaviour).transform;
+			if (Vector3.Distance(transform.position, targetTransform.position)
+			< _attackRange)
 			{
 				Explode();
 
 				return;
+			} else
+			{
+				enemyAgent.SetDestination(targetTransform.position);
+				MovementBehaviour();
 			}
 
-			FindTarget();
-
 			return;
-		}
-
-		if (!IsDetectSuccessful(character))
+		} else
 		{
 			MovementBehaviour();
 		}
@@ -53,10 +57,10 @@ public class SuicideAttacker : Enemy
 				continue;
 			}
 
-			IDamageable target = hit.collider.GetComponent<IDamageable>();
+			IDamagable target = hit.collider.gameObject.GetComponent<IDamagable>();
 			if (target != null) 
 			{
-				target.TakenDamage(soStats.DAMAGE_DEFAULT);
+				target.TakenDamage(_damageDefault);
 			}
 		}
 

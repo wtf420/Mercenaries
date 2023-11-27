@@ -160,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 91957286427100139, guid: b1125c1ea31ea554481486e0204045df, type: 3}
     - target: {fileID: 2056973393869145788, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2056973393869145788, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -303,7 +303,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &333826396
 MonoBehaviour:
@@ -325,6 +325,67 @@ MonoBehaviour:
   speed: 100
   RotationSpeed: 1
   LookAtPlayer: 1
+--- !u!1001 &668801829
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2468711618574643040, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_Name
+      value: BulletProofWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643047, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: _HP
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468711618574643067, guid: b4703fb222535734288024b8f99e7852, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b4703fb222535734288024b8f99e7852, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +615,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &867276261
 GameObject:
@@ -718,11 +779,8 @@ MonoBehaviour:
     spawnSequences:
     - path: {fileID: 7408836704330430103}
       enemySpawnInfos:
-      - enemy: {fileID: 2041875179, guid: 26590205bcd417f47b13e51fc18408ed, type: 3}
-        quantity: 1
-        delayBetweenSpawn: 0.5
-      - enemy: {fileID: 4180480237279032931, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
-        quantity: 4
+      - enemy: {fileID: 2042706826893566567, guid: 469b5716bac5e344383869b686731cf7, type: 3}
+        quantity: 10
         delayBetweenSpawn: 0.5
       WaitType: 0
       delayPostSequence: 0
@@ -870,7 +928,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1721227653
 GameObject:
@@ -1167,7 +1225,7 @@ Transform:
   - {fileID: 1863030020}
   - {fileID: 9025689287094736680}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2378795891565473789
 Transform:

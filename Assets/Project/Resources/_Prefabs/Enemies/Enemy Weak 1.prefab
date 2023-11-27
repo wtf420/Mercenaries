@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4180480237279032931}
   - component: {fileID: 4180480237279032940}
   - component: {fileID: 179549275727554784}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Weak 1
   m_TagString: ENEMY
   m_Icon: {fileID: 0}
@@ -118,7 +118,6 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
-  _turningSpeed: 180
 --- !u!54 &4180480237279032940
 Rigidbody:
   m_ObjectHideFlags: 0
