@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] protected Character character;
     [SerializeField] protected List<Enemy> enemies;
     [SerializeField] CameraController myCamera;
-    public List<IDamageable> damagables;
+    public List<IDamageable> damageables;
 
     protected float possibleEnemyCount, enemiesLeft;
     #endregion
@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        damagables = new List<IDamageable>();
+        damageables = new List<IDamageable>();
         character = GameObject.FindObjectOfType<Character>();
         if (character == null)
             switch (GameManager.Instance.SelectedCharacter)

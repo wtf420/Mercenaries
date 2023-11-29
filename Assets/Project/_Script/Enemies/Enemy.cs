@@ -35,7 +35,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	public virtual void Initialize(Path p = null)
 	{
 		this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
-		LevelManager.Instance.damagables.Add(this);
+		LevelManager.Instance.damageables.Add(this);
 
 		enemyAgent = GetComponent<NavMeshAgent>();
 		characterRigidbody = GetComponent<Rigidbody>();
@@ -123,7 +123,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		//Debug.Log("Enemy die");
-		LevelManager.Instance.damagables.Remove(this);
+		LevelManager.Instance.damageables.Remove(this);
 		IsDead = true;
 		if (DamageDirection != null)
 		{
@@ -140,7 +140,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	{
 		IDamageable target = null;
 		float maxPriority = -9999;
-		foreach (IDamageable damagable in LevelManager.Instance.damagables)
+		foreach (IDamageable damagable in LevelManager.Instance.damageables)
 		{
 			Transform damagableTransform = (damagable as MonoBehaviour).transform;
 			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= _detectRange)

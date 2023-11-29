@@ -20,7 +20,7 @@ public class Pet : MonoBehaviour, IDamageable
 	public virtual void Initialize(string tag)
 	{
 		this.tag = tag;
-		LevelManager.Instance.damagables.Add(this);
+		LevelManager.Instance.damageables.Add(this);
 		Stats = new Dictionary<GameConfig.STAT_TYPE, float>();
 		IsDead = false;
 		attackable = true;
@@ -54,7 +54,7 @@ public class Pet : MonoBehaviour, IDamageable
 
 	protected virtual void OnDeath()
 	{
-		LevelManager.Instance.damagables.Remove(this);
+		LevelManager.Instance.damageables.Remove(this);
 	}
 
 	protected IEnumerator IE_Reload()

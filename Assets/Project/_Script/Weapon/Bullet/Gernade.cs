@@ -57,7 +57,7 @@ public class Gernade : MonoBehaviour
                     hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(Damage);
                 }
             }
-            Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
+            //Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
         StopAllCoroutines();
         Destroy(gameObject);

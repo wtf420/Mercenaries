@@ -12,7 +12,7 @@ public class Thrower : IWeapon
 
     protected float _damage;
     protected float _attackRange;
-    protected float _delayBetweenThrow;
+    protected float _delayBetweenAttack;
     protected float _cooldown;
     protected float _maxRange;
     protected int _maxGernadeCount;
@@ -28,7 +28,7 @@ public class Thrower : IWeapon
     {
         Type = GameConfig.WEAPON.GERNADETHROWER;
         _damage = soStats.DAMAGE_DEFAULT;
-        _delayBetweenThrow = soStats.DELAY_BETWEEN_THROW;
+        _delayBetweenAttack = soStats.DELAY_BETWEEN_THROW;
         _cooldown = soStats.COOLDOWN;
         _maxRange = soStats.MAX_RANGE;
         _maxGernadeCount = soStats.MAX_GERNADE_COUNT;
@@ -73,7 +73,7 @@ public class Thrower : IWeapon
         }
         Throw(targetPosition, gernade);
 
-        yield return new WaitForSeconds(_delayBetweenThrow);
+        yield return new WaitForSeconds(_delayBetweenAttack);
         attackable = true;
     }
 

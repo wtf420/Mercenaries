@@ -65,7 +65,7 @@ public class Character : MonoBehaviour, IDamageable
 	public virtual void Initialize()
 	{
 		Instance = this;
-		LevelManager.Instance.damagables.Add(this);
+		LevelManager.Instance.damageables.Add(this);
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
@@ -218,7 +218,7 @@ public class Character : MonoBehaviour, IDamageable
 
 	public virtual void OnDeath()
 	{
-		LevelManager.Instance.damagables.Remove(this);
+		LevelManager.Instance.damageables.Remove(this);
 		StopAllCoroutines();
 		IsDead = true;
 	}
