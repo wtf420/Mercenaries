@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class Enemy: MonoBehaviour, IDamageable
 {
@@ -31,14 +32,14 @@ public class Enemy: MonoBehaviour, IDamageable
 	#endregion
 
 	#region Methods
+	public UnityEvent<Enemy> OnDeathEvent;
 
 	public virtual void Initialize(Path p = null)
 	{
 		this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
-		LevelManager.Instance.damageables.Add(this);
-
 		enemyAgent = GetComponent<NavMeshAgent>();
 		characterRigidbody = GetComponent<Rigidbody>();
+		OnDeathEvent = new UnityEvent<Enemy>();
 
 		//SO_EnemyDefault stats = (SO_EnemyDefault)LevelManager.Instance.GetStats(GameConfig.SO_TYPE.ENEMY, (int)GameConfig.ENEMY.ENEMY_DEFAULT);
 		//SO_EnemyDefault stats = LevelManager.Instance.GetStats(this);
@@ -54,6 +55,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			path = p;
 		}
 
+		weapon = GetComponentInChildren<IWeapon>();
 		if (weapon)
 		{
 			weapon.Initialize();
@@ -61,7 +63,12 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 	}
 
-	public virtual void UpdateEnemy(Character character)
+	void Start()
+	{
+		LevelManager.Instance.damageables.Add(this);
+	}
+
+	public virtual void UpdateEnemy()
 	{
 		target = DetectTarget();
 		if (target != null)
@@ -97,7 +104,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			//Debug.Log($"Enemy hp: {_HP}");
 			if (_HP <= 0)
 			{
-				OnDeath();
+				IsDead = true;
 			}
 		}
 	}
@@ -115,24 +122,31 @@ public class Enemy: MonoBehaviour, IDamageable
 			//Debug.Log($"Enemy hp: {_HP}");
 			if(_HP <= 0)
 			{
-				OnDeath(DamageDirection, (float)punch);
+				IsDead = true;
 			}
 		}
 	}
 
-	protected virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
+	public virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		//Debug.Log("Enemy die");
 		LevelManager.Instance.damageables.Remove(this);
-		IsDead = true;
-		if (DamageDirection != null)
+		OnDeathEvent?.Invoke(this);
+		OnDeathEvent?.RemoveAllListeners();
+		if (!deleteUponDeath)
 		{
-			Vector3 damageDirection = (Vector3)DamageDirection;
+			if (DamageDirection != null)
+			{
+				Vector3 damageDirection = (Vector3)DamageDirection;
 
-			enemyAgent.enabled = false;
-			characterRigidbody.isKinematic = false;
-			characterRigidbody.freezeRotation = false;
-			characterRigidbody.AddForce(damageDirection.normalized * punch, ForceMode.Impulse);
+				enemyAgent.enabled = false;
+				characterRigidbody.isKinematic = false;
+				characterRigidbody.freezeRotation = false;
+				characterRigidbody.AddForce(damageDirection.normalized * punch, ForceMode.Impulse);
+			}
+		} else
+		{
+			Destroy(gameObject);
 		}
 	}
 

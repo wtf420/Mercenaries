@@ -16,7 +16,7 @@ public class EnemyShield : Enemy
     protected bool canUseSkill = true;
     protected bool shieldBroken = false;
 
-    public override void UpdateEnemy(Character character)
+    public override void UpdateEnemy()
     {
         target = DetectTarget();
         if (target != null)

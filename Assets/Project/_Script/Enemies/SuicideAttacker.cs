@@ -18,7 +18,7 @@ public class SuicideAttacker : Enemy
 		base.Initialize(p);
 	}
 
-	public override void UpdateEnemy(Character character)
+	public override void UpdateEnemy()
 	{
 		Debug.LogWarning(target);
 		target = DetectTarget();

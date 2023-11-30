@@ -89,18 +89,18 @@ public class LevelManager : MonoBehaviour
                     break;
             }
         character.Initialize();
-    }
-
-    void Start()
-    {
-        myCamera = Camera.main.gameObject.GetComponent<CameraController>();
-        myCamera.Initialize();
 
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         foreach (var enemy in enemies)
         {
             enemy.Initialize();
         }
+    }
+
+    void Start()
+    {
+        myCamera = Camera.main.gameObject.GetComponent<CameraController>();
+        myCamera.Initialize();
 
         possibleEnemyCount = enemies.Count;
         foreach (EnemySpawner es in GameObject.FindObjectsOfType<EnemySpawner>())
@@ -112,16 +112,15 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RemoveDeathEnemy();
-
         if (!character.IsDead)
             character.UpdateCharacter(enemies);
         myCamera.UpdateCamera();
         foreach (var enemy in enemies)
         {
             if (!enemy.IsDead)
-                enemy.UpdateEnemy(character);
+                enemy.UpdateEnemy();
         }
+        RemoveDeathEnemy();
 
         if (WinCondition())
         {
@@ -146,7 +145,7 @@ public class LevelManager : MonoBehaviour
                 if (enemies[i].deleteUponDeath)
                 {
                     enemies[i].StopAllCoroutines();
-                    Destroy(enemies[i].gameObject);
+                    enemies[i].OnDeath();
                 }
                 enemies.RemoveAt(i);
                 enemiesLeft -= 1;

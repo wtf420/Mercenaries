@@ -640,7 +640,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1177938306}
         m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: StartSpawnWave
+        m_MethodName: BeginSpawnWave
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -650,6 +650,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onEventsComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &867276261
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +700,6 @@ MonoBehaviour:
   currentGameMode: 0
   availableGameMode: 0000000001000000
   characterSpawner: {fileID: 1196731271}
-  scenario: {fileID: 1646092655}
   character: {fileID: 0}
   enemies: []
   myCamera: {fileID: 333826396}
@@ -818,6 +820,22 @@ MonoBehaviour:
         delayBetweenSpawn: 0.5
       WaitType: 0
       delayPostSequence: 1
+  - delayBeforeSpawn: 0.5
+    spawnSequences:
+    - path: {fileID: 7408836704330430103}
+      enemySpawnInfos:
+      - enemy: {fileID: 4180480237279032931, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
+        quantity: 10
+        delayBetweenSpawn: 0.5
+      WaitType: 0
+      delayPostSequence: 1
+  spawnedEnemies: []
+  OnWaveDoneSpawning:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAllCurrentWaveEnemyKilled:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1177938307
 Transform:
   m_ObjectHideFlags: 0
@@ -1255,6 +1273,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onEventsComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1863030019
 GameObject:
   m_ObjectHideFlags: 0

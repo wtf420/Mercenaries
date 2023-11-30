@@ -1,18 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] List<Wave> waves;
     public uint enemySpawnLimit { get; protected set; } //how much enemy will spawn
-    public List<Enemy> spawnedEnemies { get; protected set; }
+    public int currentWave { get; protected set; } //how much enemy will spawn
+    [SerializeField] protected List<Enemy> spawnedEnemies;
 
-    bool waveDoneSpawning;
-    int waveIndex;
+    public UnityEvent OnWaveDoneSpawning;
+    public UnityEvent<int> OnAllCurrentWaveEnemyKilled;
+
+    public bool _allCurrentWaveEnemyKilled { get; protected set; }
+    public bool _WaveDoneSpawning { get; protected set; }
 
     void Awake()
     {
+        currentWave = -1;
+        _allCurrentWaveEnemyKilled = true;
+        _WaveDoneSpawning = true;
         enemySpawnLimit = 0;
         foreach (Wave w in waves)
         {
@@ -22,42 +32,43 @@ public class EnemySpawner : MonoBehaviour
                     enemySpawnLimit += si.quantity;
             }
         }
+        spawnedEnemies = new List<Enemy>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        spawnedEnemies = new List<Enemy>();
-        StartCoroutine(SpawnEnemy());
+        // UnityAction<int> a = (int wave) => 
+        // {
+        //     wave = currentWave;
+        //     Debug.Log("Wave " + wave +": All enemies killed");
+        // };
+        // OnAllCurrentWaveEnemyKilled.AddListener(a);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (spawnedEnemies.Count != 0)
+        {
+            _allCurrentWaveEnemyKilled = false;
+        }
+        if (!_allCurrentWaveEnemyKilled && _WaveDoneSpawning && spawnedEnemies.Count == 0)
+        {
+            _allCurrentWaveEnemyKilled = true;
+            OnAllCurrentWaveEnemyKilled?.Invoke(1);
+        }
     }
 
-    IEnumerator SpawnEnemy()
+    public void BeginSpawnWave(int index)
     {
-        while (waveIndex < waves.Count)
-        {
-            waveDoneSpawning = false;
-            yield return new WaitForSeconds(waves[waveIndex].delayBeforeSpawn);
-            //Debug.Log("Spawning wave: " + waveIndex.ToString());
-            yield return StartCoroutine(SpawnWave(waves[waveIndex]));
-
-            //wait until wave down spawning and all enemies are dead, check every 0.2 sec
-            while (!waveDoneSpawning || spawnedEnemies.Count != 0)
-            {
-                yield return new WaitForSeconds(0.2f);
-            }
-
-            waveIndex++;
-        }
+        currentWave = index;
+        StartCoroutine(SpawnWave(waves[index]));
     }
 
     public IEnumerator SpawnWave(Wave wave)
     {
+        _WaveDoneSpawning = false;
         if (wave.spawnSequences.Count > 0)
         {
             int index = 0;
@@ -75,7 +86,6 @@ public class EnemySpawner : MonoBehaviour
             while (index < wave.spawnSequences.Count)
             {
                 //yield return new WaitForSeconds(wave.spawnSequences[index].delayPostSequence);
-
                 while (index < wave.spawnSequences.Count &&
                     wave.spawnSequences[index].WaitType == WaitBetweenSequenceType.Parallel)
                 {
@@ -91,19 +101,18 @@ public class EnemySpawner : MonoBehaviour
                     index++;
                 }
             }
-
-            waveDoneSpawning = true;
+            OnWaveDoneSpawning?.Invoke();
+            _WaveDoneSpawning = true;
         }
     }
 
     public IEnumerator SpawnSpawnSequence(SpawnSequence spawnSequence, int i)
     {
-        //Debug.Log("Spawning Sequence: " + i.ToString());
         foreach (SpawnInfo enemySpawnInfo in spawnSequence.enemySpawnInfos)
         {
             yield return StartCoroutine(Spawn(enemySpawnInfo, spawnSequence.path));
         }
-        yield return new WaitForSeconds(0);
+        yield return null;
     }
 
     public IEnumerator Spawn(SpawnInfo enemySpawnInfo, Path path)
@@ -114,6 +123,7 @@ public class EnemySpawner : MonoBehaviour
             spawnedEnemies.Add(e);
             LevelManager.Instance.AddEnemy(e);
             e.Initialize(path);
+            e.OnDeathEvent.AddListener(new UnityAction<Enemy>(OnEnemyDeath));
 
             yield return new WaitForSeconds(enemySpawnInfo.delayBetweenSpawn);
         }
@@ -130,5 +140,10 @@ public class EnemySpawner : MonoBehaviour
             foreach (SpawnSequence ss in w.spawnSequences)
                 Gizmos.DrawLine(this.transform.position, ss.path.GetNodePosition(0));
         }
+    }
+
+    private void OnEnemyDeath(Enemy e)
+    {
+        spawnedEnemies.Remove(e);
     }
 }
