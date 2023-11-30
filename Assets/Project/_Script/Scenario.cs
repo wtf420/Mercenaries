@@ -17,7 +17,7 @@ public class Scenario : MonoBehaviour
 
     [SerializeField]
     public List<GameEvent> gameEvents;
-    public UnityAction OnWinEvent, OnLoseEvent;
+    public UnityEvent OnWinEvent, OnLoseEvent;
 
     void Awake()
     {
@@ -29,19 +29,9 @@ public class Scenario : MonoBehaviour
     {
         UnityAction a = () =>
         {
-            Debug.Log("1");
+            InvokeGameEvent("Win");
         };
-        UnityAction b = () =>
-        {
-            Debug.Log("2");
-        };
-        UnityAction c = () =>
-        {
-            Debug.Log("3");
-        };
-        gameEvents[0].onEventsStart.AddListener(a);
-        gameEvents[0].Events.AddListener(b);
-        gameEvents[0].onEventsComplete.AddListener(c);
+        OnWinEvent.AddListener(a);
         InvokeGameEvent("Start");
     }
 
@@ -60,6 +50,5 @@ public class Scenario : MonoBehaviour
     public void InvokeGameEvent(string id)
     {
         StartCoroutine(gameEvents.FirstOrDefault(x => x.ID == id).Invoke());
-        
     }
 }

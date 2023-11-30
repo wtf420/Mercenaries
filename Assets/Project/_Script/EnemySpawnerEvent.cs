@@ -1,17 +1,19 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GameEvent : MonoBehaviour
+public class EnemySpawnerEvent : GameEvent
 {
-    [SerializeField] public string ID;
-    public UnityEvent Events;
-    public UnityEvent onEventsStart;
-    public UnityEvent onEventsComplete;
+    private EnemySpawner enemySpawner;
 
-    public virtual IEnumerator Invoke()
+    void Awake()
+    {
+        enemySpawner = GetComponent<EnemySpawner>();
+        Debug.Log(enemySpawner);
+    }
+
+    public override IEnumerator Invoke()
     {
         bool isDone = false;
         UnityAction action = () => isDone = true;
@@ -22,6 +24,7 @@ public class GameEvent : MonoBehaviour
         onEventsStart.Invoke();
         yield return new WaitUntil(() => isDone);
 
+        yield return StartCoroutine(enemySpawner.SpawnWave());
         isDone = false;
         Events.Invoke();
         yield return new WaitUntil(() => isDone);

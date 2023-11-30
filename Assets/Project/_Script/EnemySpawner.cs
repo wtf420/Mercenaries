@@ -5,38 +5,37 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class IEnumeratorEvent : UnityEvent<IEnumerator> { }
+
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] List<Wave> waves;
+    [SerializeField] Wave wave;
     public uint enemySpawnLimit { get; protected set; } //how much enemy will spawn
-    public int currentWave { get; protected set; } //how much enemy will spawn
     [SerializeField] protected List<Enemy> spawnedEnemies;
 
+    public IEnumeratorEvent SpawnEvent;
     public UnityEvent OnWaveDoneSpawning;
-    public UnityEvent<int> OnAllCurrentWaveEnemyKilled;
+    public UnityEvent OnAllEnemyKilled;
 
     public bool _allCurrentWaveEnemyKilled { get; protected set; }
     public bool _WaveDoneSpawning { get; protected set; }
 
     void Awake()
     {
-        currentWave = -1;
         _allCurrentWaveEnemyKilled = true;
         _WaveDoneSpawning = true;
         enemySpawnLimit = 0;
-        foreach (Wave w in waves)
+        foreach (SpawnSequence ss in wave.spawnSequences)
         {
-            foreach (SpawnSequence ss in w.spawnSequences)
-            {
-                foreach (SpawnInfo si in ss.enemySpawnInfos)
-                    enemySpawnLimit += si.quantity;
-            }
+            foreach (SpawnInfo si in ss.enemySpawnInfos)
+                enemySpawnLimit += si.quantity;
         }
         spawnedEnemies = new List<Enemy>();
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Start()    
     {
         // UnityAction<int> a = (int wave) => 
         // {
@@ -56,17 +55,11 @@ public class EnemySpawner : MonoBehaviour
         if (!_allCurrentWaveEnemyKilled && _WaveDoneSpawning && spawnedEnemies.Count == 0)
         {
             _allCurrentWaveEnemyKilled = true;
-            OnAllCurrentWaveEnemyKilled?.Invoke(1);
+            OnAllEnemyKilled?.Invoke();
         }
     }
 
-    public void BeginSpawnWave(int index)
-    {
-        currentWave = index;
-        StartCoroutine(SpawnWave(waves[index]));
-    }
-
-    public IEnumerator SpawnWave(Wave wave)
+    public IEnumerator SpawnWave()
     {
         _WaveDoneSpawning = false;
         if (wave.spawnSequences.Count > 0)
@@ -135,10 +128,12 @@ public class EnemySpawner : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(this.transform.position, 0.5f);
         Gizmos.color = Color.red;
-        foreach (Wave w in waves)
+        foreach (SpawnSequence ss in wave.spawnSequences)
         {
-            foreach (SpawnSequence ss in w.spawnSequences)
+            if (ss.path != null)
+            {
                 Gizmos.DrawLine(this.transform.position, ss.path.GetNodePosition(0));
+            }
         }
     }
 

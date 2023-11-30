@@ -125,9 +125,11 @@ public class LevelManager : MonoBehaviour
         if (WinCondition())
         {
             character.SetScreenText("You Win!");
+            Scenario.Instance.OnWinEvent?.Invoke();
         } else if (LoseCondition())
         {
             character.SetScreenText("You Lose!");
+            Scenario.Instance.OnLoseEvent?.Invoke();
         }
     }
 

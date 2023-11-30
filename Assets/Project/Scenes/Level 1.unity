@@ -585,74 +585,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 867276262}
-  - {fileID: 1177938307}
   - {fileID: 1646092654}
   m_Father: {fileID: 2115496813}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &847410558
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 847410559}
-  - component: {fileID: 847410560}
-  m_Layer: 0
-  m_Name: Spawn a lot of Enemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &847410559
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847410558}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1646092654}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &847410560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847410558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5bb4c2161cb59146afff72b24bd2a7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ID: Start
-  events:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1177938306}
-        m_TargetAssemblyTypeName: EnemySpawner, Assembly-CSharp
-        m_MethodName: BeginSpawnWave
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onEventsComplete:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &867276261
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1177938307}
   - component: {fileID: 1177938306}
+  - component: {fileID: 1177938308}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -810,30 +747,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04522abe80bacb4a902c27574e8cf77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - delayBeforeSpawn: 0.5
+  wave:
+    delayBeforeSpawn: 0
     spawnSequences:
     - path: {fileID: 7408836704330430103}
       enemySpawnInfos:
       - enemy: {fileID: 4180480237279032931, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
-        quantity: 10
+        quantity: 5
         delayBetweenSpawn: 0.5
       WaitType: 0
-      delayPostSequence: 1
-  - delayBeforeSpawn: 0.5
-    spawnSequences:
-    - path: {fileID: 7408836704330430103}
-      enemySpawnInfos:
-      - enemy: {fileID: 4180480237279032931, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
-        quantity: 10
-        delayBetweenSpawn: 0.5
-      WaitType: 0
-      delayPostSequence: 1
+      delayPostSequence: 0
   spawnedEnemies: []
+  SpawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
   OnWaveDoneSpawning:
     m_PersistentCalls:
       m_Calls: []
-  OnAllCurrentWaveEnemyKilled:
+  OnAllEnemyKilled:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1177938307
@@ -847,11 +778,32 @@ Transform:
   m_LocalPosition: {x: 25.7, y: 1, z: 46.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1721227654}
-  m_Father: {fileID: 801962673}
-  m_RootOrder: 1
+  m_Children: []
+  m_Father: {fileID: 1646092654}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1177938308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177938305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88056b6fff129104d8a39a86dc4d42f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: Start
+  Events:
+    m_PersistentCalls:
+      m_Calls: []
+  onEventsStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onEventsComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1196731271
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,10 +895,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 847410559}
+  - {fileID: 1177938307}
   - {fileID: 1812210454}
   m_Father: {fileID: 801962673}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1646092655
 MonoBehaviour:
@@ -961,8 +913,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEvents:
-  - {fileID: 847410560}
+  - {fileID: 1177938308}
   - {fileID: 1812210455}
+  OnWinEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLoseEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1658417768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,37 +1103,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662652543}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1721227653
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1721227654}
-  m_Layer: 0
-  m_Name: Wave 1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1721227654
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721227653}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1177938307}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1772567822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,8 +1184,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5bb4c2161cb59146afff72b24bd2a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: Win
-  events:
+  ID: Win
+  Events:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1662652543}
@@ -1273,6 +1200,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onEventsStart:
+    m_PersistentCalls:
+      m_Calls: []
   onEventsComplete:
     m_PersistentCalls:
       m_Calls: []
