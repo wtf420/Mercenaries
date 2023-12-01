@@ -17,38 +17,48 @@ public class Scenario : MonoBehaviour
 
     [SerializeField]
     public List<GameEvent> gameEvents;
-    public UnityEvent OnWinEvent, OnLoseEvent;
+    public UnityEvent OnStartEvent, OnWinEvent, OnLoseEvent;
 
     void Awake()
     {
         Destroy(instance);
         instance = this;
+
+        UnityAction a = () =>
+        {
+            InvokeGameEvent("End");
+        };
+
+        OnWinEvent?.AddListener(a);
+        OnLoseEvent?.AddListener(a);
+        UnityAction b = () =>
+        {
+            InvokeGameEvent("Start");
+        };
+        OnStartEvent?.AddListener(b);
     }
 
     void Start()
     {
-        UnityAction a = () =>
-        {
-            InvokeGameEvent("Win");
-        };
-        OnWinEvent.AddListener(a);
-        InvokeGameEvent("Start");
-    }
-
-    [ExecuteInEditMode]
-    void OnValidate()
-    {
-        gameEvents.Clear();
-        gameEvents.AddRange(this.GetComponentsInChildren<GameEvent>());
+        OnStartEvent?.Invoke();
     }
 
     public void InvokeGameEvent(int index)
     {
-        StartCoroutine(gameEvents[index].Invoke());
+        GameEvent e = gameEvents[index];
+        if (e != null)
+            StartCoroutine(e.Invoke());
     }
 
     public void InvokeGameEvent(string id)
     {
-        StartCoroutine(gameEvents.FirstOrDefault(x => x.ID == id).Invoke());
+        GameEvent e = gameEvents.FirstOrDefault(x => x.ID == id);
+        if (e != null)
+            StartCoroutine(e.Invoke());
+    }
+
+    public GameEvent GetGameEvent(string id)
+    {
+        return gameEvents.FirstOrDefault(x => x.ID == id);
     }
 }

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemySpawnerEvent : GameEvent
+public class WaitForSecondsEvent : GameEvent
 {
-    private EnemySpawner enemySpawner;
+    [SerializeField] private float _startDelayTime, _endDelayTime;
 
-    void Awake()
+    public WaitForSecondsEvent(string i, float startDelayTime, float endDelayTime)
     {
-        enemySpawner = GetComponent<EnemySpawner>();
+        ID = i;
+        _startDelayTime = startDelayTime;
+        _endDelayTime = endDelayTime;
     }
 
     public override IEnumerator Invoke()
@@ -22,8 +24,8 @@ public class EnemySpawnerEvent : GameEvent
 
         onEventsStart.Invoke();
         yield return new WaitUntil(() => isDone);
+        yield return new WaitForSeconds(_startDelayTime);
 
-        yield return StartCoroutine(enemySpawner.SpawnWave());
         isDone = false;
         Events.Invoke();
         yield return new WaitUntil(() => isDone);
@@ -31,5 +33,6 @@ public class EnemySpawnerEvent : GameEvent
         isDone = false;
         onEventsComplete.Invoke();
         yield return new WaitUntil(() => isDone);
+        yield return new WaitForSeconds(_endDelayTime);
     }
 }
