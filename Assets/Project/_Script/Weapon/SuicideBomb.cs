@@ -31,7 +31,7 @@ public class SuicideBomb : IWeapon
         RaycastHit[] info = Physics.SphereCastAll(this.transform.position, _explosionRadius, Vector3.up, 0, layermask);
         foreach (RaycastHit hit in info)
         {
-            if ((_damageAllies && this.tag == hit.transform.tag) || (transform.parent.gameObject == hit.collider.gameObject))
+            if ((!_damageAllies && this.tag == hit.transform.tag) || (transform.parent.gameObject == hit.collider.gameObject))
             {
                 continue;
             }

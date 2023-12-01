@@ -21,7 +21,6 @@ public class Bullet: MonoBehaviour
 		this.direction = direction;
 
 		previousPosition = transform.position;
-
 		StartCoroutine(RangeRemaining());
 	}
 
@@ -46,7 +45,7 @@ public class Bullet: MonoBehaviour
 		{
 			return;
 		}
-		
+
 		IDamageable damagable = collider.GetComponent<IDamageable>();
 		if (damagable != null && !this.CompareTag(collider.tag))
 		{

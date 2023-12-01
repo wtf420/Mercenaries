@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameEventTrigger : MonoBehaviour
 {
-    public GameEvent gameEvent;
+    public List<GameEvent> gameEvent;
     [SerializeField] protected bool OneTimeUseOnly = false;
 
     protected bool Used = false;
@@ -16,7 +16,8 @@ public class GameEventTrigger : MonoBehaviour
             if (gameEvent != null)
             {
                 Debug.Log("Triggered");
-                StartCoroutine(gameEvent.Invoke());
+                foreach (GameEvent e in gameEvent)
+                    StartCoroutine(e.Invoke());
             }
             Used = true;
         }

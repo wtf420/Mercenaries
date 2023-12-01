@@ -28,12 +28,12 @@ public class SuicideAttacker : Enemy
 			if (Vector3.Distance(transform.position, targetTransform.position)
 			< _attackRange)
 			{
+				RotateWeapon(targetTransform.position);
 				Explode();
-
-				return;
 			} else
 			{
 				enemyAgent.SetDestination(targetTransform.position);
+				RotateWeapon(targetTransform.position);
 				MovementBehaviour();
 			}
 

@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6819bfdf0de92a2499d686beddffcbf4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,6 +118,9 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: ea49da12f48cd9b45926fbfd9f6bd425, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &1287872014273024173
 Rigidbody:
   m_ObjectHideFlags: 0

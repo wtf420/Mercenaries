@@ -27,7 +27,7 @@ public class Path : MonoBehaviour
     public void Clear()
     {
         pathNodes.Clear();
-    }
+    }   
 
     [ExecuteInEditMode]
     private void OnDrawGizmos()

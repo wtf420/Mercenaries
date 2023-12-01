@@ -5,13 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-// [Serializable]
-// public class DicSO
-// {
-//     [SerializeField] public GameConfig.SO_TYPE Type;
-//     [SerializeField] public List<ScriptableObject> Stats;
-// }
-
 public enum GameMode
 {
     Sweep,
@@ -109,7 +102,7 @@ public class LevelManager : MonoBehaviour
         enemiesLeft = possibleEnemyCount;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!character.IsDead)
             character.UpdateCharacter(enemies);
@@ -123,11 +116,11 @@ public class LevelManager : MonoBehaviour
 
         if (WinCondition())
         {
-            character.SetScreenText("You Win!");
+            //character.SetScreenText("You Win!");
             Scenario.Instance.OnWinEvent?.Invoke();
         } else if (LoseCondition())
         {
-            character.SetScreenText("You Lose!");
+            //character.SetScreenText("You Lose!");
             Scenario.Instance.OnLoseEvent?.Invoke();
         }
     }

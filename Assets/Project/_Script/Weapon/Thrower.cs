@@ -103,6 +103,7 @@ public class Thrower : IWeapon
     {
         Physics.IgnoreCollision(a.GetComponent<Collider>(), transform.parent.gameObject.GetComponent<Collider>(), true);
         yield return new WaitForSeconds(0.1f);
+        if (a != null)
         Physics.IgnoreCollision(a.GetComponent<Collider>(), transform.parent.gameObject.GetComponent<Collider>(), false);
     }
 

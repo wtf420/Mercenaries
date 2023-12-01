@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 4180480237279032929, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a7fe7139310e49d47bac538095d2e657, type: 2}
     - target: {fileID: 4180480237279032935, guid: 75b4d6cf2a742104a96b6b35bfcf6f02, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -122,6 +126,9 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: 06d49bb22de11d9479870c01b2a4a095, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _offSet: {x: 0, y: 0, z: 2}
   _skillCooldown: 5
   _skillDuration: Infinity

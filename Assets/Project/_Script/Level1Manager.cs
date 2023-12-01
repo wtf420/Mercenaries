@@ -6,15 +6,16 @@ public class Level1Manager : LevelManager
 {
     override public bool WinCondition()
     {
-        switch (currentGameMode)
-        {
-            default:
-                {
-                    if (enemiesLeft == 0)
-                        return true;
-                    else
-                        return false;
-                }
-        }
+        return false;
+        // switch (currentGameMode)
+        // {
+        //     default:
+        //         {
+        //             if (enemiesLeft == 0)
+        //                 return true;
+        //             else
+        //                 return false;
+        //         }
+        // }
     }
 }

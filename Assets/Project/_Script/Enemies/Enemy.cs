@@ -50,6 +50,10 @@ public class Enemy: MonoBehaviour, IDamageable
 		_turningSpeed = soStats.TURNING_SPEED;
 
 		enemyAgent.speed = _moveSpeed;
+		enemyAgent.angularSpeed = _turningSpeed;
+		enemyAgent.acceleration = _moveSpeed;
+
+		enemyAgent.speed = _moveSpeed;
 		if (p != null)
 		{
 			path = p;
@@ -83,6 +87,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			} else
 			{
 				enemyAgent.SetDestination(targetTransform.position);
+				RotateWeapon(targetTransform.position);
 			}
 			Debug.DrawLine(transform.position, targetTransform.position, Color.blue);
 		} else
@@ -179,6 +184,7 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	protected void RotateWeapon(Vector3 location)
 	{
+		Debug.Log(gameObject + " --- " + _turningSpeed);
 		var q = Quaternion.LookRotation(location - transform.position);
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, _turningSpeed * Time.deltaTime);
 	}

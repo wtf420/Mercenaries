@@ -27,7 +27,6 @@ public class EnemyShield : Enemy
             {
                 //stop walking and start attacking.
                 enemyAgent.SetDestination(transform.position);
-
                 RotateWeapon(targetTransform.position);
                 if (canUseSkill && !Shield)
                 {
@@ -38,6 +37,7 @@ public class EnemyShield : Enemy
             else
             {
                 enemyAgent.SetDestination(targetTransform.position);
+                RotateWeapon(targetTransform.position);
             }
         }
         else

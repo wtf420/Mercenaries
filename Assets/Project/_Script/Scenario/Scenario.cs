@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
 
 [System.Serializable]
 public class Scenario : MonoBehaviour
@@ -26,16 +27,19 @@ public class Scenario : MonoBehaviour
 
         UnityAction a = () =>
         {
+            Character.Instance.SetScreenText("You Win!");
             InvokeGameEvent("End");
         };
-
+        GetGameEvent("Win")?.onEventsStart.AddListener(a);
         OnWinEvent?.AddListener(a);
-        OnLoseEvent?.AddListener(a);
+
         UnityAction b = () =>
         {
-            InvokeGameEvent("Start");
+            Character.Instance.SetScreenText("You Lose!");
+            InvokeGameEvent("End");
         };
-        OnStartEvent?.AddListener(b);
+        GetGameEvent("Lose")?.onEventsStart.AddListener(b);
+        OnLoseEvent?.AddListener(b);
 
         // UnityAction c = () =>
         // {
@@ -66,5 +70,22 @@ public class Scenario : MonoBehaviour
     public GameEvent GetGameEvent(string id)
     {
         return gameEvents.FirstOrDefault(x => x.ID == id);
+    }
+}
+
+[CustomEditor(typeof(Scenario)), CanEditMultipleObjects]
+public class ScenarioEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        Scenario myTarget = (Scenario)target;
+
+        if (GUILayout.Button("GetAllEvent"))
+        {
+            myTarget.gameEvents.Clear();
+            myTarget.gameEvents.AddRange(GameObject.FindObjectsOfType<GameEvent>(true));
+        }
+
+        DrawDefaultInspector();
     }
 }
