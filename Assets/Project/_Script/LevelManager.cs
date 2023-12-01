@@ -64,6 +64,10 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
 
         damageables = new List<IDamageable>();
+    }
+
+    void Start()
+    {
         character = GameObject.FindObjectOfType<Character>();
         if (character == null)
             switch (GameManager.Instance.SelectedCharacter)
@@ -89,18 +93,13 @@ public class LevelManager : MonoBehaviour
                     break;
             }
         character.Initialize();
-
+        myCamera = Camera.main.gameObject.GetComponent<CameraController>();
+        myCamera.Initialize();
         enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         foreach (var enemy in enemies)
         {
             enemy.Initialize();
         }
-    }
-
-    void Start()
-    {
-        myCamera = Camera.main.gameObject.GetComponent<CameraController>();
-        myCamera.Initialize();
 
         possibleEnemyCount = enemies.Count;
         foreach (EnemySpawner es in GameObject.FindObjectsOfType<EnemySpawner>())

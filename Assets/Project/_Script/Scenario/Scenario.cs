@@ -36,6 +36,12 @@ public class Scenario : MonoBehaviour
             InvokeGameEvent("Start");
         };
         OnStartEvent?.AddListener(b);
+
+        // UnityAction c = () =>
+        // {
+        //     Debug.Log("First Event");
+        // };
+        // gameEvents[0].Events?.AddListener(c);
     }
 
     void Start()

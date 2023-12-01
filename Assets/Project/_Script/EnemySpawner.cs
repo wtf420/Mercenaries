@@ -18,12 +18,12 @@ public class EnemySpawner : MonoBehaviour
     public UnityEvent OnWaveDoneSpawning;
     public UnityEvent OnAllEnemyKilled;
 
-    public bool _allCurrentWaveEnemyKilled { get; protected set; }
+    public bool _allEnemyKilled { get; protected set; }
     public bool _WaveDoneSpawning { get; protected set; }
 
     void Awake()
     {
-        _allCurrentWaveEnemyKilled = true;
+        _allEnemyKilled = true;
         _WaveDoneSpawning = true;
         enemySpawnLimit = 0;
         foreach (SpawnSequence ss in wave.spawnSequences)
@@ -50,11 +50,11 @@ public class EnemySpawner : MonoBehaviour
     {
         if (spawnedEnemies.Count != 0)
         {
-            _allCurrentWaveEnemyKilled = false;
+            _allEnemyKilled = false;
         }
-        if (!_allCurrentWaveEnemyKilled && _WaveDoneSpawning && spawnedEnemies.Count == 0)
+        if (!_allEnemyKilled && _WaveDoneSpawning && spawnedEnemies.Count == 0)
         {
-            _allCurrentWaveEnemyKilled = true;
+            _allEnemyKilled = true;
             OnAllEnemyKilled?.Invoke();
         }
     }
