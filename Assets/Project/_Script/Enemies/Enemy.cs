@@ -21,6 +21,10 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected NavMeshAgent enemyAgent;
 	private int currentPosition = 0;
 
+	public Vector3 CurrentDestination { get; set; }
+
+	public bool IsInPatrolScope { get; set; }
+
 	[Header("_~* 	Movement & control")]
 	protected float _moveSpeed;
 	protected float _HP;
@@ -28,7 +32,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected float _attackRange;
 	protected float _turningSpeed;
 
-	protected IDamageable target;
+	protected Transform target;
 	#endregion
 
 	#region Methods
@@ -72,27 +76,27 @@ public class Enemy: MonoBehaviour, IDamageable
 		LevelManager.Instance.damageables.Add(this);
 	}
 
-	public virtual void UpdateEnemy()
+	public virtual void UpdateEnemy(PatrolScope patrolScope = null)
 	{
 		target = DetectTarget();
 		if (target != null)
 		{
-			Transform targetTransform = (target as MonoBehaviour).transform;
-			if (Vector3.Distance(transform.position, targetTransform.position) <= _attackRange)
+			if (Vector3.Distance(transform.position, target.position) <= _attackRange)
 			{
 				//stop walking and start attacking.
 				enemyAgent.SetDestination(transform.position);
-				RotateWeapon(targetTransform.position);
+				RotateWeapon(target.position);
 				weapon.AttemptAttack();
 			} else
 			{
-				enemyAgent.SetDestination(targetTransform.position);
-				RotateWeapon(targetTransform.position);
+				enemyAgent.SetDestination(target.position);
+				RotateWeapon(target.position);
 			}
-			Debug.DrawLine(transform.position, targetTransform.position, Color.blue);
-		} else
+			Debug.DrawLine(transform.position, target.position, Color.blue);
+		} 
+		else
 		{
-			MovementBehaviour();
+			MovementBehaviour(patrolScope);
 		}
 	}
 
@@ -155,30 +159,30 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 	}
 
-	protected virtual IDamageable DetectTarget()
+	protected virtual Transform DetectTarget()
 	{
-		IDamageable target = null;
+		Transform target = null;
 		float maxPriority = -9999;
 		foreach (IDamageable damagable in LevelManager.Instance.damageables)
 		{
+			if (damagable.IsDead)
+				continue;
+
 			Transform damagableTransform = (damagable as MonoBehaviour).transform;
+			if (damagableTransform.tag == this.tag)
+				continue;
+
 			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= _detectRange)
 			{
-				if (damagableTransform.tag == this.tag)
-					continue;
-
-				if (damagableTransform.gameObject.GetComponent<IDamageable>().IsDead)
-					continue;
-				else
+				if (damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority > maxPriority)
 				{
-					if (damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority > maxPriority)
-					{
-						target = damagableTransform.gameObject.GetComponent<IDamageable>();
-						maxPriority = damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority;
-					}
+					target = damagableTransform;
+					maxPriority = damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority;
 				}
+
 			}
 		}
+
 		return target;
 	}
 
@@ -189,23 +193,52 @@ public class Enemy: MonoBehaviour, IDamageable
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, _turningSpeed * Time.deltaTime);
 	}
 
-	protected virtual void MovementBehaviour()
+	protected virtual void MovementBehaviour(PatrolScope patrolScope)
 	{
 		if (enemyAgent == null)
 		{
 			return;
 		}
+		enemyAgent.SetDestination(CurrentDestination);
 
-		Vector3 destination = path.GetNodePosition(currentPosition);
-		enemyAgent.SetDestination(destination);
-		if(Vector3.Distance(transform.position, destination) < 1f)
+		if (target != null)
 		{
-			currentPosition++;
-			if (currentPosition >= path.NodeCount())
-				currentPosition = 0;
+			if (Vector3.Distance(target.position, transform.position) <= _detectRange)
+			{
+				enemyAgent.SetDestination(transform.position);
+			}
+			else if(target.GetComponent<IDamageable>().IsInPatrolScope)
+			{
+				enemyAgent.SetDestination(target.transform.position);
+			}
 
-			//Debug.Log(currentPosition);
+			return;
 		}
+
+		if(gameObject.GetComponent<SuicideAttacker>())
+			Debug.Log(Vector3.Distance(enemyAgent.destination, CurrentDestination));
+
+		if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
+		{
+			CurrentDestination = patrolScope.GetRandomDestination(enemyAgent.destination);
+		}
+
+		//Vector3 destination = path.GetNodePosition(currentPosition);
+		//enemyAgent.SetDestination(destination);
+		//if(Vector3.Distance(transform.position, destination) < 1f)
+		//{
+		//	currentPosition++;
+		//	if (currentPosition >= path.NodeCount())
+		//		currentPosition = 0;
+
+		//	//Debug.Log(currentPosition);
+		//}
+
+		//if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
+		//{
+			
+		//	//Debug.Log(currentPosition);
+		//}
 	}
 
 	protected virtual IEnumerator Skill()

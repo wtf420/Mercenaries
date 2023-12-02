@@ -14,6 +14,7 @@ public class BulletproofWall : IWeapon, IDamageable
 
 	public float AttackPriority { get; protected set; }
 	public bool IsDead { get; protected set; }
+	public bool IsInPatrolScope { get; set; }
 	#endregion
 
 	#region Methods

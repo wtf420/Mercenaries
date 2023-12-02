@@ -18,9 +18,9 @@ public class Melee : Enemy
 		base.Initialize(p);
 	}
 
-	public override void UpdateEnemy()
+	public override void UpdateEnemy(PatrolScope patrolScope = null)
 	{
-		base.UpdateEnemy();
+		base.UpdateEnemy(patrolScope);
 	}
 
 	#endregion

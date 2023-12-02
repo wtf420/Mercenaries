@@ -38,9 +38,10 @@ public class Character : MonoBehaviour, IDamageable
 	int currentWeapon = 0;
 
 	public float AttackPriority { get; protected set; }
-	public Pet myPet { get; protected set; }
+	public Pet MyPet { get; protected set; }
 	public GameConfig.CHARACTER Type { get; protected set; }
 	public bool IsDead { get; protected set; }
+	public bool IsInPatrolScope { get; set; }
 
 	protected float _HP;
 	protected float _damage;

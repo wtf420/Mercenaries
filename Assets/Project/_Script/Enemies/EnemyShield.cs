@@ -16,12 +16,12 @@ public class EnemyShield : Enemy
     protected bool canUseSkill = true;
     protected bool shieldBroken = false;
 
-    public override void UpdateEnemy()
+    public override void UpdateEnemy(PatrolScope patrolScope = null)
     {
         target = DetectTarget();
         if (target != null)
         {
-            Transform targetTransform = (target as MonoBehaviour).transform;
+            Transform targetTransform = target;
             if (Vector3.Distance(transform.position, targetTransform.position)
             <= _attackRange)
             {
@@ -42,7 +42,7 @@ public class EnemyShield : Enemy
         }
         else
         {
-            MovementBehaviour();
+            MovementBehaviour(patrolScope);
         }
 
         if (!Shield && shieldBroken)

@@ -31,9 +31,9 @@ public class Character1 : Character
 	{
 		base.UpdateCharacter();
 
-		if(myPet != null)
+		if(MyPet != null)
 		{
-			myPet.UpdatePet(enemies);
+			MyPet.UpdatePet(enemies);
 		}
 	}
 
@@ -41,7 +41,7 @@ public class Character1 : Character
 	{
 		base.KeyboardController();
 
-		if (myPet != null)
+		if (MyPet != null)
 		{
 			//return;
 		}

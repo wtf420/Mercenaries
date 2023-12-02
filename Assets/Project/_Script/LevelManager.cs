@@ -19,8 +19,8 @@ public class LevelManager : MonoBehaviour
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
     public GameObject characterSpawner;
 
-    //[SerializeField]
-    //public DataBank DataBank;
+    [SerializeField]
+    protected PatrolScope _patrolScope;
 
     private static LevelManager instance;
     public static LevelManager Instance
@@ -92,6 +92,7 @@ public class LevelManager : MonoBehaviour
         foreach (var enemy in enemies)
         {
             enemy.Initialize();
+            enemy.CurrentDestination = _patrolScope.GetRandomDestination(enemy.transform.position);
         }
 
         possibleEnemyCount = enemies.Count;
@@ -105,12 +106,21 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
         if (!character.IsDead)
+        {
             character.UpdateCharacter(enemies);
+            character.IsInPatrolScope = _patrolScope.IsPointInPolygon(character.transform.position);
+
+            if(character.MyPet)
+			{
+                character.MyPet.IsInPatrolScope = _patrolScope.IsPointInPolygon(character.MyPet.transform.position);
+            }
+        }
+
         myCamera.UpdateCamera();
         foreach (var enemy in enemies)
         {
             if (!enemy.IsDead)
-                enemy.UpdateEnemy();
+                enemy.UpdateEnemy(_patrolScope);
         }
         RemoveDeathEnemy();
 

@@ -27,16 +27,16 @@ public class Character2 : Character
 	{
 		base.UpdateCharacter();
 
-		if (myPet != null)
+		if (MyPet != null)
 		{
-			if(!myPet.IsDead)
+			if(!MyPet.IsDead)
 			{
-				myPet.UpdatePet(enemies);
+				MyPet.UpdatePet(enemies);
 			}
 			else
 			{
-				Destroy(myPet.gameObject);
-				myPet = null;
+				Destroy(MyPet.gameObject);
+				MyPet = null;
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class Character2 : Character
 	{
 		base.KeyboardController();
 
-		if (myPet != null)
+		if (MyPet != null)
 		{
 			return;
 		}
@@ -53,9 +53,9 @@ public class Character2 : Character
 		// Summon pet
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			myPet = Turret.Create();
-			myPet.transform.position = transform.position;
-			myPet.Initialize(this.tag);
+			MyPet = Turret.Create();
+			MyPet.transform.position = transform.position;
+			MyPet.Initialize(this.tag);
 
 			Debug.Log("SUMMON Turret");
 		}

@@ -29,16 +29,16 @@ public class Character4 : Character
 	{
 		base.UpdateCharacter();
 
-		if (myPet != null)
+		if (MyPet != null)
 		{
-			if (!myPet.IsDead)
+			if (!MyPet.IsDead)
 			{
-				myPet.UpdatePet(enemies);
+				MyPet.UpdatePet(enemies);
 			}
 			else
 			{
-				Destroy(myPet.gameObject);
-				myPet = null;
+				Destroy(MyPet.gameObject);
+				MyPet = null;
 			}
 		}
 	}
@@ -47,7 +47,7 @@ public class Character4 : Character
 	{
 		base.KeyboardController();
 
-		if (myPet != null)
+		if (MyPet != null)
 		{
 			return;
 		}

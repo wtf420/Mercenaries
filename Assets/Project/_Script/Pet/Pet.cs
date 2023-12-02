@@ -11,6 +11,7 @@ public class Pet : MonoBehaviour, IDamageable
 	public Dictionary<GameConfig.STAT_TYPE, float> Stats { get; protected set; }
 	public bool IsDead { get; protected set; }
 	public float AttackPriority { get; protected set; }
+	public bool IsInPatrolScope { get; set; }
 
 	protected Transform target;
 	protected bool attackable;

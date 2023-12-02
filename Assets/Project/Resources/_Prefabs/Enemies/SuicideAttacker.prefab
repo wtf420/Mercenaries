@@ -117,6 +117,9 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: ace20e8fde39ba041bd1a2a3e3a0a6d1, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _damageDefault: 100
 --- !u!54 &2143783793
 Rigidbody:

@@ -18,31 +18,29 @@ public class SuicideAttacker : Enemy
 		base.Initialize(p);
 	}
 
-	public override void UpdateEnemy()
+	public override void UpdateEnemy(PatrolScope patrolScope = null)
 	{
-		Debug.LogWarning(target);
 		target = DetectTarget();
 		if (target != null)
 		{
-			Transform targetTransform = (target as MonoBehaviour).transform;
-			if (Vector3.Distance(transform.position, targetTransform.position)
+			if (Vector3.Distance(transform.position, target.position)
 			< _attackRange)
 			{
-				RotateWeapon(targetTransform.position);
+				RotateWeapon(target.position);
 				Explode();
-			} else
+			} 
+			else
 			{
-				enemyAgent.SetDestination(targetTransform.position);
-				RotateWeapon(targetTransform.position);
-				MovementBehaviour();
+				enemyAgent.SetDestination(target.position);
+				RotateWeapon(target.position);
 			}
 
 			return;
-		} else
+		} 
+		else
 		{
-			MovementBehaviour();
+			MovementBehaviour(patrolScope);
 		}
-
 	}
 
 	private void Explode()
