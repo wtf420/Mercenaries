@@ -21,7 +21,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected NavMeshAgent enemyAgent;
 	private int currentPosition = 0;
 
-	public Vector3 CurrentDestination { get; set; }
+	public Vector3 CurrentDestination { get; set; } = Vector3.zero;
 
 	public bool IsInPatrolScope { get; set; }
 
@@ -205,6 +205,11 @@ public class Enemy: MonoBehaviour, IDamageable
 		if (!_patrolable)
 		{
 			return;
+		}
+
+		if(CurrentDestination == Vector3.zero)
+		{
+			CurrentDestination = patrolScope.GetRandomDestination(transform.position);
 		}
 
 		enemyAgent.SetDestination(CurrentDestination);

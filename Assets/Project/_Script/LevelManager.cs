@@ -92,7 +92,6 @@ public class LevelManager : MonoBehaviour
         foreach (var enemy in enemies)
         {
             enemy.Initialize();
-            enemy.CurrentDestination = _patrolScope.GetRandomDestination(enemy.transform.position);
         }
 
         possibleEnemyCount = enemies.Count;
@@ -128,7 +127,8 @@ public class LevelManager : MonoBehaviour
         {
             //character.SetScreenText("You Win!");
             Scenario.Instance.OnWinEvent?.Invoke();
-        } else if (LoseCondition())
+        } 
+        else if (LoseCondition())
         {
             //character.SetScreenText("You Lose!");
             Scenario.Instance.OnLoseEvent?.Invoke();
