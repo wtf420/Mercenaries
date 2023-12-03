@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public class GameConfig
 {
+	public const float TIME_STOP_AFTER_PATROLLING = 1f;
+
 	public enum COLLIDABLE_OBJECT
 	{
 		ENEMY = 0,

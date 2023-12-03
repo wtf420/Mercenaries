@@ -32,6 +32,8 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected float _attackRange;
 	protected float _turningSpeed;
 
+	protected bool _patrolable = true;
+
 	protected Transform target;
 	#endregion
 
@@ -199,6 +201,12 @@ public class Enemy: MonoBehaviour, IDamageable
 		{
 			return;
 		}
+
+		if (!_patrolable)
+		{
+			return;
+		}
+
 		enemyAgent.SetDestination(CurrentDestination);
 
 		if (target != null)
@@ -220,6 +228,7 @@ public class Enemy: MonoBehaviour, IDamageable
 
 		if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
 		{
+			StartCoroutine(IE_StopAwhile());
 			CurrentDestination = patrolScope.GetRandomDestination(enemyAgent.destination);
 		}
 
@@ -239,6 +248,13 @@ public class Enemy: MonoBehaviour, IDamageable
 			
 		//	//Debug.Log(currentPosition);
 		//}
+	}
+
+	protected IEnumerator IE_StopAwhile()
+	{
+		_patrolable = false;
+		yield return new WaitForSeconds(GameConfig.TIME_STOP_AFTER_PATROLLING);
+		_patrolable = true;
 	}
 
 	protected virtual IEnumerator Skill()
