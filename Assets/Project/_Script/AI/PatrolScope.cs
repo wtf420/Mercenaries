@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class Triangle
 {
@@ -10,7 +10,7 @@ public class Triangle
     public Vector3 Vertex3;
 }
 
-public class PatrolScope : MonoBehaviour
+public class PatrolScope : PathNode
 {
 	#region Fields & Properties
 	[SerializeField] protected List<Transform> _corners;
@@ -21,25 +21,27 @@ public class PatrolScope : MonoBehaviour
 	#region Methods
 	private void Awake()
 	{
-        _triangles = new List<Triangle>();
-		for(int i = 0; i < _corners.Count; i++)
-		{
-            for (int j = i + 1; j < _corners.Count; j++)
-			{
-                for (int k = j + 1; k < _corners.Count; k++)
-				{
-                    _triangles.Add(new Triangle()
-                    {
-                        Vertex1 = _corners[i].position,
-                        Vertex2 = _corners[j].position,
-                        Vertex3 = _corners[k].position
-                    });
-				}
-			}
-		}
+        if (_corners.Count >= 2)
+        {
+            _triangles = new List<Triangle>();
+            for (int i = 2; i < _corners.Count; i++)
+            {
+                _triangles.Add(new Triangle()
+                {
+                    Vertex1 = _corners[0].position,
+                    Vertex2 = _corners[i - 1].position,
+                    Vertex3 = _corners[i].position
+                });
+            }
+        }
 	}
 
-	public Vector3 GetRandomDestination(Vector3 transformPosition)
+    public override Vector3 GetNodePostion()
+    {
+        return GetRandomDestination(this.transform.position);
+    }
+
+    public Vector3 GetRandomDestination(Vector3 transformPosition)
 	{
         Vector3 GenVector = RandomWithinTriangle(_triangles[Random.Range(0, _triangles.Count)]);
 
@@ -109,11 +111,10 @@ public class PatrolScope : MonoBehaviour
             return;
 		}
 
-
-        for(int i = 0; i < _corners.Count; i++)
+        for(int i = 1; i < _corners.Count; i++)
 		{
             DebugExtension.DrawPoint(_corners[i].position);
-            for(int j = i + 1; j < _corners.Count; j++)
+            for(int j = 0; j < i; j++)
 			{
                 Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
                 Gizmos.DrawLine(_corners[i].position, _corners[j].position);

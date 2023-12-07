@@ -18,7 +18,7 @@ public class SuicideAttacker : Enemy
 		base.Initialize(p);
 	}
 
-	public override void UpdateEnemy(PatrolScope patrolScope = null)
+	public override void UpdateEnemy()
 	{
 		target = DetectTarget();
 		if (target != null)
@@ -39,7 +39,7 @@ public class SuicideAttacker : Enemy
 		} 
 		else
 		{
-			MovementBehaviour(patrolScope);
+			MovementBehaviour();
 		}
 	}
 

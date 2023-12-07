@@ -16,7 +16,7 @@ public class EnemyShield : Enemy
     protected bool canUseSkill = true;
     protected bool shieldBroken = false;
 
-    public override void UpdateEnemy(PatrolScope patrolScope = null)
+    public override void UpdateEnemy()
     {
         target = DetectTarget();
         if (target != null)
@@ -42,7 +42,7 @@ public class EnemyShield : Enemy
         }
         else
         {
-            MovementBehaviour(patrolScope);
+            MovementBehaviour();
         }
 
         if (!Shield && shieldBroken)
