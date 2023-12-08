@@ -19,8 +19,8 @@ public class LevelManager : MonoBehaviour
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
     public GameObject characterSpawner;
 
-    [SerializeField]
-    protected PatrolScope _patrolScope;
+    // [SerializeField]
+    // protected PatrolScope _patrolScope;
 
     private static LevelManager instance;
     public static LevelManager Instance
@@ -107,19 +107,19 @@ public class LevelManager : MonoBehaviour
         if (!character.IsDead)
         {
             character.UpdateCharacter(enemies);
-            character.IsInPatrolScope = _patrolScope.IsPointInPolygon(character.transform.position);
+            // character.IsInPatrolScope = _patrolScope.IsPointInPolygon(character.transform.position);
 
-            if(character.MyPet)
-			{
-                character.MyPet.IsInPatrolScope = _patrolScope.IsPointInPolygon(character.MyPet.transform.position);
-            }
+            // if(character.MyPet)
+			// {
+            //     character.MyPet.IsInPatrolScope = _patrolScope.IsPointInPolygon(character.MyPet.transform.position);
+            // }
         }
 
         myCamera.UpdateCamera();
         foreach (var enemy in enemies)
         {
             if (!enemy.IsDead)
-                enemy.UpdateEnemy(_patrolScope);
+                enemy.UpdateEnemy();
         }
         RemoveDeathEnemy();
 

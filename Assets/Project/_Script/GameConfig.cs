@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class GameConfig
 {
-	public const float TIME_STOP_AFTER_PATROLLING = 1f;
+	public const float TIME_STOP_AFTER_PATROLLING = 5f;
 
 	public enum COLLIDABLE_OBJECT
 	{

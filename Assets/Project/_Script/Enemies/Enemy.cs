@@ -20,7 +20,6 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	protected NavMeshAgent enemyAgent;
 	private int currentPosition = 0;
-
 	public Vector3 CurrentDestination { get; set; } = Vector3.zero;
 
 	public bool IsInPatrolScope { get; set; }
@@ -76,9 +75,10 @@ public class Enemy: MonoBehaviour, IDamageable
 	void Start()
 	{
 		LevelManager.Instance.damageables.Add(this);
+		CurrentDestination = path.GetNodePosition(currentPosition);
 	}
 
-	public virtual void UpdateEnemy(PatrolScope patrolScope = null)
+	public virtual void UpdateEnemy()
 	{
 		target = DetectTarget();
 		if (target != null)
@@ -98,7 +98,8 @@ public class Enemy: MonoBehaviour, IDamageable
 		} 
 		else
 		{
-			MovementBehaviour(patrolScope);
+			MovementBehaviour();
+			Debug.DrawLine(transform.position, CurrentDestination, Color.blue);
 		}
 	}
 
@@ -190,76 +191,82 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	protected void RotateWeapon(Vector3 location)
 	{
-		Debug.Log(gameObject + " --- " + _turningSpeed);
 		var q = Quaternion.LookRotation(location - transform.position);
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, _turningSpeed * Time.deltaTime);
 	}
 
-	protected virtual void MovementBehaviour(PatrolScope patrolScope)
+	protected virtual void MovementBehaviour()
 	{
-		if (enemyAgent == null)
-		{
-			return;
-		}
+		// if (enemyAgent == null)
+		// {
+		// 	return;
+		// }
 
-		if (!_patrolable)
-		{
-			return;
-		}
+		// if (!_patrolable)
+		// {
+		// 	return;
+		// }
 
-		if(CurrentDestination == Vector3.zero)
-		{
-			CurrentDestination = patrolScope.GetRandomDestination(transform.position);
-		}
+		// if(CurrentDestination == Vector3.zero)
+		// {
+		// 	CurrentDestination = patrolScope.GetRandomDestination(transform.position);
+		// }
 
+		// enemyAgent.SetDestination(CurrentDestination);
+
+		// if (target != null)
+		// {
+		// 	if (Vector3.Distance(target.position, transform.position) <= _detectRange)
+		// 	{
+		// 		enemyAgent.SetDestination(transform.position);
+		// 	}
+		// 	else if(target.GetComponent<IDamageable>().IsInPatrolScope)
+		// 	{
+		// 		enemyAgent.SetDestination(target.transform.position);
+		// 	}
+
+		// 	return;
+		// }
+
+		// if(gameObject.GetComponent<SuicideAttacker>())
+		// 	Debug.Log(Vector3.Distance(enemyAgent.destination, CurrentDestination));
+
+		// if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
+		// {
+		// 	StartCoroutine(IE_Patrol());
+		// 	CurrentDestination = patrolScope.GetRandomDestination(enemyAgent.destination);
+		// }
+
+		//Debug.Log("Node: " + currentPosition + " - Position: " + CurrentDestination);
 		enemyAgent.SetDestination(CurrentDestination);
-
-		if (target != null)
+		if(Vector3.Distance(transform.position, CurrentDestination) < 1f)
 		{
-			if (Vector3.Distance(target.position, transform.position) <= _detectRange)
+			if (path.GetNode(currentPosition).GetType() == typeof(PatrolScope))
 			{
-				enemyAgent.SetDestination(transform.position);
-			}
-			else if(target.GetComponent<IDamageable>().IsInPatrolScope)
+				if (_patrolable)
+				{
+					StartCoroutine(IE_Patrol());
+				}
+			} else
 			{
-				enemyAgent.SetDestination(target.transform.position);
+				currentPosition++;
+				if (currentPosition >= path.NodeCount())
+					currentPosition = 0;
+				CurrentDestination = path.GetNodePosition(currentPosition);
 			}
-
-			return;
 		}
-
-		if(gameObject.GetComponent<SuicideAttacker>())
-			Debug.Log(Vector3.Distance(enemyAgent.destination, CurrentDestination));
-
-		if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
-		{
-			StartCoroutine(IE_StopAwhile());
-			CurrentDestination = patrolScope.GetRandomDestination(enemyAgent.destination);
-		}
-
-		//Vector3 destination = path.GetNodePosition(currentPosition);
-		//enemyAgent.SetDestination(destination);
-		//if(Vector3.Distance(transform.position, destination) < 1f)
-		//{
-		//	currentPosition++;
-		//	if (currentPosition >= path.NodeCount())
-		//		currentPosition = 0;
-
-		//	//Debug.Log(currentPosition);
-		//}
-
-		//if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
-		//{
-			
-		//	//Debug.Log(currentPosition);
-		//}
 	}
 
-	protected IEnumerator IE_StopAwhile()
+	protected IEnumerator IE_Patrol()
 	{
 		_patrolable = false;
 		yield return new WaitForSeconds(GameConfig.TIME_STOP_AFTER_PATROLLING);
 		_patrolable = true;
+
+		currentPosition++;
+		if (currentPosition >= path.NodeCount())
+			currentPosition = 0;
+		CurrentDestination = path.GetNodePosition(currentPosition);
 	}
 
 	protected virtual IEnumerator Skill()

@@ -5,17 +5,29 @@ using UnityEngine;
 public class Path : MonoBehaviour
 {
     [SerializeField]
-    List<Transform> pathNodes;
+    protected List<PathNode> pathNodes;
 
     public Vector3 GetNodePosition(int index)
     {
-        if (index >= pathNodes.Count)
+        if (index >= pathNodes.Count || index < 0)
         {
             return Vector3.zero;
         }
         else
         {
-            return pathNodes[index].position;
+            return pathNodes[index].GetNodePostion();
+        }
+    }
+
+    public PathNode GetNode(int index)
+    {
+        if (index >= pathNodes.Count || index < 0)
+        {
+            return null;
+        }
+        else
+        {
+            return pathNodes[index];
         }
     }
 
@@ -38,13 +50,13 @@ public class Path : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (var node in pathNodes)
         {
-            if (node != null)
-                Gizmos.DrawSphere(node.position, 0.25f);
+            if (node != null || !(bool)(this.GetType() == typeof(PatrolScope)))
+                Gizmos.DrawSphere(node.transform.position, 0.25f);
         }
         for (int i = 1; i < pathNodes.Count; i++)
         {
             if (pathNodes[i] != null && pathNodes[i-1] != null)
-                Gizmos.DrawLine(pathNodes[i].position, pathNodes[i - 1].position);
+                Gizmos.DrawLine(pathNodes[i].transform.position, pathNodes[i - 1].transform.position);
         }
     }
 }

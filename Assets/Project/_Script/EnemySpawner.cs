@@ -132,7 +132,7 @@ public class EnemySpawner : MonoBehaviour
         {
             if (ss.path != null)
             {
-                Gizmos.DrawLine(this.transform.position, ss.path.GetNodePosition(0));
+                Gizmos.DrawLine(this.transform.position, ss.path.GetNode(0).transform.position);
             }
         }
     }
