@@ -177,10 +177,10 @@ public class Enemy: MonoBehaviour, IDamageable
 
 			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= _detectRange)
 			{
-				if (damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority > maxPriority)
+				if (damagable.AttackPriority > maxPriority)
 				{
 					target = damagableTransform;
-					maxPriority = damagableTransform.gameObject.GetComponent<IDamageable>().AttackPriority;
+					maxPriority = damagable.AttackPriority;
 				}
 
 			}
@@ -197,47 +197,6 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	protected virtual void MovementBehaviour()
 	{
-		// if (enemyAgent == null)
-		// {
-		// 	return;
-		// }
-
-		// if (!_patrolable)
-		// {
-		// 	return;
-		// }
-
-		// if(CurrentDestination == Vector3.zero)
-		// {
-		// 	CurrentDestination = patrolScope.GetRandomDestination(transform.position);
-		// }
-
-		// enemyAgent.SetDestination(CurrentDestination);
-
-		// if (target != null)
-		// {
-		// 	if (Vector3.Distance(target.position, transform.position) <= _detectRange)
-		// 	{
-		// 		enemyAgent.SetDestination(transform.position);
-		// 	}
-		// 	else if(target.GetComponent<IDamageable>().IsInPatrolScope)
-		// 	{
-		// 		enemyAgent.SetDestination(target.transform.position);
-		// 	}
-
-		// 	return;
-		// }
-
-		// if(gameObject.GetComponent<SuicideAttacker>())
-		// 	Debug.Log(Vector3.Distance(enemyAgent.destination, CurrentDestination));
-
-		// if (Vector3.Distance(transform.position, CurrentDestination) < 1f)
-		// {
-		// 	StartCoroutine(IE_Patrol());
-		// 	CurrentDestination = patrolScope.GetRandomDestination(enemyAgent.destination);
-		// }
-
-		//Debug.Log("Node: " + currentPosition + " - Position: " + CurrentDestination);
 		enemyAgent.SetDestination(CurrentDestination);
 		if(Vector3.Distance(transform.position, CurrentDestination) < 1f)
 		{
@@ -247,7 +206,8 @@ public class Enemy: MonoBehaviour, IDamageable
 				{
 					StartCoroutine(IE_Patrol());
 				}
-			} else
+			} 
+			else
 			{
 				currentPosition++;
 				if (currentPosition >= path.NodeCount())
