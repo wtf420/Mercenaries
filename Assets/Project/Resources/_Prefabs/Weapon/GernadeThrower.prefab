@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e352d414fa01b074f9e507f02211682b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soStats: {fileID: 11400000, guid: 04bf7091ec616d44fa0c032d62368eb0, type: 2}
+  soStats: {fileID: 11400000, guid: c3b5c0333e570704daff6b3d4b326243, type: 2}
   gernadePrefab: {fileID: 2506289262012767424, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
-  throwAngleOffset: {x: 0, y: 0.2, z: 0}
+  throwAngleOffset: 30

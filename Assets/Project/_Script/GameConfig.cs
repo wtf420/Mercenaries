@@ -65,5 +65,16 @@ public class GameConfig
 		TURRET = 1
 	}
 
+	public enum PICKABLE_TYPE
+	{
+		BUFF = 0,
+		ITEM,
+	}
+
+	public enum BUFF
+	{
+		HP = 0,
+		ATTACK,
+	}
 }
 
