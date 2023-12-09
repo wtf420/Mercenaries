@@ -5,12 +5,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class DicWeapon
-{
-	[SerializeField] public GameConfig.WEAPON _Type;
-	[SerializeField] public IWeapon _Weapon;
-}
+//[System.Serializable]
+//public class DicWeapon
+//{
+//	[SerializeField] public GameConfig.WEAPON _Type;
+//	[SerializeField] public IWeapon _Weapon;
+//}
 
 public class Character : MonoBehaviour, IDamageable
 {
@@ -18,7 +18,7 @@ public class Character : MonoBehaviour, IDamageable
 
 	#region Fields & Properties
 	[Header("_~* 	Prefabs, Weapons & Stats")]
-	[SerializeField] protected List<DicWeapon> weapons;
+	[SerializeField] protected List<IWeapon> weapons;
 	[SerializeField] protected SO_CharacterDefault soStats;
 	[SerializeField] protected bool invulnerable = false;
 
@@ -78,16 +78,14 @@ public class Character : MonoBehaviour, IDamageable
 
 		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
 		{
-			DicWeapon dw = new DicWeapon();
-			dw._Type = w.Type;
-			dw._Weapon = w;
-			weapons.Add(dw);
+			//DicWeapon dw = new DicWeapon();
+			//dw._Type = w.Type;
+			//dw._Weapon = w;
+			w.Initialize();
+			w.tag = this.tag;
+			weapons.Add(w);
 		}
-		foreach (var weapon in weapons)
-		{
-			weapon._Weapon.Initialize();
-			weapon._Weapon.tag = this.tag;
-		}
+
 		healthbar.minValue = 0;
 		healthbar.maxValue = _HP;
 		healthbar.value = _HP;
@@ -131,7 +129,7 @@ public class Character : MonoBehaviour, IDamageable
 
 		if (Input.GetMouseButton(0))
 		{
-			weapons[currentWeapon]._Weapon.AttemptAttack();
+			weapons[currentWeapon].AttemptAttack();
 		}
 	}
 
@@ -147,6 +145,31 @@ public class Character : MonoBehaviour, IDamageable
 				Debug.Log("Character die");
 				OnDeath();
 			}
+		}
+	}
+
+	public void TakenBuff(GameConfig.BUFF buff, float statBuff)
+	{
+		switch(buff)
+		{
+			case GameConfig.BUFF.HP:
+				_HP += statBuff;
+				break;
+
+			case GameConfig.BUFF.ATTACK:
+
+				break;
+		}
+	}
+
+	public void TakenWeapon(IWeapon weapon)
+	{
+		if (weapons.Count < 2)
+		{
+			weapon.gameObject.transform.SetParent(transform);
+			weapon.Initialize();
+			weapon.tag = this.tag;
+			weapons.Add(weapon);
 		}
 	}
 
@@ -229,26 +252,18 @@ public class Character : MonoBehaviour, IDamageable
 		// Main Weapon
 		if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
-			int index = 0;//weapons.FindIndex(weapon => weapon._Type == GameConfig.WEAPON.RIFLE);
-			if(index != -1)
-			{
-				currentWeapon = index;
-			}
+			currentWeapon = 0;
 			Debug.Log("Change to main weapon");
 		}
 
 		// Grenade
 		if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			// Maybe _Type can be change in the future, but Keypad1 will be the main Weapon of Character.
-			//int index = 1;
-			//if (index != -1)
-			//{
-			//	currentWeapon = index;
-			//}
-			currentWeapon = 1;
-			Debug.Log("Change to second weapon");
+			if(weapons.Count > 1)
+			{
+				currentWeapon = 1;
+				Debug.Log("Change to second weapon");
+			}
 		}
 	}
 
@@ -308,10 +323,10 @@ public class Character : MonoBehaviour, IDamageable
 	{
 		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
 		{
-			DicWeapon dw = new DicWeapon();
-			dw._Type = w.Type;
-			dw._Weapon = w;
-			weapons.Add(dw);
+			//DicWeapon dw = new DicWeapon();
+			//dw._Type = w.Type;
+			//dw._Weapon = w;
+			weapons.Add(w);
 		}
 	}
 	#endregion
