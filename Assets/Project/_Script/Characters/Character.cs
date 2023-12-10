@@ -169,6 +169,8 @@ public class Character : MonoBehaviour, IDamageable
 			weapon.gameObject.transform.SetParent(transform);
 			weapon.Initialize();
 			weapon.tag = this.tag;
+			weapon.transform.position = weapons[0].transform.position;
+			weapon.transform.rotation = weapons[0].transform.rotation;
 			weapons.Add(weapon);
 		}
 	}

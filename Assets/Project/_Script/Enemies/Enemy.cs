@@ -156,8 +156,19 @@ public class Enemy: MonoBehaviour, IDamageable
 				characterRigidbody.freezeRotation = false;
 				characterRigidbody.AddForce(damageDirection.normalized * punch, ForceMode.Impulse);
 			}
-		} else
+		}
+		else
 		{
+			float ratio = UnityEngine.Random.Range(0f, 1f);
+			if (ratio < GameConfig.RATIO_DROP_BUFF)
+			{
+				Item.CreateBuff(transform.position, GameConfig.BUFF.HP, 10f);
+			}
+			else if (ratio < GameConfig.RATIO_DROP_ITEM)
+			{
+				Item.CreateItem(transform.position, weapon);
+			}
+
 			Destroy(gameObject);
 		}
 	}

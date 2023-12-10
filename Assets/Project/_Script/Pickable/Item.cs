@@ -22,6 +22,28 @@ public class Item : MonoBehaviour, IPickable
 
 	#region Methods 
 
+	public static Item CreateBuff(Vector3 position, GameConfig.BUFF buffType, float stat = 0)
+	{
+		Item item = Instantiate(Resources.Load<Item>("_Prefabs/Pickable/OriginPickable"));
+		item._type = GameConfig.PICKABLE_TYPE.BUFF;
+		item._buffType = buffType;
+		item._statBuff = stat;
+		item.transform.position = position;
+
+		return item;
+	}
+
+	public static Item CreateItem(Vector3 position, IWeapon weapon)
+	{
+		Item item = Instantiate(Resources.Load<Item>("_Prefabs/Pickable/OriginPickable"));
+		item._type = GameConfig.PICKABLE_TYPE.ITEM;
+		item._weapon = weapon;
+		weapon.transform.SetParent(item.transform);
+		item.transform.position = position;
+
+		return item;
+	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if(other.CompareTag("ENEMY"))
