@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     #region Fields & Properties
 
-    public GameConfig.CHARACTER SelectedCharacter;
+    public GameConfig.CHARACTER SelectedCharacter = GameConfig.CHARACTER.CHARACTER_DEFAULT;
 
     public static GameManager Instance { get; protected set; }
     #endregion
