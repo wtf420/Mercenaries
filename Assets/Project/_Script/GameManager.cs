@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
         else
         {
-        	Debug.Log("Not null");
         	Destroy(gameObject);
         }
         DontDestroyOnLoad(Instance);
@@ -29,6 +28,11 @@ public class GameManager : MonoBehaviour
     public void BeginLevel(string levelname)
     {
         SceneManager.LoadScene(levelname);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
     #endregion
 }
