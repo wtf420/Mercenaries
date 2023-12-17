@@ -34,5 +34,7 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    public bool IsInPlayScene() => SceneManager.GetActiveScene().buildIndex != 0;
     #endregion
 }
