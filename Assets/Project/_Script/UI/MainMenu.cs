@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour, IUserInterface
     #region Fields and Properties
     [SerializeField] TMP_Dropdown _characterSelecting;
     [SerializeField] Button _startGame;
+    [SerializeField] Button _option;
 
     public UI Type { get; set; }
     #endregion
@@ -34,8 +35,10 @@ public class MainMenu : MonoBehaviour, IUserInterface
         });
         _characterSelecting.onValueChanged.AddListener(SetCharacter);
         
-
         _startGame.onClick.AddListener(Begin);
+        _option.onClick.AddListener(OpenOption);
+
+        UIManager.Instance.FindMainMenuAudio();
 	}
 
 	private void SetCharacter(int indexSelecting)
@@ -48,9 +51,19 @@ public class MainMenu : MonoBehaviour, IUserInterface
         GameManager.Instance.BeginLevel("AIWithSpawn");
     }
 
+    private void OpenOption()
+    {
+        var option = Option.Create();
+        option.PreviousUI = Type;
+
+        Destroy(gameObject);
+    }
+
 	private void OnDisable()
 	{
         _characterSelecting.onValueChanged.RemoveListener(SetCharacter);
         _startGame.onClick.RemoveListener(Begin);
+        _option.onClick.RemoveListener(OpenOption);
+        UIManager.Instance.UserInterfaces.Remove(this);
 	}
 }

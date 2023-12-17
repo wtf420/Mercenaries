@@ -32,7 +32,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 
     public static KeyboardMenu Create(Transform parent = null)
     {
-        KeyboardMenu keyboard = Instantiate(Resources.Load<KeyboardMenu>("_Prefabs/UI/KeyboardMenu"), parent);
+		KeyboardMenu keyboard = Instantiate(Resources.Load<KeyboardMenu>("_Prefabs/UI/KeyboardMenu"), parent);
         keyboard.Type = UI.KEY;
 
         UIManager.Instance.UserInterfaces.Add(keyboard);
@@ -142,8 +142,12 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 
     private void OnDisable()
     {
-        
-        _back.onClick.RemoveListener(Back);
+		for (int i = 0; i < _keyboard.Count && i < 1; i++)
+		{
+			_keyboard[i].Dropdown.onValueChanged.RemoveListener(SetKeyboard);
+		}
+
+		_back.onClick.RemoveListener(Back);
         UIManager.Instance.UserInterfaces.Remove(this);
     }
 }
