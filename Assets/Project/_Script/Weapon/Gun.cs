@@ -45,9 +45,11 @@ public class Gun: IWeapon
 		currentBulletQuantity = _magazineCapacity;
 		delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
 		gunSound = GetComponent<AudioSource>();
-	}
 
-    public override void AttemptAttack()
+		BulletChange?.Invoke((int)currentBulletQuantity);
+	}
+	
+	public override void AttemptAttack()
     {
         if (currentBulletQuantity > 0 && attackable && !isReloading)
 		{
@@ -82,6 +84,8 @@ public class Gun: IWeapon
 		gunSound.Play();
 
 		currentBulletQuantity -= 1;
+		BulletChange?.Invoke((int)currentBulletQuantity);
+
 		yield return new WaitForSeconds(delayBetweenShots);
 		if (currentBulletQuantity == 0)
 			StartCoroutine(IE_Reload());
@@ -95,7 +99,10 @@ public class Gun: IWeapon
 			character.SetWorldText("Reloading...");
 
 		yield return new WaitForSeconds(_reloadTime);
+
 		currentBulletQuantity = _magazineCapacity;
+		BulletChange?.Invoke((int)currentBulletQuantity);
+
 		if (character)
 			character.SetWorldText("");
 		isReloading = false;

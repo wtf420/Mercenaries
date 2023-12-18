@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class IWeapon : MonoBehaviour
     public virtual void Initialize() {}
     public virtual void AttemptAttack() {}
     public virtual void AttemptReload() {}
+    public Action<int> BulletChange;
     protected void OnDestroy()
     {
         StopAllCoroutines();

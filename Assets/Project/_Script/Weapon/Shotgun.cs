@@ -28,9 +28,11 @@ public class Shotgun : Gun
         currentBulletQuantity = _magazineCapacity;
         delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
         gunSound = GetComponent<AudioSource>();
+
+        BulletChange?.Invoke((int)currentBulletQuantity);
     }
 
-    protected override IEnumerator Attack()
+	protected override IEnumerator Attack()
     {
         attackable = false;
         // spawn bullet
@@ -48,6 +50,8 @@ public class Shotgun : Gun
         gunSound.Play();
 
         currentBulletQuantity -= 1;
+        BulletChange?.Invoke((int)currentBulletQuantity);
+
         if (currentBulletQuantity == 0)
             StartCoroutine(IE_Reload()); else
             yield return new WaitForSeconds(delayBetweenShots);

@@ -14,11 +14,13 @@ public class MineProducer : IWeapon
 	#endregion
 
 	#region Methods
-		public override void Initialize()
+	public override void Initialize()
 	{
 		Type = GameConfig.WEAPON.MINE_PRODUCER;
 		currentBulletQuantity = 3;
 		delayBetweenThrow = 60f / _attackSpeed;
+
+		BulletChange?.Invoke((int)currentBulletQuantity);
 	}
 
 	void Update()
@@ -31,6 +33,8 @@ public class MineProducer : IWeapon
 		if (currentBulletQuantity < _maxBulletCount)
 		{
 			currentBulletQuantity++;
+			BulletChange?.Invoke((int)currentBulletQuantity);
+
 			cooldownTimer = _cooldown;
 		}
 	}
@@ -62,7 +66,10 @@ public class MineProducer : IWeapon
 		
 		Mine mine = Mine.Create(location, this.tag);
 		yield return new WaitForSeconds(delayBetweenThrow);
+
 		currentBulletQuantity -= 1;
+		BulletChange?.Invoke((int)currentBulletQuantity);
+
 		canPlaceMine = true;
 	}
 

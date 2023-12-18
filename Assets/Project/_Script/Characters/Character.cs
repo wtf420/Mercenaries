@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -52,6 +53,9 @@ public class Character : MonoBehaviour, IDamageable
 	protected private Vector3 mousePos;
 	bool movementEnable = true;
 
+	private Action<float> _healthChange;
+	private Action<int> _bulletChange;
+	private Action<GameConfig.WEAPON> _weaponChange;
 	#endregion
 
 	#region Methods
@@ -76,15 +80,27 @@ public class Character : MonoBehaviour, IDamageable
 		_HP = soStats.HP_DEFAULT;
 		_skillCooldown = soStats.SKILL_COOLDOWN;
 
+		//Delegate for In Game UI
+		InGame inGameUI = UIManager.Instance.GetUI(UI.IN_GAME) as InGame;
+		_healthChange = inGameUI.HealthChange;
+		_bulletChange = inGameUI.BulletChange;
+		_weaponChange = inGameUI.WeaponChange;
+
+		_healthChange?.Invoke(_HP);
+
+
 		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
 		{
 			//DicWeapon dw = new DicWeapon();
 			//dw._Type = w.Type;
 			//dw._Weapon = w;
+			w.BulletChange = BulletWeaponChange;
 			w.Initialize();
 			w.tag = this.tag;
 			weapons.Add(w);
 		}
+
+		_weaponChange?.Invoke(weapons[0].Type);
 
 		healthbar.minValue = 0;
 		healthbar.maxValue = _HP;
@@ -96,6 +112,7 @@ public class Character : MonoBehaviour, IDamageable
 		speedZ = 0;
 		maxSpeed = _moveSpeed;
 		//characterRigidbody.drag = drag;
+
 	}
 
 	public virtual void UpdateUI()
@@ -145,6 +162,8 @@ public class Character : MonoBehaviour, IDamageable
 				Debug.Log("Character die");
 				OnDeath();
 			}
+
+			_healthChange?.Invoke(_HP);
 		}
 	}
 
@@ -154,6 +173,7 @@ public class Character : MonoBehaviour, IDamageable
 		{
 			case GameConfig.BUFF.HP:
 				_HP += statBuff;
+				_healthChange?.Invoke(_HP);
 				break;
 
 			case GameConfig.BUFF.ATTACK:
@@ -171,9 +191,12 @@ public class Character : MonoBehaviour, IDamageable
 			weapon.tag = this.tag;
 			weapon.transform.position = weapons[0].transform.position;
 			weapon.transform.rotation = weapons[0].transform.rotation;
+			weapon.BulletChange = BulletWeaponChange;
 			weapons.Add(weapon);
 		}
 	}
+
+	public void BulletWeaponChange(int quantity) => _bulletChange.Invoke(quantity);
 
 	private void CharacterMovement()
 	{
@@ -267,6 +290,8 @@ public class Character : MonoBehaviour, IDamageable
 				Debug.Log("Change to second weapon");
 			}
 		}
+
+		_weaponChange?.Invoke(weapons[currentWeapon].Type);
 	}
 
 	public void AddForce(Vector3 direction)
