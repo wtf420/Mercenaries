@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6515442303314196306}
   - component: {fileID: 6515442303314196307}
   - component: {fileID: 6515442303314196271}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HP_BUFF
   m_TagString: Untagged
   m_Icon: {fileID: 0}

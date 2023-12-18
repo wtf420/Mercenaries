@@ -92,12 +92,10 @@ public class Gun: IWeapon
 	{
 		isReloading = true;
 		if (character)
-			character.SetWorldText("Reloading...");
+			character.SetWorldText("Reloading...", _reloadTime);
 
 		yield return new WaitForSeconds(_reloadTime);
 		currentBulletQuantity = _magazineCapacity;
-		if (character)
-			character.SetWorldText("");
 		isReloading = false;
 	}
 

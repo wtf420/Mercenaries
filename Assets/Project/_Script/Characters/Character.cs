@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -50,6 +51,7 @@ public class Character : MonoBehaviour, IDamageable
 
 	float speedX, speedZ, maxSpeed;
 	protected private Vector3 mousePos;
+	Coroutine textCoroutine;
 	bool movementEnable = true;
 
 	#endregion
@@ -154,6 +156,7 @@ public class Character : MonoBehaviour, IDamageable
 		{
 			case GameConfig.BUFF.HP:
 				_HP += statBuff;
+				SetWorldText($"Picked up {statBuff.ToString()} HP!");
 				break;
 
 			case GameConfig.BUFF.ATTACK:
@@ -164,13 +167,20 @@ public class Character : MonoBehaviour, IDamageable
 
 	public void TakenWeapon(IWeapon weapon)
 	{
-		if (weapons.Count < 2)
+		if (weapons.Any(x => x.name == weapon.name))
 		{
+			SetWorldText("You already have this weapon!", 3f);
+		} else
+		if (weapons.Count >= 2)
+		{
+			SetWorldText("All weapon slot are full!", 3f);
+		} else
+		{
+			SetWorldText($"Picked up a {weapon.GetType().ToString()}!", 3f);
 			weapon.gameObject.transform.SetParent(transform);
 			weapon.Initialize();
 			weapon.tag = this.tag;
 			weapon.transform.position = weapons[0].transform.position;
-			weapon.transform.rotation = weapons[0].transform.rotation;
 			weapons.Add(weapon);
 		}
 	}
@@ -310,9 +320,18 @@ public class Character : MonoBehaviour, IDamageable
 		return ray.GetPoint(distance);
 	}
 
-	public void SetWorldText(string t)
+	public void SetWorldText(string t, float time = 1f)
 	{
-		worldText.SetText(t);
+		if (textCoroutine != null)
+			StopCoroutine(textCoroutine);
+		textCoroutine = StartCoroutine(WorldTextHandle(t, time));
+	}
+
+	private IEnumerator WorldTextHandle(string str, float time)
+	{
+		worldText.SetText(str);
+		yield return new WaitForSeconds(time);
+		worldText.SetText("");
 	}
 
 	public void SetScreenText(string t)
