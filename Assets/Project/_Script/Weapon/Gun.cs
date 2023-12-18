@@ -48,7 +48,9 @@ public class Gun: IWeapon
 
 		BulletChange?.Invoke((int)currentBulletQuantity);
 	}
-	
+
+	public override int GetCurrentBullet => (int)currentBulletQuantity;
+
 	public override void AttemptAttack()
     {
         if (currentBulletQuantity > 0 && attackable && !isReloading)

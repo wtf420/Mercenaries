@@ -37,6 +37,8 @@ public class Thrower : IWeapon
         BulletChange?.Invoke((int)currentGernadeCount);
     }
 
+    public override int GetCurrentBullet => (int)currentGernadeCount;
+
     public override void AttemptAttack()
     {
         if (currentGernadeCount > 0 && attackable)

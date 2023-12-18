@@ -292,6 +292,7 @@ public class Character : MonoBehaviour, IDamageable
 		}
 
 		_weaponChange?.Invoke(weapons[currentWeapon].Type);
+		BulletWeaponChange(weapons[currentWeapon].GetCurrentBullet);
 	}
 
 	public void AddForce(Vector3 direction)

@@ -39,6 +39,8 @@ public class MineProducer : IWeapon
 		}
 	}
 
+	public override int GetCurrentBullet => (int)currentBulletQuantity;
+
 	public override void AttemptAttack()
 	{
 		if (currentBulletQuantity > 0 && canPlaceMine)

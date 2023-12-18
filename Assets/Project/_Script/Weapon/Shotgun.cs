@@ -32,7 +32,9 @@ public class Shotgun : Gun
         BulletChange?.Invoke((int)currentBulletQuantity);
     }
 
-	protected override IEnumerator Attack()
+    public override int GetCurrentBullet => (int)currentBulletQuantity;
+
+    protected override IEnumerator Attack()
     {
         attackable = false;
         // spawn bullet
