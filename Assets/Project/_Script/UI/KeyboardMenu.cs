@@ -32,7 +32,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 
     public static KeyboardMenu Create(Transform parent = null)
     {
-		KeyboardMenu keyboard = Instantiate(Resources.Load<KeyboardMenu>("_Prefabs/UI/KeyboardMenu"), parent);
+		KeyboardMenu keyboard = Instantiate(Resources.Load<KeyboardMenu>("_Prefabs/UI/KeyboardMenuWithScrollView"), parent);
         keyboard.Type = UI.KEY;
 
         UIManager.Instance.UserInterfaces.Add(keyboard);
