@@ -34,7 +34,10 @@ public class Thrower : IWeapon
         _maxGernadeCount = soStats.MAX_GERNADE_COUNT;
 
         currentGernadeCount = _maxGernadeCount;
+        BulletChange?.Invoke((int)currentGernadeCount);
     }
+
+    public override int GetCurrentBullet => (int)currentGernadeCount;
 
     public override void AttemptAttack()
     {
@@ -51,6 +54,8 @@ public class Thrower : IWeapon
         if (currentGernadeCount < _maxGernadeCount)
         {
             currentGernadeCount++;
+            BulletChange?.Invoke((int)currentGernadeCount);
+
             cooldownTimer = _cooldown;
         }
     }
@@ -59,6 +64,8 @@ public class Thrower : IWeapon
     {
         attackable = false;
         currentGernadeCount--;
+        BulletChange?.Invoke((int)currentGernadeCount);
+
         GameObject gernade = Instantiate(gernadePrefab, this.transform.position, new Quaternion());
         gernade.tag = this.tag;
         gernade.GetComponent<Rigidbody>().velocity = Vector3.zero;
