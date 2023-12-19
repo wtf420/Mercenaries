@@ -19,7 +19,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	public float AttackPriority { get; protected set; }
 
 	protected NavMeshAgent enemyAgent;
-	private int currentPosition = 0;
+	protected int currentPosition = 0;
 	public Vector3 CurrentDestination { get; set; } = Vector3.zero;
 
 	public bool IsInPatrolScope { get; set; }
@@ -32,6 +32,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected float _turningSpeed;
 
 	protected bool _patrolable = true;
+	protected bool isAlerted = false;
 
 	protected Transform target;
 	#endregion
@@ -58,7 +59,6 @@ public class Enemy: MonoBehaviour, IDamageable
 		enemyAgent.angularSpeed = _turningSpeed;
 		enemyAgent.acceleration = _moveSpeed;
 
-		enemyAgent.speed = _moveSpeed;
 		if (p != null)
 		{
 			path = p;
@@ -76,11 +76,37 @@ public class Enemy: MonoBehaviour, IDamageable
 	{
 		LevelManager.Instance.damageables.Add(this);
 		CurrentDestination = path.GetNodePosition(currentPosition);
+		enemyAgent.SetDestination(CurrentDestination);
+	}
+
+	public void Alert()
+	{
+		isAlerted = true;
+		target = Character.Instance.transform;
+		AlertNearbyEnemies();
+	}
+
+	public void AlertNearbyEnemies()
+	{
+		foreach (Collider c in Physics.OverlapSphere(this.transform.position, _detectRange, LayerMask.GetMask("Damageables")))
+		{
+			if (c.gameObject.CompareTag(this.tag) && c.gameObject != this.gameObject)
+			{
+				Enemy enemy = c.gameObject.GetComponent<Enemy>();
+				if (enemy != null && !enemy.isAlerted)
+					enemy.Alert();
+			}
+		}
 	}
 
 	public virtual void UpdateEnemy()
 	{
-		target = DetectTarget();
+		if (!isAlerted)
+		{
+			target = DetectTarget();
+			if (target != null)
+				Alert();
+		}
 		if (target != null)
 		{
 			if (Vector3.Distance(transform.position, target.position) <= _attackRange)
@@ -105,6 +131,7 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	public virtual void TakenDamage(float Damage)
 	{
+		Alert();
 		if (IsDead)
 		{
 			return;
@@ -123,7 +150,8 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	public virtual void TakenDamage(float Damage, Vector3? DamageDirection = null, float? punch = 0.0f)
 	{
-		if(IsDead)
+		Alert();
+		if (IsDead)
 		{
 			return;
 		}
@@ -177,26 +205,38 @@ public class Enemy: MonoBehaviour, IDamageable
 	{
 		Transform target = null;
 		float maxPriority = -9999;
-		foreach (IDamageable damagable in LevelManager.Instance.damageables)
-		{
-			if (damagable.IsDead)
-				continue;
 
-			Transform damagableTransform = (damagable as MonoBehaviour).transform;
-			if (damagableTransform.tag == this.tag)
-				continue;
+		foreach (Collider c in Physics.OverlapSphere(this.transform.position, _detectRange, LayerMask.GetMask("Damageables")))
+		{
+
+			if (c.gameObject.CompareTag(this.tag)) continue;
+			IDamageable damageable = c.gameObject.GetComponent<IDamageable>();
+			if (damageable == null) continue;
+			if (damageable.IsDead) continue;
+
+			Transform damagableTransform = c.gameObject.transform;
+			RaycastHit[] info = Physics.RaycastAll(this.transform.position, damagableTransform.position - this.transform.position, Vector3.Distance(this.transform.position, damagableTransform.position));
+			bool blocked = false;
+			foreach (RaycastHit hit in info)
+			{
+				//theres an object blocking
+				if (hit.collider.gameObject.GetComponent<IDamageable>() == null)
+				{
+					blocked = true;
+					break;
+				}
+			}
+			if (blocked) continue;
 
 			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= _detectRange)
 			{
-				if (damagable.AttackPriority > maxPriority)
+				if (damageable.AttackPriority > maxPriority)
 				{
 					target = damagableTransform;
-					maxPriority = damagable.AttackPriority;
+					maxPriority = damageable.AttackPriority;
 				}
-
 			}
 		}
-
 		return target;
 	}
 
@@ -208,7 +248,6 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	protected virtual void MovementBehaviour()
 	{
-		enemyAgent.SetDestination(CurrentDestination);
 		if(Vector3.Distance(transform.position, CurrentDestination) < 1f)
 		{
 			if (path.GetNode(currentPosition).GetType() == typeof(PatrolScope))
@@ -226,6 +265,7 @@ public class Enemy: MonoBehaviour, IDamageable
 				CurrentDestination = path.GetNodePosition(currentPosition);
 			}
 		}
+		enemyAgent.SetDestination(CurrentDestination);
 	}
 
 	protected IEnumerator IE_Patrol()

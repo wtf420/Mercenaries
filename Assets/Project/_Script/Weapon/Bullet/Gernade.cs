@@ -33,7 +33,7 @@ public class Gernade : MonoBehaviour
             //check if theres a wall between
             bool c = false;
             Vector3 hitlocation = (hit.point == Vector3.zero) ? hit.transform.position : hit.point;
-            RaycastHit[] info2 = Physics.RaycastAll(this.transform.position, hitlocation, Vector3.Distance(this.transform.position, hit.transform.position));
+            RaycastHit[] info2 = Physics.RaycastAll(this.transform.position, hitlocation - this.transform.position, Vector3.Distance(this.transform.position, hit.transform.position));
             foreach (RaycastHit hit2 in info2)
             {
                 //theres an object blocking
