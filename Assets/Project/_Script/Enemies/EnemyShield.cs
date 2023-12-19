@@ -18,7 +18,12 @@ public class EnemyShield : Enemy
 
     public override void UpdateEnemy()
     {
-        target = DetectTarget();
+        if (!isAlerted)
+        {
+            target = DetectTarget();
+            if (target != null)
+                Alert();
+        }
         if (target != null)
         {
             Transform targetTransform = target;

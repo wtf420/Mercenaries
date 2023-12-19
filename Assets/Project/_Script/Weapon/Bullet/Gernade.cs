@@ -7,6 +7,7 @@ public class Gernade : MonoBehaviour
 {
     [SerializeField] protected float explosionTimer, _explosionRadius, _damage;
     [SerializeField] protected bool _damageScaleWithDistance;
+    [SerializeField] protected GameObject particle;
 
     public virtual void Update()
     {
@@ -60,6 +61,7 @@ public class Gernade : MonoBehaviour
             //Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
         StopAllCoroutines();
+        Instantiate(particle, this.transform.position, new Quaternion());
         Destroy(gameObject);
     }
 

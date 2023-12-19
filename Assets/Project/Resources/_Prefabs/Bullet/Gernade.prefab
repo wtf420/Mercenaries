@@ -131,3 +131,4 @@ MonoBehaviour:
   _explosionRadius: 3
   _damage: 100
   _damageScaleWithDistance: 0
+  particle: {fileID: 4936766508533269723, guid: 9fa5a8d2ac80dd746af39607728baf3f, type: 3}
