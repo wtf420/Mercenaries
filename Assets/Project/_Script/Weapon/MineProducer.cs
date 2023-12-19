@@ -67,6 +67,7 @@ public class MineProducer : IWeapon
 		canPlaceMine = false;
 		
 		Mine mine = Mine.Create(location, this.tag);
+		mine.source = this.source;
 		yield return new WaitForSeconds(delayBetweenThrow);
 
 		currentBulletQuantity -= 1;

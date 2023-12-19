@@ -22,7 +22,7 @@ public class EnemyShield : Enemy
         {
             target = DetectTarget();
             if (target != null)
-                Alert();
+                isAlerted = true;
         }
         if (target != null)
         {

@@ -79,14 +79,16 @@ public class Enemy: MonoBehaviour, IDamageable
 		enemyAgent.SetDestination(CurrentDestination);
 	}
 
-	public void Alert()
+	public void Alert(GameObject? gameObject)
 	{
 		isAlerted = true;
-		target = Character.Instance.transform;
-		AlertNearbyEnemies();
+		if (gameObject != null)
+			target = gameObject.transform;
+		else
+			target = Character.Instance.transform;
 	}
 
-	public void AlertNearbyEnemies()
+	public void AlertNearbyEnemies(GameObject? gameObject)
 	{
 		foreach (Collider c in Physics.OverlapSphere(this.transform.position, _detectRange, LayerMask.GetMask("Damageables")))
 		{
@@ -94,7 +96,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			{
 				Enemy enemy = c.gameObject.GetComponent<Enemy>();
 				if (enemy != null && !enemy.isAlerted)
-					enemy.Alert();
+					enemy.Alert(gameObject);
 			}
 		}
 	}
@@ -105,7 +107,7 @@ public class Enemy: MonoBehaviour, IDamageable
 		{
 			target = DetectTarget();
 			if (target != null)
-				Alert();
+				isAlerted = true;
 		}
 		if (target != null)
 		{
@@ -129,28 +131,10 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 	}
 
-	public virtual void TakenDamage(float Damage)
+	public virtual void TakenDamage(Damage damage)
 	{
-		Alert();
-		if (IsDead)
-		{
-			return;
-		}
-
-		if (_HP > 0)
-		{
-			_HP -= Damage;
-			//Debug.Log($"Enemy hp: {_HP}");
-			if (_HP <= 0)
-			{
-				IsDead = true;
-			}
-		}
-	}
-
-	public virtual void TakenDamage(float Damage, Vector3? DamageDirection = null, float? punch = 0.0f)
-	{
-		Alert();
+		Alert(damage.damageSource);
+		AlertNearbyEnemies(damage.damageSource);
 		if (IsDead)
 		{
 			return;
@@ -158,11 +142,23 @@ public class Enemy: MonoBehaviour, IDamageable
 
 		if(_HP > 0)
 		{
-			_HP -= Damage;
+			_HP -= damage.value;
 			//Debug.Log($"Enemy hp: {_HP}");
 			if(_HP <= 0)
 			{
 				IsDead = true;
+				if (!deleteUponDeath)
+				{
+					if (damage.Origin != null)
+					{
+						Vector3 damageDirection = (Vector3)(damage.Origin - this.transform.position);
+						
+						enemyAgent.enabled = false;
+						characterRigidbody.isKinematic = false;
+						characterRigidbody.freezeRotation = false;
+						characterRigidbody.AddForce(damageDirection.normalized * 5f, ForceMode.Impulse);
+					}
+				}
 			}
 		}
 	}
@@ -170,22 +166,11 @@ public class Enemy: MonoBehaviour, IDamageable
 	public virtual void OnDeath(Vector3? DamageDirection = null, float punch = 0.0f)
 	{
 		//Debug.Log("Enemy die");
+		AlertNearbyEnemies(null);
 		LevelManager.Instance.damageables.Remove(this);
 		OnDeathEvent?.Invoke(this);
 		OnDeathEvent?.RemoveAllListeners();
-		if (!deleteUponDeath)
-		{
-			if (DamageDirection != null)
-			{
-				Vector3 damageDirection = (Vector3)DamageDirection;
-
-				enemyAgent.enabled = false;
-				characterRigidbody.isKinematic = false;
-				characterRigidbody.freezeRotation = false;
-				characterRigidbody.AddForce(damageDirection.normalized * punch, ForceMode.Impulse);
-			}
-		}
-		else
+		if (deleteUponDeath)
 		{
 			float ratio = UnityEngine.Random.Range(0f, 1f);
 			if (ratio < GameConfig.RATIO_DROP_BUFF)

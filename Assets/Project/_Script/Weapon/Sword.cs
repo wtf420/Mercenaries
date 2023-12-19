@@ -57,7 +57,7 @@ public class Sword : IWeapon
 		IDamageable target = other.GetComponent<IDamageable>();
 		if (target != null)
 		{
-			target.TakenDamage(_damage);
+			target.TakenDamage(new Damage(_damage, this.transform.position, DamageType.Melee, source));
 			isAttackable = false;
 		}
 	}

@@ -43,7 +43,7 @@ public class Pet : MonoBehaviour, IDamageable
 		Attack();
 	}
 
-	public virtual void TakenDamage(float damage)
+	public virtual void TakenDamage(Damage damage)
 	{
 		
 	}

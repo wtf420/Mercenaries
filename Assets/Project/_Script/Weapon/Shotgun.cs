@@ -46,6 +46,7 @@ public class Shotgun : Gun
             Bullet bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
             bullet.Initialize(_damage, _attackRange, _bulletSpeed, target.normalized);
             bullet.tag = this.tag;
+            bullet.source = this.source;
         }
 
         gunSound.Stop();

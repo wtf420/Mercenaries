@@ -18,10 +18,10 @@ public class ClusterGernade : Gernade
             {
                 if (_damageScaleWithDistance)
                 {
-                    float distance = Vector3.Distance(this.transform.position, hit.point);
-                    hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(_damage * (distance / _explosionRadius));
-                } else
-                    hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(_damage);
+                    float distance = hit.distance;
+                    float Damage = _damageScaleWithDistance ? _damage * (1 / (distance / _explosionRadius)) : _damage;
+                    hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(new Damage(Damage, this.transform.position, DamageType.Explosive, source));
+                }
             }
         }
 

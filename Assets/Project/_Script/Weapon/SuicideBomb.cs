@@ -54,14 +54,7 @@ public class SuicideBomb : IWeapon
             {
                 float distance = hit.distance;
                 float Damage = _damageScaleWithDistance ? _damage * (1 / (distance / _explosionRadius)) : _damage;
-                if (hit.collider.gameObject.GetComponent<Enemy>())
-                {
-                    hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(Damage, hit.point - hit.transform.position, 10f);
-                }
-                else
-                {
-                    hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(Damage);
-                }
+                hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(new Damage(Damage, this.transform.position, DamageType.Explosive, source));
             }
             Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
@@ -69,7 +62,7 @@ public class SuicideBomb : IWeapon
         Debug.Log(gameObject.GetComponent<IDamageable>());
         if (gameObject.GetComponentInParent<IDamageable>() != null)
         {
-            gameObject.GetComponentInParent<IDamageable>().TakenDamage(_selfDamage);
+            gameObject.GetComponentInParent<IDamageable>().TakenDamage(new Damage(_selfDamage, null, null, null));
         }
     }
 

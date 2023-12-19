@@ -8,6 +8,7 @@ public class SuicideAttacker : Enemy
 	#region Fields & Properties
 
 	public float _damageDefault;
+	public GameObject explosionParticle;
 
 	#endregion
 
@@ -58,11 +59,11 @@ public class SuicideAttacker : Enemy
 			IDamageable target = hit.collider.gameObject.GetComponent<IDamageable>();
 			if (target != null) 
 			{
-				target.TakenDamage(_damageDefault);
+				target.TakenDamage(new Damage(_damageDefault, this.transform.position, DamageType.Explosive, this.gameObject));
 			}
 		}
-
-		TakenDamage(soStats.HP_DEFAULT);
+		Instantiate(explosionParticle, this.transform.position, new Quaternion());
+		TakenDamage(new Damage(soStats.HP_DEFAULT, null, null, null));
 	}
 
 	#endregion

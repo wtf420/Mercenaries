@@ -85,6 +85,7 @@ public class Character : MonoBehaviour, IDamageable
 			//dw._Weapon = w;
 			w.Initialize();
 			w.tag = this.tag;
+			w.source = this.gameObject;
 			weapons.Add(w);
 		}
 
@@ -135,13 +136,13 @@ public class Character : MonoBehaviour, IDamageable
 		}
 	}
 
-	public void TakenDamage(float damage)
+	public void TakenDamage(Damage damage)
 	{
 		if (_HP > 0 && !invulnerable)
 		{
-			_HP -= damage;
+			_HP -= damage.value;
 			healthbar.value = _HP;
-			Debug.Log($"Character hp: {_HP}");
+			//Debug.Log($"Character hp: {_HP}");
 			if (_HP <= 0)
 			{
 				Debug.Log("Character die");

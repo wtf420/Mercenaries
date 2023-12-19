@@ -44,3 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbc4472ec4b6dc4d8ebc24cb552d559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 8228441354226523531, guid: c444506d1355b4042b0ba5ca7d8e149a, type: 3}
+  _maxBulletCount: 0
+  _cooldown: 0
+  _attackRange: 0
+  _attackSpeed: 0
+  _maxRange: 0
+  _fuseTime: 0

@@ -11,6 +11,7 @@ public class IWeapon : MonoBehaviour
     public virtual void AttemptReload() { }
     public virtual int GetCurrentBullet => 0;
     public Action<int> BulletChange;
+    public GameObject source;
     protected void OnDestroy()
     {
         StopAllCoroutines();

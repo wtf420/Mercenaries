@@ -71,19 +71,19 @@ public class Turret : Pet
 		}
 	}
 
-	public override void TakenDamage(float damage)
+	public override void TakenDamage(Damage damage)
 	{
 		base.TakenDamage(damage);
 		if(Stats[GameConfig.STAT_TYPE.HP] > 0)
 		{
-			Stats[GameConfig.STAT_TYPE.HP] -= damage;
+			Stats[GameConfig.STAT_TYPE.HP] -= damage.value;
 			if(Stats[GameConfig.STAT_TYPE.HP] <= 0)
 			{
 				IsDead = true;
 			}
 		}
 
-		Debug.Log($"Pet hp: {Stats[GameConfig.STAT_TYPE.HP]}");
+		//Debug.Log($"Pet hp: {Stats[GameConfig.STAT_TYPE.HP]}");
 	}
 
 	[ExecuteInEditMode]

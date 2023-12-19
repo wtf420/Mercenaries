@@ -7,7 +7,7 @@ public class Thrower : IWeapon
 {
     #region Fields & Properties
     [SerializeField] SO_WeaponThrowerStats soStats;
-    [SerializeField] GameObject gernadePrefab;
+    [SerializeField] Gernade gernadePrefab;
     public float throwAngleOffset = 30; //in degrees
 
     protected float _damage;
@@ -66,7 +66,7 @@ public class Thrower : IWeapon
         currentGernadeCount--;
         BulletChange?.Invoke((int)currentGernadeCount);
 
-        GameObject gernade = Instantiate(gernadePrefab, this.transform.position, new Quaternion());
+        GameObject gernade = Instantiate(gernadePrefab.gameObject, this.transform.position, new Quaternion());
         gernade.tag = this.tag;
         gernade.GetComponent<Rigidbody>().velocity = Vector3.zero;
         StartCoroutine(IgnoreCollision(gernade.gameObject));
@@ -78,14 +78,15 @@ public class Thrower : IWeapon
         {
             targetPosition = this.transform.position + (targetPosition - this.transform.position).normalized * _maxRange;
         }
-        Throw(targetPosition, gernade);
+        Throw(targetPosition, gernade.GetComponent<Gernade>());
 
         yield return new WaitForSeconds(_delayBetweenAttack);
         attackable = true;
     }
 
-    void Throw(Vector3 target, GameObject gernade)
+    void Throw(Vector3 target, Gernade gernade)
     {
+        gernade.source = this.source;
         Vector3 direction = target - gernade.transform.position;
         float h = direction.y;
         direction.y = 0;

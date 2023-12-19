@@ -114,7 +114,7 @@ public class Drone : MonoBehaviour
 	IEnumerator Attack()
 	{
 		attackable = false;
-		target.GetComponent<Enemy>().TakenDamage(_damage);
+		target.GetComponent<Enemy>().TakenDamage(new Damage(_damage, this.transform.position, DamageType.Default, this.gameObject));
 		yield return new WaitForSeconds(_interval);
 		attackable = true;
 	}

@@ -10,6 +10,7 @@ public class Bullet: MonoBehaviour
 
 	Vector3 direction;
 	Vector3 previousPosition;
+	public GameObject source;
 	#endregion
 
 	#region Methods
@@ -49,13 +50,7 @@ public class Bullet: MonoBehaviour
 		IDamageable damagable = collider.GetComponent<IDamageable>();
 		if (damagable != null && !this.CompareTag(collider.tag))
 		{
-			if (collider.GetComponent<Enemy>())
-			{
-				collider.GetComponent<Enemy>().TakenDamage(Damage, collider.transform.position - transform.position, 10f);
-			} else
-			{
-				damagable.TakenDamage(Damage);
-			}
+			damagable.TakenDamage(new Damage(Damage, this.transform.position, DamageType.Bullet, source));
 		}
 		Destroy(gameObject);
 	}

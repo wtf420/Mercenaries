@@ -76,14 +76,8 @@ public class MeleeAttack : IWeapon
             if (hit.collider.gameObject.GetComponent<IDamageable>() != null)
             {
                 Debug.Log("Damage");
-                if (hit.collider.gameObject.GetComponent<Enemy>())
-                {
-                    hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(_damage, hit.point - hit.transform.position, 10f);
-                }
-                else
-                {
-                    hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(_damage);
-                }
+                hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(new Damage(_damage, this.transform.position, DamageType.Melee, source));
+
             }
             Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }

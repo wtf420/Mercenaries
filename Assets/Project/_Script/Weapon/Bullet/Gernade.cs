@@ -8,6 +8,7 @@ public class Gernade : MonoBehaviour
     [SerializeField] protected float explosionTimer, _explosionRadius, _damage;
     [SerializeField] protected bool _damageScaleWithDistance;
     [SerializeField] protected GameObject particle;
+    [SerializeField] public GameObject source;
 
     public virtual void Update()
     {
@@ -49,14 +50,7 @@ public class Gernade : MonoBehaviour
             {
                 float distance = hit.distance;
                 float Damage = _damageScaleWithDistance ? _damage * (1 / (distance / _explosionRadius)) : _damage;
-                if (hit.collider.gameObject.GetComponent<Enemy>())
-                {
-                    hit.collider.gameObject.GetComponent<Enemy>().TakenDamage(Damage, hit.point - hit.transform.position, 10f);
-                }
-                else
-                {
-                    hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(Damage);
-                }
+                hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(new Damage(Damage, this.transform.position, DamageType.Explosive, source));
             }
             //Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }

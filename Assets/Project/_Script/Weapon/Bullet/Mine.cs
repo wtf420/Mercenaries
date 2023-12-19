@@ -8,7 +8,7 @@ public class Mine : MonoBehaviour
 	[SerializeField] float _explosionRadius = 3f, _damage = 40f, _activateTimer, _aliveTimer = 10f, _detectionRange = 1f;
 	[SerializeField] bool _damageScaleWithDistance;
 	bool canExplode = false;
-
+	public GameObject source;
 	#endregion
 
 	#region Methods
@@ -95,18 +95,13 @@ public class Mine : MonoBehaviour
 					float distance = Vector3.Distance(this.transform.position, e.point);
 					damage = _damage * (distance / _explosionRadius);
 				}
-				if (e.collider.gameObject.GetComponent<Enemy>() && this.tag == "Player")
+				if (e.collider.gameObject.GetComponent<IDamageable>() != null)
 				{
-					e.collider.gameObject.GetComponent<Enemy>().TakenDamage(damage);
-				} else
-				if (e.collider.gameObject.GetComponent<Character>() && this.tag == "Enemy")
-				{
-					e.collider.gameObject.GetComponent<Character>().TakenDamage(damage);
-				} else
-				if (e.collider.gameObject.GetComponent<Pet>() && this.tag == "Enemy")
-				{
-					e.collider.gameObject.GetComponent<Pet>().TakenDamage(damage);
+					float distance = e.distance;
+					float Damage = _damageScaleWithDistance ? _damage * (1 / (distance / _explosionRadius)) : _damage;
+					e.collider.gameObject.GetComponent<IDamageable>().TakenDamage(new Damage(Damage, this.transform.position, DamageType.Explosive, source));
 				}
+
 			}
 		}
 		Debug.Log("Mine Explosion");

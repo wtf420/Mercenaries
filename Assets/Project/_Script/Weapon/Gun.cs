@@ -77,6 +77,7 @@ public class Gun: IWeapon
 		Bullet bullet = Instantiate(bulletPrefab, transform.position, new Quaternion());
 		bullet.Initialize(_damage, _attackRange, _bulletSpeed, direction);
 		bullet.tag = this.tag;
+		bullet.source = this.source;
 
 		gunSound.Stop();
 		gunSound.Play();
