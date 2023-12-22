@@ -26,6 +26,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
     #region Fields and Properties
     [SerializeField] List<DictionaryUIKeyboard> _keyboard;
     [SerializeField] Button _back;
+	[SerializeField] Button _save;
 
     public UI Type { get; set; }
     #endregion
@@ -110,6 +111,17 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 			new TMP_Dropdown.OptionData(KeyCode.LeftControl.ToString()),
 			new TMP_Dropdown.OptionData(KeyCode.LeftAlt.ToString()),
 		});
+
+		Keyboard keyboard = DataPersistenceManager.Instance.GameData.Keyboard;
+		if(keyboard.Keyboards.Count > 0)
+		{
+			for(int i = 0; i < _keyboard.Count; i++)
+			{
+				_keyboard[i].Dropdown.value = 
+					_keyboard[i].Dropdown.options.FindIndex(element => element.text == keyboard.Keyboards[_keyboard[i].Type]);
+			}
+		}
+
 	}
 
 	private void OnEnable()
@@ -121,6 +133,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 		}
 
         _back.onClick.AddListener(Back);
+		_save.onClick.AddListener(Save);
     }
 
 	private void KeyboardHandler(TMP_Dropdown dropdown, int index)
@@ -130,8 +143,16 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 
     private void SetKeyboard(int index)
 	{
-		Debug.Log($"{_keyboard[index].Type}: select {_keyboard[index].Dropdown.value}");
+		Debug.Log($"{_keyboard[index].Type}: select {_keyboard[index].Dropdown.value} : {_keyboard[index].Dropdown.captionText.text}");
+
+		var keyboards = DataPersistenceManager.Instance.GameData.Keyboard;
+		keyboards.Keyboards[_keyboard[index].Type] = _keyboard[index].Dropdown.captionText.text;
 		//change and later save to local
+	}
+
+	private void Save()
+	{
+		DataPersistenceManager.Instance.SaveData();
 	}
 
     private void Back()
@@ -148,6 +169,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 		}
 
 		_back.onClick.RemoveListener(Back);
+		_save.onClick.RemoveListener(Save);
         UIManager.Instance.UserInterfaces.Remove(this);
     }
 }

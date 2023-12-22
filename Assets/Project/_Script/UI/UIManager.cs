@@ -57,6 +57,8 @@ public class UIManager : MonoBehaviour
         }
         DontDestroyOnLoad(Instance);
 
+        DataPersistenceManager.Instance.LoadData();
+
         VolumeChanges = new List<Action<float>>();
         UserInterfaces = new List<IUserInterface>();
         MainMenu.Create();
