@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public enum KeyboardHandler
 {
@@ -118,7 +119,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 			for(int i = 0; i < _keyboard.Count; i++)
 			{
 				_keyboard[i].Dropdown.value = 
-					_keyboard[i].Dropdown.options.FindIndex(element => element.text == keyboard.Keyboards[_keyboard[i].Type]);
+					_keyboard[i].Dropdown.options.FindIndex(element => element.text == ((KeyCode)keyboard.Keyboards[_keyboard[i].Type]).ToString());
 			}
 		}
 
@@ -146,7 +147,7 @@ public class KeyboardMenu: MonoBehaviour, IUserInterface
 		Debug.Log($"{_keyboard[index].Type}: select {_keyboard[index].Dropdown.value} : {_keyboard[index].Dropdown.captionText.text}");
 
 		var keyboards = DataPersistenceManager.Instance.GameData.Keyboard;
-		keyboards.Keyboards[_keyboard[index].Type] = _keyboard[index].Dropdown.captionText.text;
+		keyboards.Keyboards[_keyboard[index].Type] = (int)Enum.Parse(typeof(KeyCode), _keyboard[index].Dropdown.captionText.text);
 		//change and later save to local
 	}
 

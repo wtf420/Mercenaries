@@ -12,7 +12,7 @@ public class Keyboard
 {
 	#region Fields & Properties
 
-	public Dictionary<KeyboardHandler, string> Keyboards;
+	public Dictionary<KeyboardHandler, int> Keyboards;
 
 	#endregion
 
@@ -20,14 +20,14 @@ public class Keyboard
 
 	public Keyboard()
 	{
-		Keyboards = new Dictionary<KeyboardHandler, string>();
-		Keyboards.Add(KeyboardHandler.MoveForward, "W");
-		Keyboards.Add(KeyboardHandler.MoveBack, "S");
-		Keyboards.Add(KeyboardHandler.MoveLeft, "A");
-		Keyboards.Add(KeyboardHandler.MoveRight, "D");
-		Keyboards.Add(KeyboardHandler.Dash, "Space");
-		Keyboards.Add(KeyboardHandler.Weapon1, "Alpha1");
-		Keyboards.Add(KeyboardHandler.Weapon2, "Alpha2");
+		Keyboards = new Dictionary<KeyboardHandler, int>();
+		Keyboards.Add(KeyboardHandler.MoveForward, (int)KeyCode.W);
+		Keyboards.Add(KeyboardHandler.MoveBack, (int)KeyCode.S);
+		Keyboards.Add(KeyboardHandler.MoveLeft, (int)KeyCode.A);
+		Keyboards.Add(KeyboardHandler.MoveRight, (int)KeyCode.D);
+		Keyboards.Add(KeyboardHandler.Dash, (int)KeyCode.Space);
+		Keyboards.Add(KeyboardHandler.Weapon1, (int)KeyCode.Alpha1);
+		Keyboards.Add(KeyboardHandler.Weapon2, (int)KeyCode.Alpha2);
 	}
 
 	#endregion
