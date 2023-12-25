@@ -19,7 +19,6 @@ public class MineProducer : IWeapon
 		Type = GameConfig.WEAPON.MINE_PRODUCER;
 		currentBulletQuantity = 3;
 		delayBetweenThrow = 60f / _attackSpeed;
-
 		BulletChange?.Invoke((int)currentBulletQuantity);
 	}
 

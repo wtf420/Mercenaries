@@ -28,7 +28,11 @@ public class Shotgun : Gun
         currentBulletQuantity = _magazineCapacity;
         delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
         gunSound = GetComponent<AudioSource>();
+        BulletChange?.Invoke((int)currentBulletQuantity);
+    }
 
+    void Start()
+    {
         BulletChange?.Invoke((int)currentBulletQuantity);
     }
 
