@@ -47,6 +47,11 @@ public class Gun: IWeapon
 		gunSound = GetComponent<AudioSource>();
 	}
 
+	void Start()
+	{
+		BulletChange?.Invoke((int)currentBulletQuantity);
+	}
+
     public override void AttemptAttack()
     {
         if (currentBulletQuantity > 0 && attackable && !isReloading)
@@ -83,6 +88,7 @@ public class Gun: IWeapon
 		gunSound.Play();
 
 		currentBulletQuantity -= 1;
+		BulletChange?.Invoke((int)currentBulletQuantity);
 		yield return new WaitForSeconds(delayBetweenShots);
 		if (currentBulletQuantity == 0)
 			StartCoroutine(IE_Reload());
@@ -97,8 +103,11 @@ public class Gun: IWeapon
 
 		yield return new WaitForSeconds(_reloadTime);
 		currentBulletQuantity = _magazineCapacity;
+		BulletChange?.Invoke((int)currentBulletQuantity);
 		isReloading = false;
 	}
+
+	public override int GetCurrentBullet => (int)currentBulletQuantity;
 
 	[ExecuteInEditMode]
 	private void OnDrawGizmos()

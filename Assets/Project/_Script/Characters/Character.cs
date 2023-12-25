@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,10 @@ public class Character : MonoBehaviour, IDamageable
 	Coroutine textCoroutine;
 	bool movementEnable = true;
 
+	private Action<float> _healthChange;
+	private Action<int> _bulletChange;
+	private Action<GameConfig.WEAPON> _weaponChange;
+
 	#endregion
 
 	#region Methods
@@ -78,6 +83,13 @@ public class Character : MonoBehaviour, IDamageable
 		_HP = soStats.HP_DEFAULT;
 		_skillCooldown = soStats.SKILL_COOLDOWN;
 
+		InGame inGameUI = UIManager.Instance.GetUI(UI.IN_GAME) as InGame;
+		_healthChange = inGameUI.HealthChange;
+		_bulletChange = inGameUI.BulletChange;
+		_weaponChange = inGameUI.WeaponChange;
+
+		_healthChange?.Invoke(_HP);
+
 		foreach (IWeapon w in GetComponentsInChildren<IWeapon>())
 		{
 			//DicWeapon dw = new DicWeapon();
@@ -86,8 +98,10 @@ public class Character : MonoBehaviour, IDamageable
 			w.Initialize();
 			w.tag = this.tag;
 			w.source = this.gameObject;
+			w.BulletChange = BulletWeaponChange;
 			weapons.Add(w);
 		}
+		_weaponChange?.Invoke(weapons[0].Type);
 
 		healthbar.minValue = 0;
 		healthbar.maxValue = _HP;
@@ -104,6 +118,7 @@ public class Character : MonoBehaviour, IDamageable
 	public virtual void UpdateUI()
 	{
 		healthbar.value = _HP;
+		_healthChange?.Invoke(_HP);
 		worldCanvas.transform.LookAt(transform.position + Camera.main.transform.forward);
 	}
 
@@ -182,9 +197,12 @@ public class Character : MonoBehaviour, IDamageable
 			weapon.Initialize();
 			weapon.tag = this.tag;
 			weapon.transform.position = weapons[0].transform.position;
+			weapon.BulletChange = BulletWeaponChange;
 			weapons.Add(weapon);
 		}
 	}
+
+	public void BulletWeaponChange(int quantity) => _bulletChange.Invoke(quantity);
 
 	private void CharacterMovement()
 	{
@@ -267,6 +285,8 @@ public class Character : MonoBehaviour, IDamageable
 		{
 			currentWeapon = 0;
 			Debug.Log("Change to main weapon");
+			_weaponChange?.Invoke(weapons[currentWeapon].Type);
+			BulletWeaponChange(weapons[currentWeapon].GetCurrentBullet);
 		}
 
 		// Grenade
@@ -276,6 +296,8 @@ public class Character : MonoBehaviour, IDamageable
 			{
 				currentWeapon = 1;
 				Debug.Log("Change to second weapon");
+				_weaponChange?.Invoke(weapons[currentWeapon].Type);
+				BulletWeaponChange(weapons[currentWeapon].GetCurrentBullet);
 			}
 		}
 	}

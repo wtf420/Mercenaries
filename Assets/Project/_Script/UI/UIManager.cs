@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum UI
 {
@@ -61,6 +62,7 @@ public class UIManager : MonoBehaviour
 
         VolumeChanges = new List<Action<float>>();
         UserInterfaces = new List<IUserInterface>();
+        if (SceneManager.GetActiveScene().name == "Main Menu")
         MainMenu.Create();
     }
 
