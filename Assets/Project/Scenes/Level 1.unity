@@ -472,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: SelectedCharacter
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
@@ -720,10 +720,10 @@ MonoBehaviour:
   OnAllEnemyKilled:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 119781859}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1226151477}
+        m_TargetAssemblyTypeName: Level1Manager, Assembly-CSharp
+        m_MethodName: PlusCondition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1834,10 +1834,10 @@ MonoBehaviour:
   OnAllEnemyKilled:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609544443}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1226151477}
+        m_TargetAssemblyTypeName: Level1Manager, Assembly-CSharp
+        m_MethodName: PlusCondition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2017,7 +2017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 359987671774780767, guid: 10bf5d0cacc7c9a42b8b3de041a63b27, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10bf5d0cacc7c9a42b8b3de041a63b27, type: 3}
@@ -2218,6 +2218,17 @@ Transform:
   m_Father: {fileID: 1378080355}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1226151477 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5687986344786085304, guid: f29f4c1811e527745b5306b636790792, type: 3}
+  m_PrefabInstance: {fileID: 5687986345646936144}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1fb67a758c787345a614c9e0b0b93f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1242007773
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,17 +2301,17 @@ MonoBehaviour:
   OnAllEnemyKilled:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609544443}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1226151477}
+        m_TargetAssemblyTypeName: Level1Manager, Assembly-CSharp
+        m_MethodName: PlusCondition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!4 &1242007776
 Transform:
@@ -2802,10 +2813,10 @@ MonoBehaviour:
   OnAllEnemyKilled:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 119781859}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1226151477}
+        m_TargetAssemblyTypeName: Level1Manager, Assembly-CSharp
+        m_MethodName: PlusCondition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4218,6 +4229,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5687986344786085304, guid: f29f4c1811e527745b5306b636790792, type: 3}
+      propertyPath: Door
+      value: 
+      objectReference: {fileID: 119781859}
+    - target: {fileID: 5687986344786085304, guid: f29f4c1811e527745b5306b636790792, type: 3}
+      propertyPath: Jumppad
+      value: 
+      objectReference: {fileID: 1609544443}
     - target: {fileID: 5687986344786085304, guid: f29f4c1811e527745b5306b636790792, type: 3}
       propertyPath: myCamera
       value: 

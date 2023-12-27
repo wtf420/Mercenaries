@@ -102,7 +102,7 @@ public class LevelManager : MonoBehaviour
         enemiesLeft = possibleEnemyCount;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (!character.IsDead)
         {

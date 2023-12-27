@@ -174,7 +174,7 @@ public class Character : MonoBehaviour, IDamageable
 			case GameConfig.BUFF.HP:
 				if (_HP < soStats.HP_DEFAULT)
 				{
-					SetWorldText($"Picked up {(soStats.HP_DEFAULT - _HP).ToString()} HP!");
+					SetWorldText($"Picked up {(statBuff).ToString()} HP!");
 					_HP += statBuff;
 					_HP = Mathf.Clamp(_HP, 0, soStats.HP_DEFAULT);
 				}
