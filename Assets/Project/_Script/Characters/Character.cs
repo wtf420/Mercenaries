@@ -171,8 +171,12 @@ public class Character : MonoBehaviour, IDamageable
 		switch(buff)
 		{
 			case GameConfig.BUFF.HP:
-				_HP += statBuff;
-				SetWorldText($"Picked up {statBuff.ToString()} HP!");
+				if (_HP < soStats.HP_DEFAULT)
+				{
+					SetWorldText($"Picked up {(soStats.HP_DEFAULT - _HP).ToString()} HP!");
+					_HP += statBuff;
+					_HP = Mathf.Clamp(_HP, 0, soStats.HP_DEFAULT);
+				}
 				break;
 
 			case GameConfig.BUFF.ATTACK:

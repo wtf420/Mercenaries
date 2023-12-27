@@ -118,6 +118,9 @@ MonoBehaviour:
   soStats: {fileID: 11400000, guid: f591f69b6cf4c054db27b6f6f99d90b5, type: 2}
   path: {fileID: 0}
   deleteUponDeath: 1
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &902212774876899997
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,7 +221,7 @@ PrefabInstance:
     - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
       propertyPath: gernadePrefab
       value: 
-      objectReference: {fileID: 8360075332104661726, guid: ced1f54b4fc5bab4580164acf79d0f2a, type: 3}
+      objectReference: {fileID: 2071295221, guid: ced1f54b4fc5bab4580164acf79d0f2a, type: 3}
     - target: {fileID: 1549608953278574706, guid: c1663c76dfd00ac40b9bdd709431cbc0, type: 3}
       propertyPath: throwAngleOffset
       value: 70

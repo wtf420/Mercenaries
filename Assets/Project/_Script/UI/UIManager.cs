@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
         VolumeChanges = new List<Action<float>>();
         UserInterfaces = new List<IUserInterface>();
         if (SceneManager.GetActiveScene().name == "Main Menu")
-        MainMenu.Create();
+            MainMenu.Create();
     }
 
     // Update is called once per frame
