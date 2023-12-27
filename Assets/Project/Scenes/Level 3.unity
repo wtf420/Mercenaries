@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFollowPlayer: 1
   Player: {fileID: 0}
-  angle: {x: -20, y: 0, z: 0}
+  angle: {x: -60, y: 0, z: 0}
   offSet: {x: 0, y: 6, z: 0}
   distance: 15
   speed: 100
@@ -906,7 +906,7 @@ Terrain:
   m_GameObject: {fileID: 562978402930903492}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: d5cbc9503129b934cbd2a1c2e60105b1, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: f6ee47ef73259724789ef21c43d19889, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -940,7 +940,7 @@ TerrainCollider:
   m_GameObject: {fileID: 562978402930903492}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: d5cbc9503129b934cbd2a1c2e60105b1, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: f6ee47ef73259724789ef21c43d19889, type: 2}
   m_EnableTreeColliders: 1
 --- !u!1 &562978402930903492
 GameObject:

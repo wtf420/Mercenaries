@@ -83,6 +83,7 @@ public class Character : MonoBehaviour, IDamageable
 		_HP = soStats.HP_DEFAULT;
 		_skillCooldown = soStats.SKILL_COOLDOWN;
 
+		InGame.Create();
 		InGame inGameUI = UIManager.Instance.GetUI(UI.IN_GAME) as InGame;
 		_healthChange = inGameUI.HealthChange;
 		_bulletChange = inGameUI.BulletChange;

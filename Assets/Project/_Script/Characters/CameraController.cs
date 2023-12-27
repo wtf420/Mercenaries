@@ -36,8 +36,7 @@ public class CameraController : MonoBehaviour
 
 		if (isFollowPlayer)
 		{
-			position = Vector3.Lerp(position, Player.transform.position, speed * Time.deltaTime);
-			position += offSet;
+			position = Vector3.Lerp(position, Player.transform.position + offSet, speed * Time.deltaTime);
 
 			//calculate camera postion with angles and distance
 			Vector3 rotation = Quaternion.Euler(angle) * Vector3.up;

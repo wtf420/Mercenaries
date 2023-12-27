@@ -57,11 +57,6 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
 
         damageables = new List<IDamageable>();
-
-        if(UIManager.Instance != null)
-        {
-            InGame.Create();
-        }
     }
 
     void Start()
