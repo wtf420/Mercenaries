@@ -8,6 +8,8 @@ public class Turret : Pet
 	#region Fields & Properties
 	[SerializeField] private Bullet bulletPrefab;
 	[SerializeField] protected SO_Turret soStats;
+
+	[SerializeField] protected float _turningSpeed;
 	#endregion
 
 	#region Methods
@@ -56,6 +58,8 @@ public class Turret : Pet
 		{
 			return;
 		}
+		var q = Quaternion.LookRotation(target.transform.position - transform.position);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, _turningSpeed * Time.deltaTime);
 
 		if (attackable)
 		{

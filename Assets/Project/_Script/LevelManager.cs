@@ -57,11 +57,6 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
 
         damageables = new List<IDamageable>();
-
-        if(UIManager.Instance != null)
-        {
-            InGame.Create();
-        }
     }
 
     void Start()
@@ -107,7 +102,7 @@ public class LevelManager : MonoBehaviour
         enemiesLeft = possibleEnemyCount;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (!character.IsDead)
         {

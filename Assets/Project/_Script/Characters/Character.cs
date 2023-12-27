@@ -83,6 +83,7 @@ public class Character : MonoBehaviour, IDamageable
 		_HP = soStats.HP_DEFAULT;
 		_skillCooldown = soStats.SKILL_COOLDOWN;
 
+		InGame.Create();
 		InGame inGameUI = UIManager.Instance.GetUI(UI.IN_GAME) as InGame;
 		_healthChange = inGameUI.HealthChange;
 		_bulletChange = inGameUI.BulletChange;
@@ -171,8 +172,12 @@ public class Character : MonoBehaviour, IDamageable
 		switch(buff)
 		{
 			case GameConfig.BUFF.HP:
-				_HP += statBuff;
-				SetWorldText($"Picked up {statBuff.ToString()} HP!");
+				if (_HP < soStats.HP_DEFAULT)
+				{
+					SetWorldText($"Picked up {(statBuff).ToString()} HP!");
+					_HP += statBuff;
+					_HP = Mathf.Clamp(_HP, 0, soStats.HP_DEFAULT);
+				}
 				break;
 
 			case GameConfig.BUFF.ATTACK:

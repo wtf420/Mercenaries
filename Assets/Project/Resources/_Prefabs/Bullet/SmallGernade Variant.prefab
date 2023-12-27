@@ -13,8 +13,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2506289262012767424, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
       propertyPath: m_Name
-      value: SmallGernade
+      value: SmallGernade Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2506289262012767428, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 2506289262012767429, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
       propertyPath: m_RootOrder
       value: 0

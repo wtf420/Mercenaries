@@ -7,17 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6724973946691357696, guid: ba3cb28052eefff40885ef180b982586, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_LocalPosition.x
@@ -29,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 93109834160522689, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_LocalRotation.w
@@ -72,7 +80,8 @@ PrefabInstance:
       value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
+    - {fileID: 3400029559891322804, guid: ba3cb28052eefff40885ef180b982586, type: 3}
+    - {fileID: 1830181290631936807, guid: ba3cb28052eefff40885ef180b982586, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba3cb28052eefff40885ef180b982586, type: 3}
 --- !u!1 &1844536230475951175 stripped
 GameObject:
@@ -91,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e90b4af205455a4b8ce9adeab08a89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   soStats: {fileID: 11400000, guid: ed24e0c77b88af4449f534bc37c46a31, type: 2}
   bulletPrefab: {fileID: 6365927832070498317, guid: 2736e310cb57cd44dbe3344687ab64bd, type: 3}
   _bulletPerShot: 5
