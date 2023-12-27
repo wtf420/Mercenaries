@@ -15,9 +15,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 2506289262012767428, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -3134878373748149225, guid: 0296b04e27ab65b43be4999dfba2abdb, type: 3}
     - target: {fileID: 2506289262012767429, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2506289262012767429, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2506289262012767429, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59,6 +67,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2506289262012767429, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750061685187090306, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -3134878373748149225, guid: 0296b04e27ab65b43be4999dfba2abdb, type: 3}
+    - target: {fileID: 8750061685187090306, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1313693705, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
@@ -84,6 +104,7 @@ MonoBehaviour:
   _damage: 0
   _damageScaleWithDistance: 1
   particle: {fileID: 4936766508533269723, guid: 9fa5a8d2ac80dd746af39607728baf3f, type: 3}
+  source: {fileID: 0}
   smallerGernade: {fileID: 4611654578335680865, guid: 8809b4bf50f29c2469652beae52a7072, type: 3}
   smallerGernadeCount: 5
   smallerGernadeThrowForce: 5
