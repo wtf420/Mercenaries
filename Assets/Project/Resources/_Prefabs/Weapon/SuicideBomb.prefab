@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9a27c8e3f21b94594e2fb8810eac3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   _explosionTimer: 0
   _explosionRadius: 5
   _damage: 50
   _selfDamage: 1000
   _damageScaleWithDistance: 0
   _damageAllies: 1
+  explosionParticle: {fileID: 4936766508533269723, guid: 9fa5a8d2ac80dd746af39607728baf3f, type: 3}

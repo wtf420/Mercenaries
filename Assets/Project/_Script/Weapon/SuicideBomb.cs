@@ -6,7 +6,8 @@ public class SuicideBomb : IWeapon
 {
     [SerializeField] protected float _explosionTimer, _explosionRadius, _damage, _selfDamage;
     [SerializeField] protected bool _damageScaleWithDistance, _damageAllies;
-    
+    [SerializeField] protected GameObject explosionParticle;
+
     public override void Initialize()
     {
         this.tag = transform.parent.tag;
@@ -59,7 +60,7 @@ public class SuicideBomb : IWeapon
             Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
         StopAllCoroutines();
-        Debug.Log(gameObject.GetComponent<IDamageable>());
+        Instantiate(explosionParticle, this.transform.position, new Quaternion());
         if (gameObject.GetComponentInParent<IDamageable>() != null)
         {
             gameObject.GetComponentInParent<IDamageable>().TakenDamage(new Damage(_selfDamage, null, null, null));

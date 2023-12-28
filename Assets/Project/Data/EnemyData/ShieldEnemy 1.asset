@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db53010b6ebfb9749873886aa892431e, type: 3}
   m_Name: ShieldEnemy 1
   m_EditorClassIdentifier: 
-  HP_DEFAULT: 200
+  HP_DEFAULT: 100
   ATTACK_RANGE_DEFAULT: 5
   MOVE_SPEED_DEFAULT: 6
   DETECT_RANGE: 8
