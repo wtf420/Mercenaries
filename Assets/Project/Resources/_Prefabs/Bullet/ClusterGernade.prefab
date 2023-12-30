@@ -103,7 +103,7 @@ MonoBehaviour:
   _explosionRadius: 3
   _damage: 0
   _damageScaleWithDistance: 1
-  particle: {fileID: 4936766508533269723, guid: 9fa5a8d2ac80dd746af39607728baf3f, type: 3}
+  explosionParticle: {fileID: 4936766508533269723, guid: 9fa5a8d2ac80dd746af39607728baf3f, type: 3}
   source: {fileID: 0}
   smallerGernade: {fileID: 4611654578335680865, guid: 8809b4bf50f29c2469652beae52a7072, type: 3}
   smallerGernadeCount: 5

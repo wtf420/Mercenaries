@@ -57,6 +57,15 @@ public class EnemyShield : Enemy
         }
     }
 
+    public override void TakenDamage(Damage damage)
+    {
+        if (canUseSkill)
+        {
+            StartCoroutine(Skill());
+        }
+        base.TakenDamage(damage);
+    }
+
     protected virtual IEnumerator SkillCooldown()
     {
         canUseSkill = false;

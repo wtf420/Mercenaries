@@ -28,7 +28,6 @@ public class Character : MonoBehaviour, IDamageable
 	[SerializeField] protected Canvas worldCanvas;
 	[SerializeField] protected Canvas screenCanvas;
 
-	[SerializeField] protected Slider healthbar;
 	[SerializeField] protected TextMeshProUGUI worldText;
 	[SerializeField] protected TextMeshProUGUI screenText;
 
@@ -59,6 +58,8 @@ public class Character : MonoBehaviour, IDamageable
 	private Action<int> _bulletChange;
 	private Action<GameConfig.WEAPON> _weaponChange;
 
+	protected Healthbar healthbar;
+
 	#endregion
 
 	#region Methods
@@ -74,6 +75,7 @@ public class Character : MonoBehaviour, IDamageable
 	{
 		Instance = this;
 		LevelManager.Instance.damageables.Add(this);
+		healthbar = GetComponentInChildren<Healthbar>();
 		characterRigidbody = GetComponent<Rigidbody>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
@@ -104,10 +106,6 @@ public class Character : MonoBehaviour, IDamageable
 		}
 		_weaponChange?.Invoke(weapons[0].Type);
 
-		healthbar.minValue = 0;
-		healthbar.maxValue = _HP;
-		healthbar.value = _HP;
-
 		IsDead = false;
 
 		speedX = 0;
@@ -118,8 +116,6 @@ public class Character : MonoBehaviour, IDamageable
 
 	public virtual void UpdateUI()
 	{
-		healthbar.value = _HP;
-		_healthChange?.Invoke(_HP);
 		worldCanvas.transform.LookAt(transform.position + Camera.main.transform.forward);
 	}
 
@@ -157,7 +153,7 @@ public class Character : MonoBehaviour, IDamageable
 		if (_HP > 0 && !invulnerable)
 		{
 			_HP -= damage.value;
-			healthbar.value = _HP;
+			healthbar.HealthUpdate();
 			//Debug.Log($"Character hp: {_HP}");
 			if (_HP <= 0)
 			{
@@ -365,6 +361,11 @@ public class Character : MonoBehaviour, IDamageable
 	public void SetScreenText(string t)
 	{
 		screenText.SetText(t);
+	}
+
+	public virtual float GetHP()
+	{
+		return _HP;
 	}
 
 	[ExecuteInEditMode]
