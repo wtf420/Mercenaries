@@ -114,6 +114,7 @@ public class Character : MonoBehaviour, IDamageable
 		speedZ = 0;
 		maxSpeed = _moveSpeed;
 		//characterRigidbody.drag = drag;
+		healthbar.Start();
 	}
 
 	public virtual void UpdateUI()

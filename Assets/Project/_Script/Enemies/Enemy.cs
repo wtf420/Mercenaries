@@ -33,15 +33,14 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected float _turningSpeed;
 
 	protected bool _patrolable = true;
-	protected bool isAlerted = false;
+	protected internal bool isAlerted = false;
 
 	protected Transform target;
 	protected Healthbar healthbar;
+	public UnityEvent<Enemy> OnDeathEvent;
 	#endregion
 
 	#region Methods
-	public UnityEvent<Enemy> OnDeathEvent;
-
 	public virtual void Initialize(Path p = null)
 	{
 		this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
@@ -73,6 +72,8 @@ public class Enemy: MonoBehaviour, IDamageable
 			weapon.Initialize();
 			weapon.tag = this.tag;
 		}
+
+		healthbar.Start();
 	}
 
 	void Start()
