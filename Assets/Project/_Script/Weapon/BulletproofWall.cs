@@ -85,6 +85,11 @@ public class BulletproofWall : IWeapon, IDamageable
 		}
 	}
 
+	public virtual float GetHP()
+	{
+		return _HP;
+	}
+
 	private IEnumerator IE_RemainingTime()
 	{
 		yield return new WaitForSeconds(remainingTime);

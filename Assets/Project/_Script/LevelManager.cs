@@ -18,6 +18,10 @@ public class LevelManager : MonoBehaviour
     public GameMode currentGameMode;
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
     public GameObject characterSpawner;
+    public bool GamePaused = false;
+    
+    //to activate the gamelost event only once
+    private bool GameLost = false;
 
     // [SerializeField]
     // protected PatrolScope _patrolScope;
@@ -131,7 +135,11 @@ public class LevelManager : MonoBehaviour
         else if (LoseCondition())
         {
             //character.SetScreenText("You Lose!");
-            Scenario.Instance.OnLoseEvent?.Invoke();
+            if (!GameLost)
+            {
+                Scenario.Instance.OnLoseEvent?.Invoke();
+                GameLost = true;
+            }
         }
     }
 
@@ -184,6 +192,18 @@ public class LevelManager : MonoBehaviour
                     return character.IsDead;
                 }
         }
+    }
+
+    public void ResumeGame()
+    {
+        GamePaused = false;
+        Time.timeScale = 1f;
+    }
+
+    public void PauseGame()
+    {
+        GamePaused = true;
+        Time.timeScale = 0;
     }
     #endregion
 }

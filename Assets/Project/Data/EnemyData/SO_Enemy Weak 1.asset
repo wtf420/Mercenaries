@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db53010b6ebfb9749873886aa892431e, type: 3}
   m_Name: SO_Enemy Weak 1
   m_EditorClassIdentifier: 
-  HP_DEFAULT: 20
+  HP_DEFAULT: 25
   ATTACK_RANGE_DEFAULT: 8
   MOVE_SPEED_DEFAULT: 6
   DETECT_RANGE: 7.5

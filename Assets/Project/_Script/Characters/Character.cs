@@ -27,8 +27,8 @@ public class Character : MonoBehaviour, IDamageable
 	[Header("_~* 	User Interface")]
 	[SerializeField] protected Canvas worldCanvas;
 	[SerializeField] protected Canvas screenCanvas;
+	[SerializeField] protected Pointer pointer;
 
-	[SerializeField] protected Slider healthbar;
 	[SerializeField] protected TextMeshProUGUI worldText;
 	[SerializeField] protected TextMeshProUGUI screenText;
 
@@ -59,6 +59,8 @@ public class Character : MonoBehaviour, IDamageable
 	private Action<int> _bulletChange;
 	private Action<GameConfig.WEAPON> _weaponChange;
 
+	protected Healthbar healthbar;
+
 	#endregion
 
 	#region Methods
@@ -74,7 +76,9 @@ public class Character : MonoBehaviour, IDamageable
 	{
 		Instance = this;
 		LevelManager.Instance.damageables.Add(this);
+		healthbar = GetComponentInChildren<Healthbar>();
 		characterRigidbody = GetComponent<Rigidbody>();
+		pointer = GetComponentInChildren<Pointer>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
 		//SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
@@ -104,22 +108,17 @@ public class Character : MonoBehaviour, IDamageable
 		}
 		_weaponChange?.Invoke(weapons[0].Type);
 
-		healthbar.minValue = 0;
-		healthbar.maxValue = _HP;
-		healthbar.value = _HP;
-
 		IsDead = false;
 
 		speedX = 0;
 		speedZ = 0;
 		maxSpeed = _moveSpeed;
 		//characterRigidbody.drag = drag;
+		healthbar.Start();
 	}
 
 	public virtual void UpdateUI()
 	{
-		healthbar.value = _HP;
-		_healthChange?.Invoke(_HP);
 		worldCanvas.transform.LookAt(transform.position + Camera.main.transform.forward);
 	}
 
@@ -150,6 +149,19 @@ public class Character : MonoBehaviour, IDamageable
 		{
 			weapons[currentWeapon].AttemptAttack();
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{	
+			if (LevelManager.Instance.GamePaused)
+			{
+				UIManager.Instance.RemoveAllUIInPlayGame();
+				LevelManager.Instance.ResumeGame();
+			} else
+			{
+				PauseMenu.Create();
+				LevelManager.Instance.PauseGame();
+			}
+		}
 	}
 
 	public void TakenDamage(Damage damage)
@@ -157,7 +169,7 @@ public class Character : MonoBehaviour, IDamageable
 		if (_HP > 0 && !invulnerable)
 		{
 			_HP -= damage.value;
-			healthbar.value = _HP;
+			healthbar.HealthUpdate();
 			//Debug.Log($"Character hp: {_HP}");
 			if (_HP <= 0)
 			{
@@ -365,6 +377,19 @@ public class Character : MonoBehaviour, IDamageable
 	public void SetScreenText(string t)
 	{
 		screenText.SetText(t);
+	}
+
+	public virtual float GetHP()
+	{
+		return _HP;
+	}
+
+	public void SetPointerTarget(Transform transform)
+	{
+		if (pointer != null)
+		{
+			pointer.SetTarget(transform);
+		}
 	}
 
 	[ExecuteInEditMode]

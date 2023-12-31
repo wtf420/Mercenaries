@@ -24,7 +24,7 @@ public class Item : MonoBehaviour, IPickable
 
 	public static Item CreateBuff(Vector3 position, GameConfig.BUFF buffType, float stat = 0)
 	{
-		Item item = Instantiate(Resources.Load<Item>("_Prefabs/Pickable/OriginPickable"));
+		Item item = Instantiate(Resources.Load<Item>("_Prefabs/Pickable/Buff/HP_BUFF"));
 		item._type = GameConfig.PICKABLE_TYPE.BUFF;
 		item._buffType = buffType;
 		item._statBuff = stat;

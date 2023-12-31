@@ -31,5 +31,5 @@ public interface IDamageable
     public bool IsDead { get; }
     public float AttackPriority { get; }
     public virtual void TakenDamage(Damage damage) { }
-    public bool IsInPatrolScope { get; set; }
+    public float GetHP();
 }

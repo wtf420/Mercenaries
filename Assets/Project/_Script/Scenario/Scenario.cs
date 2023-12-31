@@ -27,7 +27,7 @@ public class Scenario : MonoBehaviour
 
         UnityAction a = () =>
         {
-            Character.Instance.SetScreenText("You Win!");
+            VictoryScreen.Create();
             InvokeGameEvent("End");
         };
         GetGameEvent("Win")?.onEventsStart.AddListener(a);
@@ -35,7 +35,7 @@ public class Scenario : MonoBehaviour
 
         UnityAction b = () =>
         {
-            Character.Instance.SetScreenText("You Lose!");
+            DefeatScreen.Create();
             InvokeGameEvent("End");
         };
         GetGameEvent("Lose")?.onEventsStart.AddListener(b);

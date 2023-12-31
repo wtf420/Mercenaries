@@ -66,32 +66,16 @@ public class UIManager : MonoBehaviour
             MainMenu.Create();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ResumeGame()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			if (GameManager.Instance.IsInPlayScene())
-			{
-				if (UserInterfaces.Count > 1)
-				{
-					RemoveAllUIInPlayGame();
-					Time.timeScale = 1f;
-					return;
-				}
-			}
-			else
-			{
-				return;
-			}
+        RemoveAllUIInPlayGame();
+        Time.timeScale = 1f;
+    }
 
-			var pause = UserInterfaces.Find(element => element.Type == UI.PAUSE);
-            if (pause == null)
-            {
-                PauseMenu.Create();
-                Time.timeScale = 0;
-            }
-		}
+    public void PauseGame()
+    {
+        PauseMenu.Create();
+        Time.timeScale = 0;
     }
 
     public void FindMainMenuAudio()
@@ -115,7 +99,7 @@ public class UIManager : MonoBehaviour
 
     public IUserInterface GetUI(UI type) => UserInterfaces.Find(element => element.Type == type);
 
-    private void RemoveAllUIInPlayGame()
+    public void RemoveAllUIInPlayGame()
 	{
         for (int i = UserInterfaces.Count - 1; i >= 0; i--)
 		{

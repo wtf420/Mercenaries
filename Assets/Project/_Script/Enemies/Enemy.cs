@@ -27,25 +27,27 @@ public class Enemy: MonoBehaviour, IDamageable
 	[Header("_~* 	Movement & control")]
 	protected float _moveSpeed;
 	protected float _HP;
+	public bool HP { get {return HP; } }
 	protected float _detectRange;
 	protected float _attackRange;
 	protected float _turningSpeed;
 
 	protected bool _patrolable = true;
-	protected bool isAlerted = false;
+	protected internal bool isAlerted = false;
 
 	protected Transform target;
+	protected Healthbar healthbar;
+	public UnityEvent<Enemy> OnDeathEvent;
 	#endregion
 
 	#region Methods
-	public UnityEvent<Enemy> OnDeathEvent;
-
 	public virtual void Initialize(Path p = null)
 	{
 		this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
 		enemyAgent = GetComponent<NavMeshAgent>();
 		characterRigidbody = GetComponent<Rigidbody>();
 		OnDeathEvent = new UnityEvent<Enemy>();
+		healthbar = GetComponentInChildren<Healthbar>();
 
 		//SO_EnemyDefault stats = (SO_EnemyDefault)LevelManager.Instance.GetStats(GameConfig.SO_TYPE.ENEMY, (int)GameConfig.ENEMY.ENEMY_DEFAULT);
 		//SO_EnemyDefault stats = LevelManager.Instance.GetStats(this);
@@ -70,6 +72,8 @@ public class Enemy: MonoBehaviour, IDamageable
 			weapon.Initialize();
 			weapon.tag = this.tag;
 		}
+
+		healthbar.Start();
 	}
 
 	void Start()
@@ -143,8 +147,9 @@ public class Enemy: MonoBehaviour, IDamageable
 		if(_HP > 0)
 		{
 			_HP -= damage.value;
+			healthbar.HealthUpdate();
 			//Debug.Log($"Enemy hp: {_HP}");
-			if(_HP <= 0)
+			if (_HP <= 0)
 			{
 				IsDead = true;
 				if (!deleteUponDeath)
@@ -268,6 +273,11 @@ public class Enemy: MonoBehaviour, IDamageable
 	protected virtual IEnumerator Skill()
 	{
 		yield return null;
+	}
+
+	public virtual float GetHP()
+	{
+		return _HP;
 	}
 
 	[ExecuteInEditMode]

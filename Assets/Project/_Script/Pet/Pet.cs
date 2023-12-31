@@ -64,6 +64,11 @@ public class Pet : MonoBehaviour, IDamageable
 
 		attackable = true;
 	}
+
+	public virtual float GetHP()
+	{
+		return 0f;
+	}
 	#endregion
 }
 

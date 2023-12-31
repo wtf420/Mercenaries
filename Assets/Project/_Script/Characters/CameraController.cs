@@ -29,6 +29,26 @@ public class CameraController : MonoBehaviour
 		Camera = this.gameObject;
 	}
 
+	void Start()
+	{
+		if (isFollowPlayer)
+		{
+			position = Player.transform.position + offSet;
+
+			//calculate camera postion with angles and distance
+			Vector3 rotation = Quaternion.Euler(angle) * Vector3.up;
+			Ray ray = new Ray(position, distance * rotation.normalized);
+			Camera.transform.position = ray.GetPoint(distance);
+
+			//look at player
+			if (LookAtPlayer)
+			{
+				Quaternion LookRotation = Quaternion.LookRotation(Player.transform.position - transform.position, Vector3.up);
+				Camera.transform.rotation = LookRotation;
+			}
+		}
+	}
+
 	public void UpdateCamera()
 	{
 		if (Input.GetKeyDown(KeyCode.C))
