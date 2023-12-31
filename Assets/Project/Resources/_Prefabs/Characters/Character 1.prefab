@@ -169,7 +169,6 @@ MonoBehaviour:
   invulnerable: 0
   worldCanvas: {fileID: 4790140101301003975}
   screenCanvas: {fileID: 2911324610839510980}
-  healthbar: {fileID: 0}
   worldText: {fileID: 4486669451606269441}
   screenText: {fileID: 7416328869955943521}
   characterRigidbody: {fileID: 0}
@@ -580,7 +579,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7334952457811126573}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.33, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

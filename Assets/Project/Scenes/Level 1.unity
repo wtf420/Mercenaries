@@ -370,7 +370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &119781861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,19 +493,7 @@ MonoBehaviour:
   ID: Win
   Events:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1098202228}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BeginLevel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Main Menu
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onEventsStart:
     m_PersistentCalls:
       m_Calls: []
@@ -607,7 +595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: SelectedCharacter
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
@@ -2296,17 +2284,6 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.186, y: 1.215, z: 0.317}
   m_TimeToStationary: 0.5
---- !u!114 &1098202228 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
-  m_PrefabInstance: {fileID: 145404556}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1251d37fe3889b14d9a13495c2f99661, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1119549133
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,7 +2601,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 359987671774780767, guid: 10bf5d0cacc7c9a42b8b3de041a63b27, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10bf5d0cacc7c9a42b8b3de041a63b27, type: 3}
@@ -4161,19 +4138,7 @@ MonoBehaviour:
   ID: End
   Events:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1098202228}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BeginLevel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Main Menu
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onEventsStart:
     m_PersistentCalls:
       m_Calls: []

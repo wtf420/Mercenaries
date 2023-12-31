@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2988157764465007831}
   - component: {fileID: 1912679332718453988}
   - component: {fileID: 5401781980694602810}
-  - component: {fileID: 3620207301857788155}
   m_Layer: 6
   m_Name: GunModel
   m_TagString: Untagged
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65059056153936961}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.491, y: 0.153, z: 0.29}
+  m_LocalPosition: {x: -0.25, y: 0, z: 0.54}
   m_LocalScale: {x: 1.36, y: 1.36, z: 1.36}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3620207301857788155
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65059056153936961}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6418162293601418616, guid: f3c17a0215984b14abdef7e4c67297f1, type: 3}
 --- !u!1 &1546598378059070450
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8194616924171191603}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.13, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -606,7 +591,6 @@ MonoBehaviour:
   invulnerable: 0
   worldCanvas: {fileID: 8716066031764227126}
   screenCanvas: {fileID: 996022756082669384}
-  healthbar: {fileID: 0}
   worldText: {fileID: 2039022457167594754}
   screenText: {fileID: 4766665331257482387}
   characterRigidbody: {fileID: 0}

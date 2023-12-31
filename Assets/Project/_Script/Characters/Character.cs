@@ -146,6 +146,19 @@ public class Character : MonoBehaviour, IDamageable
 		{
 			weapons[currentWeapon].AttemptAttack();
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{	
+			if (LevelManager.Instance.GamePaused)
+			{
+				UIManager.Instance.RemoveAllUIInPlayGame();
+				LevelManager.Instance.ResumeGame();
+			} else
+			{
+				PauseMenu.Create();
+				LevelManager.Instance.PauseGame();
+			}
+		}
 	}
 
 	public void TakenDamage(Damage damage)

@@ -272,7 +272,6 @@ MonoBehaviour:
   invulnerable: 0
   worldCanvas: {fileID: 864132232087853552}
   screenCanvas: {fileID: 145677184695053749}
-  healthbar: {fileID: 0}
   worldText: {fileID: 9017083312280190503}
   screenText: {fileID: 3371060308334076640}
   characterRigidbody: {fileID: 0}
@@ -631,7 +630,6 @@ GameObject:
   - component: {fileID: 4445547073333448681}
   - component: {fileID: 6103203343170591879}
   - component: {fileID: 1055715201987940187}
-  - component: {fileID: 4427431722900441724}
   m_Layer: 6
   m_Name: GunModel
   m_TagString: Untagged
@@ -704,20 +702,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4427431722900441724
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8294428591847228097}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6322301886240935113, guid: 1f2bd1c22d3be4c468a13bca7f4a129c, type: 3}
 --- !u!1001 &4675669302175227613
 PrefabInstance:
   m_ObjectHideFlags: 0
