@@ -27,6 +27,7 @@ public class Character : MonoBehaviour, IDamageable
 	[Header("_~* 	User Interface")]
 	[SerializeField] protected Canvas worldCanvas;
 	[SerializeField] protected Canvas screenCanvas;
+	[SerializeField] protected Pointer pointer;
 
 	[SerializeField] protected TextMeshProUGUI worldText;
 	[SerializeField] protected TextMeshProUGUI screenText;
@@ -77,6 +78,7 @@ public class Character : MonoBehaviour, IDamageable
 		LevelManager.Instance.damageables.Add(this);
 		healthbar = GetComponentInChildren<Healthbar>();
 		characterRigidbody = GetComponent<Rigidbody>();
+		pointer = GetComponentInChildren<Pointer>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
 		//SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
@@ -379,6 +381,14 @@ public class Character : MonoBehaviour, IDamageable
 	public virtual float GetHP()
 	{
 		return _HP;
+	}
+
+	public void SetPointerTarget(Transform transform)
+	{
+		if (pointer != null)
+		{
+			pointer.SetTarget(transform);
+		}
 	}
 
 	[ExecuteInEditMode]

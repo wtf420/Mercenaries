@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8931324059579895684}
   m_Layer: 8
   m_Name: WinTrigger
-  m_TagString: Untagged
+  m_TagString: OBJECTIVE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -20,7 +20,6 @@ public class DefeatScreen : MonoBehaviour, IUserInterface
         defeatScreen.Type = UI.LOSE;
 
         UIManager.Instance.UserInterfaces.Add(defeatScreen);
-        LevelManager.Instance.PauseGame();
         return defeatScreen;
     }
 

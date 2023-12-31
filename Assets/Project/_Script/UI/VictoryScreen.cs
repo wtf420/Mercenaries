@@ -31,10 +31,10 @@ public class VictoryScreen : MonoBehaviour, IUserInterface
         int nextLevel = SceneManager.GetActiveScene().buildIndex + 1;
         if (nextLevel < SceneManager.sceneCount &&  SceneManager.GetSceneAt(nextLevel) != null)
         {
-            _nextLevel.enabled = true;
+            _nextLevel.gameObject.SetActive(true);
         } else
         {
-            _nextLevel.enabled = false;
+            _nextLevel.gameObject.SetActive(false);
         }
 
         _mainMenu.onClick.AddListener(BackToMainMenu);

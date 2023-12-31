@@ -543,7 +543,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d3463e353b7924c4db904d16d446e134, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -729,7 +729,7 @@ PrefabInstance:
     - target: {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: soStats
       value: 
-      objectReference: {fileID: 11400000, guid: 3c231f46dca9e334bb37c6df09ee9466, type: 2}
+      objectReference: {fileID: 11400000, guid: a3331f3c1cc8fca44a6483e7e74143e8, type: 2}
     - target: {fileID: 3594500877275242806, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_Name
       value: Rifle

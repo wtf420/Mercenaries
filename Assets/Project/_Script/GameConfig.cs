@@ -9,7 +9,7 @@ public class GameConfig
 	public const float TIME_STOP_AFTER_PATROLLING = 5f;
 
 	public const float RATIO_DROP_BUFF = 0.5f;
-	public const float RATIO_DROP_ITEM = 0.9f;
+	public const float RATIO_DROP_ITEM = 0.0f;
 
 	public enum COLLIDABLE_OBJECT
 	{

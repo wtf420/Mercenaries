@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9213063153330929200}
   m_Layer: 8
   m_Name: Physical Trigger
-  m_TagString: Untagged
+  m_TagString: OBJECTIVE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,7 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20fbe983a28e0db48864c577a3aed581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 0}
+  gameEvent:
+  - {fileID: 0}
   OneTimeUseOnly: 1
 --- !u!114 &9213063153330929200
 MonoBehaviour:
