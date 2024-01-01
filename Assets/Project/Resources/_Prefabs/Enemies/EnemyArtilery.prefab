@@ -152,7 +152,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: abf2b80b1293f474ca52728ec2a55888, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -203,6 +203,7 @@ MonoBehaviour:
   weapon: {fileID: 8131035703353732718}
   soStats: {fileID: 11400000, guid: f591f69b6cf4c054db27b6f6f99d90b5, type: 2}
   path: {fileID: 0}
+  stoppingDistance: 1
   deleteUponDeath: 1
   OnDeathEvent:
     m_PersistentCalls:

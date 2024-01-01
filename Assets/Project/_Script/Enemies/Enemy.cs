@@ -241,6 +241,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			{
 				if (_patrolable)
 				{
+					//Debug.Log("Destination reached, starting patrol at " + CurrentDestination.ToString());
 					StartCoroutine(IE_Patrol());
 				}
 			} 
@@ -250,9 +251,9 @@ public class Enemy: MonoBehaviour, IDamageable
 				if (currentPosition >= path.NodeCount())
 					currentPosition = 0;
 				CurrentDestination = path.GetNodePosition(currentPosition);
+				enemyAgent.SetDestination(CurrentDestination);
 			}
 		}
-		enemyAgent.SetDestination(CurrentDestination);
 	}
 
 	protected IEnumerator IE_Patrol()
@@ -265,6 +266,8 @@ public class Enemy: MonoBehaviour, IDamageable
 		if (currentPosition >= path.NodeCount())
 			currentPosition = 0;
 		CurrentDestination = path.GetNodePosition(currentPosition);
+		enemyAgent.SetDestination(CurrentDestination);
+		//Debug.Log($"Patrol is over, heading to {CurrentDestination}");
 		//Debug.Log($"Postion: '{CurrentDestination}, Node Index: '{currentPosition}");
 	}
 

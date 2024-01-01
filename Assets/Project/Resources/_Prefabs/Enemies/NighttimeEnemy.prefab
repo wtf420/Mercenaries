@@ -473,7 +473,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 9030838150508830745, guid: f8a056ff363ab664c8d43dd47879095b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRigidbody: {fileID: 0}
   weapon: {fileID: 7681529003548465323}
-  soStats: {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
+  soStats: {fileID: 11400000, guid: 5d296cf789033ae4b99722be9f39cc69, type: 2}
   path: {fileID: 0}
   stoppingDistance: 0
   deleteUponDeath: 0
@@ -593,14 +593,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8093071908743126803}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 0.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7784886527559084262}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!108 &8093071908743126813
 Light:
   m_ObjectHideFlags: 0
@@ -614,7 +614,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 50
-  m_Range: 10
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -717,7 +717,11 @@ PrefabInstance:
     - target: {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: soStats
       value: 
-      objectReference: {fileID: 11400000, guid: a3331f3c1cc8fca44a6483e7e74143e8, type: 2}
+      objectReference: {fileID: 11400000, guid: aa10ced786281d440b39e844131d3ff1, type: 2}
+    - target: {fileID: 473789330792237409, guid: ba3cb28052eefff40885ef180b982586, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 8916363061514822785, guid: 154b7adb3037690469c5b99992cd19ef, type: 3}
     - target: {fileID: 3594500877275242806, guid: ba3cb28052eefff40885ef180b982586, type: 3}
       propertyPath: m_Name
       value: Rifle
