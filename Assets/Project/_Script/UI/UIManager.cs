@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     public List<IUserInterface> UserInterfaces;
 
-    public List<Action<float>> VolumeChanges;
+    private List<AudioSource> _volumeChanges;
 
     public float Volume
 	{
@@ -32,9 +32,9 @@ public class UIManager : MonoBehaviour
         set
 		{
             _volume = value;
-            foreach (var volumeChange in VolumeChanges)
+            foreach (var volumeChange in _volumeChanges)
 			{
-                volumeChange?.Invoke(_volume);
+                volumeChange.volume = _volume;
 			}
 
             if(_mainMenuAudio)
@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
 
         DataPersistenceManager.Instance.LoadData();
 
-        VolumeChanges = new List<Action<float>>();
+        _volumeChanges = new List<AudioSource>();
         UserInterfaces = new List<IUserInterface>();
         if (SceneManager.GetActiveScene().name == "Main Menu")
             MainMenu.Create();
@@ -87,14 +87,17 @@ public class UIManager : MonoBehaviour
 		}
     }
 
-    public void SubscribeVolumeEvent(Action<float> action)
+    public void SubscribeVolumeEvent(AudioSource audio)
 	{
-        VolumeChanges.Add(action);
+        _volumeChanges.Add(audio);
+
+        // set volume for all
+        audio.volume = _volume;
 	}        
 
-    public void UnSubscribeVolumeEvent(Action<float> action)
+    public void UnSubscribeVolumeEvent(AudioSource audio)
 	{
-        VolumeChanges.Remove(action);
+        _volumeChanges.Remove(audio);
 	}
 
     public IUserInterface GetUI(UI type) => UserInterfaces.Find(element => element.Type == type);

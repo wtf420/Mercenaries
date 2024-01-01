@@ -45,6 +45,8 @@ public class Gun: IWeapon
 		currentBulletQuantity = _magazineCapacity;
 		delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
 		gunSound = GetComponent<AudioSource>();
+
+		UIManager.Instance.SubscribeVolumeEvent(gunSound);
 	}
 
 	void Start()
@@ -108,6 +110,11 @@ public class Gun: IWeapon
 	}
 
 	public override int GetCurrentBullet => (int)currentBulletQuantity;
+
+	private void OnDisable()
+	{
+		UIManager.Instance.UnSubscribeVolumeEvent(gunSound);
+	}
 
 	[ExecuteInEditMode]
 	private void OnDrawGizmos()
