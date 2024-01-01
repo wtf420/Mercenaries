@@ -14,6 +14,7 @@ public class Enemy: MonoBehaviour, IDamageable
 	[SerializeField] protected IWeapon weapon;
 	[SerializeField] protected SO_EnemyDefault soStats;
 	[SerializeField] protected Path path;
+	[SerializeField] protected float stoppingDistance = 1f;
 	[SerializeField] public bool deleteUponDeath = true;
 	public bool IsDead { get; protected set; }
 	public float AttackPriority { get; protected set; }
@@ -74,10 +75,6 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 
 		healthbar.Start();
-	}
-
-	void Start()
-	{
 		LevelManager.Instance.damageables.Add(this);
 		CurrentDestination = path.GetNodePosition(currentPosition);
 		enemyAgent.SetDestination(CurrentDestination);
@@ -238,7 +235,7 @@ public class Enemy: MonoBehaviour, IDamageable
 
 	protected virtual void MovementBehaviour()
 	{
-		if(Vector3.Distance(transform.position, CurrentDestination) < 1f)
+		if (enemyAgent.remainingDistance <= stoppingDistance)
 		{
 			if (path.GetNode(currentPosition).GetType() == typeof(PatrolScope))
 			{
@@ -268,6 +265,7 @@ public class Enemy: MonoBehaviour, IDamageable
 		if (currentPosition >= path.NodeCount())
 			currentPosition = 0;
 		CurrentDestination = path.GetNodePosition(currentPosition);
+		//Debug.Log($"Postion: '{CurrentDestination}, Node Index: '{currentPosition}");
 	}
 
 	protected virtual IEnumerator Skill()

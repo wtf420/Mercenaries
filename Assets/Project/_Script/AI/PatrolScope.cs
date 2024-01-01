@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using Unity.VisualScripting;
+using UnityEditor;
 
 public class Triangle
 {
@@ -13,8 +14,8 @@ public class Triangle
 public class PatrolScope : PathNode
 {
 	#region Fields & Properties
-	[SerializeField] protected List<Transform> _corners;
-    protected List<Triangle> _triangles;
+	[SerializeField] public List<Transform> _corners = new List<Transform>();
+    public List<Triangle> _triangles;
 
 	#endregion
 
@@ -28,7 +29,7 @@ public class PatrolScope : PathNode
             {
                 _triangles.Add(new Triangle()
                 {
-                    Vertex1 = _corners[0].position,
+                    Vertex1 = _corners[i - 2].position,
                     Vertex2 = _corners[i - 1].position,
                     Vertex3 = _corners[i].position
                 });
@@ -43,11 +44,11 @@ public class PatrolScope : PathNode
 
     public Vector3 GetRandomDestination(Vector3 transformPosition)
 	{
-        Vector3 GenVector = RandomWithinTriangle(_triangles[Random.Range(0, _triangles.Count)]);
+        Vector3 GenVector = RandomWithinTriangle(_triangles[Random.Range(0, _triangles.Count - 1)]);
 
 		while (Vector3.Distance(transformPosition, GenVector) < 2f)
 		{
-			GenVector = RandomWithinTriangle(_triangles[Random.Range(0, _triangles.Count)]);
+			GenVector = RandomWithinTriangle(_triangles[Random.Range(0, _triangles.Count - 1)]);
 		}
         GenVector.y = transformPosition.y;
 		return GenVector;
@@ -104,23 +105,55 @@ public class PatrolScope : PathNode
     }
 
     [ExecuteInEditMode]
-    private void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
-        if (_corners == null)
+        if (_corners == null || _corners.Count < 2)
 		{
             return;
 		}
 
-        for(int i = 1; i < _corners.Count; i++)
-		{
-            DebugExtension.DrawPoint(_corners[i].position);
-            for(int j = 0; j < i; j++)
-			{
-                Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
-                Gizmos.DrawLine(_corners[i].position, _corners[j].position);
-            }
-		}
+        Gizmos.color = new Color(1f, 0f, 0f, 0.5f);
+        for (int i = 2; i < _corners.Count; i++)
+        {
+            Gizmos.DrawLine(_corners[i - 2].position, _corners[i - 1].position);
+            Gizmos.DrawLine(_corners[i - 2].position, _corners[i].position);
+            Gizmos.DrawLine(_corners[i - 1].position, _corners[i].position);
+        }
     }
     #endregion
+}
+
+[CustomEditor(typeof(PatrolScope)), CanEditMultipleObjects]
+public class PatrolScopeEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        PatrolScope myTarget = (PatrolScope)target;
+
+        if (GUILayout.Button("GetAllNodes"))
+        {
+            myTarget._corners.Clear();
+            myTarget._corners.AddRange(myTarget.GetComponentsInChildren<Transform>());
+            myTarget._corners.Remove(myTarget.transform);
+
+            myTarget._triangles = new List<Triangle>();
+            for (int i = 2; i < myTarget._corners.Count; i++)
+            {
+                myTarget._triangles.Add(new Triangle()
+                {
+                    Vertex1 = myTarget._corners[i - 2].position,
+                    Vertex2 = myTarget._corners[i - 1].position,
+                    Vertex3 = myTarget._corners[i].position
+                });
+            }
+        }
+
+        if (GUILayout.Button("Get Random Point"))
+        {
+            Debug.Log($"Postion: '{myTarget.GetNodePostion()}, Triangle Count: '{myTarget._triangles.Count}");
+        }
+
+        DrawDefaultInspector();
+    }
 }
 

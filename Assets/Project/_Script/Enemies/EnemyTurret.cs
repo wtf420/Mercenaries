@@ -15,6 +15,7 @@ public class EnemyTurret : Enemy, IDamageable
 
     [SerializeField] protected LineRenderer Line1;
     [SerializeField] protected LineRenderer Line2;
+    [SerializeField] protected Light flashlight;
     protected int _sweepDirection = 1;
 
     protected Quaternion originalRotation;
@@ -45,6 +46,8 @@ public class EnemyTurret : Enemy, IDamageable
         }
 
         healthbar.Start();
+        flashlight.spotAngle = DetectAngle;
+        flashlight.range = _detectRange;
     }
 
     void Start()
