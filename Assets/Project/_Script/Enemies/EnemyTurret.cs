@@ -61,7 +61,10 @@ public class EnemyTurret : Enemy, IDamageable
         {
             target = DetectTarget();
             if (target != null)
+            {
+                AlertAllEnemies(target.gameObject);
                 isAlerted = true;
+            }
         }
         if (target != null)
         {

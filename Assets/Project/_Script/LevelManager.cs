@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
 
     //public CharacterSO characterInfo;
     [SerializeField] protected Character character;
-    [SerializeField] protected List<Enemy> enemies;
+    [SerializeField] public List<Enemy> enemies;
     [SerializeField] CameraController myCamera;
     public List<IDamageable> damageables;
 

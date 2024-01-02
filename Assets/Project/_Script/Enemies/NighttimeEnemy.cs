@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 
 public class NighttimeEnemy : Enemy
@@ -13,6 +14,17 @@ public class NighttimeEnemy : Enemy
         base.Initialize(p);
         flashlight.spotAngle = DetectAngle;
         flashlight.range = _detectRange;
+    }
+
+    public override void AlertNearbyEnemies(GameObject gameObject)
+    {
+        AlertAllEnemies(gameObject);
+    }
+
+    public override void Alert(GameObject gameObject)
+    {
+        base.Alert(gameObject);
+        _turningSpeed *= 360;
     }
 
     protected override Transform DetectTarget()

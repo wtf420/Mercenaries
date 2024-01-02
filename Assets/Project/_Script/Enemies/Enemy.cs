@@ -80,7 +80,7 @@ public class Enemy: MonoBehaviour, IDamageable
 		enemyAgent.SetDestination(CurrentDestination);
 	}
 
-	public void Alert(GameObject? gameObject)
+	public virtual void Alert(GameObject? gameObject)
 	{
 		isAlerted = true;
 		if (gameObject != null)
@@ -89,7 +89,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			target = Character.Instance.transform;
 	}
 
-	public void AlertNearbyEnemies(GameObject? gameObject)
+	public virtual void AlertNearbyEnemies(GameObject? gameObject)
 	{
 		foreach (Collider c in Physics.OverlapSphere(this.transform.position, _detectRange, LayerMask.GetMask("Damageables")))
 		{
@@ -102,13 +102,25 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 	}
 
+	public virtual void AlertAllEnemies(GameObject? gameObject)
+	{
+		foreach (Enemy e in LevelManager.Instance.enemies)
+		{
+			if (e != null && e.gameObject != this.gameObject && !e.IsDead && !e.isAlerted)
+				e.Alert(gameObject);
+		}
+	}
+
 	public virtual void UpdateEnemy()
 	{
 		if (!isAlerted)
 		{
 			target = DetectTarget();
 			if (target != null)
+			{
+				AlertNearbyEnemies(target.gameObject);
 				isAlerted = true;
+			}
 		}
 		if (target != null)
 		{
@@ -224,6 +236,7 @@ public class Enemy: MonoBehaviour, IDamageable
 				}
 			}
 		}
+		AlertNearbyEnemies(target.gameObject);
 		return target;
 	}
 
