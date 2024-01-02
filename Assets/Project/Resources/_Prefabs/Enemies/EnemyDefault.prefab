@@ -118,10 +118,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRigidbody: {fileID: 0}
   weapon: {fileID: 1930386088879084078}
-  soStats: {fileID: 11400000, guid: 0eaa90a0e7389c94f92680d66e104a10, type: 2}
+  soStats: {fileID: 11400000, guid: 8dcd9d09c85f97642abb347c9add02af, type: 2}
   path: {fileID: 0}
   stoppingDistance: 1
   deleteUponDeath: 1
+  alertType: 0
+  movementBehaviour: 1
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []

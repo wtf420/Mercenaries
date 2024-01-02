@@ -92,7 +92,6 @@ public class LevelManager : MonoBehaviour
         character.Initialize();
         myCamera = Camera.main.gameObject.GetComponent<CameraController>();
         myCamera.Initialize();
-        enemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         foreach (var enemy in enemies)
         {
             enemy.Initialize();
@@ -108,6 +107,14 @@ public class LevelManager : MonoBehaviour
 
     protected virtual void Update()
     {
+        foreach (var enemy in GameObject.FindObjectsOfType<Enemy>())
+        {
+            if (!enemy._initialized)
+            {
+                enemy.Initialize();
+            }
+        }
+
         if (!character.IsDead)
         {
             character.UpdateCharacter(enemies);

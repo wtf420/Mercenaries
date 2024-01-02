@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de586380c060e943a258b6e128970a4, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  DAMAGE_DEFAULT: 15
+  DAMAGE_DEFAULT: 10
   ATTACK_RANGE_DEFAULT: 15
   ATTACK_SPEED_DEFAULT: 100
   RELOAD_TIME: 1

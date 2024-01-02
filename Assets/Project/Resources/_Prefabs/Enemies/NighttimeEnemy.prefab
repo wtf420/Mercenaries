@@ -526,6 +526,9 @@ MonoBehaviour:
   path: {fileID: 0}
   stoppingDistance: 0
   deleteUponDeath: 0
+  _initialized: 0
+  alertType: 2
+  movementBehaviour: 1
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []

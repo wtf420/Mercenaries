@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7de586380c060e943a258b6e128970a4, type: 3}
-  m_Name: SMG
+  m_Script: {fileID: 11500000, guid: db53010b6ebfb9749873886aa892431e, type: 3}
+  m_Name: SO_Enemy Weak  Lv3
   m_EditorClassIdentifier: 
-  DAMAGE_DEFAULT: 12
+  HP_DEFAULT: 30
   ATTACK_RANGE_DEFAULT: 10
-  ATTACK_SPEED_DEFAULT: 800
-  RELOAD_TIME: 1
-  MAGAZINE_CAPACITY: 30
-  INACCURACY: 1
-  BULLET_SPEED: 25
+  MOVE_SPEED_DEFAULT: 10
+  DETECT_RANGE: 7.5
+  TURNING_SPEED: 180

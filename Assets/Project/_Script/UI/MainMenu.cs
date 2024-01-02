@@ -48,7 +48,7 @@ public class MainMenu : MonoBehaviour, IUserInterface
 
     private void Begin()
     {
-        GameManager.Instance.BeginLevel("AIWithSpawn");
+        GameManager.Instance.BeginLevel("Level 1");
     }
 
     private void OpenOption()

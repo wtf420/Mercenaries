@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a63768f114ee1478f0e7b0d5a67ad6, type: 3}
   m_Name: SO_Character 2
   m_EditorClassIdentifier: 
-  HP_DEFAULT: 100
-  DAMAGE_DEFAULT: 20
-  ATTACK_RANGE_DEFAULT: 2
-  ATTACK_SPEED_DEFAULT: 2
+  HP_DEFAULT: 150
   MOVE_SPEED_DEFAULT: 6
+  SKILL_COOLDOWN: 1

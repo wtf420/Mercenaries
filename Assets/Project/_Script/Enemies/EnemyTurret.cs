@@ -62,7 +62,18 @@ public class EnemyTurret : Enemy, IDamageable
             target = DetectTarget();
             if (target != null)
             {
-                AlertAllEnemies(target.gameObject);
+                switch (alertType)
+                {
+                    case AlertType.SamePath:
+                        AlertSamePathEnemies(target.gameObject);
+                        break;
+                    case AlertType.All:
+                        AlertAllEnemies(target.gameObject);
+                        break;
+                    default:
+                        AlertNearbyEnemies(target.gameObject);
+                        break;
+                }
                 isAlerted = true;
             }
         }
