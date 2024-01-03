@@ -120,7 +120,11 @@ MonoBehaviour:
   weapon: {fileID: 6450404699050453667}
   soStats: {fileID: 11400000, guid: ea49da12f48cd9b45926fbfd9f6bd425, type: 2}
   path: {fileID: 0}
+  stoppingDistance: 1
   deleteUponDeath: 1
+  _initialized: 0
+  alertType: 1
+  movementBehaviour: 1
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []

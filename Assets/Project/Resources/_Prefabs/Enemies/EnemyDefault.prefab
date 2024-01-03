@@ -122,7 +122,8 @@ MonoBehaviour:
   path: {fileID: 0}
   stoppingDistance: 1
   deleteUponDeath: 1
-  alertType: 0
+  _initialized: 0
+  alertType: 1
   movementBehaviour: 1
   OnDeathEvent:
     m_PersistentCalls:

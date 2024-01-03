@@ -602,7 +602,7 @@ MonoBehaviour:
   drag: 0
   dashForce: 50
   dashTime: 0.1
-  WallDimension: {x: 5, y: 2, z: 0.1}
+  WallDimension: {x: 5, y: 2, z: 0.5}
   wallHP: 100
   wallDuration: Infinity
   wallCoolDown: 3

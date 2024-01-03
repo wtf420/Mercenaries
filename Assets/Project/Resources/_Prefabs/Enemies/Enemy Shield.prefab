@@ -125,12 +125,16 @@ MonoBehaviour:
   weapon: {fileID: 3673557062036434975}
   soStats: {fileID: 11400000, guid: 06d49bb22de11d9479870c01b2a4a095, type: 2}
   path: {fileID: 0}
+  stoppingDistance: 1
   deleteUponDeath: 1
+  _initialized: 0
+  alertType: 1
+  movementBehaviour: 1
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []
   _offSet: {x: 0, y: 0, z: 2}
-  _skillCooldown: 5
+  _skillCooldown: 10
   _skillDuration: Infinity
-  wallHP: 100
+  wallHP: 200
   wallDimension: {x: 5, y: 2, z: 0.1}

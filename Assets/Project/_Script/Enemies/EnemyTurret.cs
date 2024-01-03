@@ -24,6 +24,7 @@ public class EnemyTurret : Enemy, IDamageable
     #region Methods
     public override void Initialize(Path p = null)
     {
+        _initialized = true;
         originalRotation = this.transform.rotation;
         this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
         characterRigidbody = GetComponent<Rigidbody>();
@@ -48,11 +49,9 @@ public class EnemyTurret : Enemy, IDamageable
         healthbar.Start();
         flashlight.spotAngle = DetectAngle;
         flashlight.range = _detectRange;
-    }
 
-    void Start()
-    {
         LevelManager.Instance.damageables.Add(this);
+        LevelManager.Instance.AddEnemy(this);
     }
 
     public override void UpdateEnemy()

@@ -99,11 +99,6 @@ public class Enemy: MonoBehaviour, IDamageable
 		}
 	}
 
-	void OnEnable()
-	{
-
-	}
-
 	public virtual void Alert(GameObject? gameObject)
 	{
 		isAlerted = true;

@@ -70,11 +70,11 @@ public class BulletproofWall : IWeapon, IDamageable
 		}
 	}
 
-	public void TakenDamage(float Damage)
+	public void TakenDamage(Damage Damage)
 	{
 		if (_HP >= 0)
 		{
-			_HP -= Damage;
+			_HP -= Damage.value;
 			Debug.Log($"Wall hp: {_HP}");
 			if (_HP <= 0)
 			{
