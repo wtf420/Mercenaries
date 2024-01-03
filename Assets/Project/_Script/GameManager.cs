@@ -35,6 +35,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void LoadScene(int id)
+    {
+        SceneManager.LoadScene(id);
+        Debug.Log($"Current level is {id}");
+    }
+
     public bool IsInPlayScene() => SceneManager.GetActiveScene().buildIndex != 0;
     #endregion
 }

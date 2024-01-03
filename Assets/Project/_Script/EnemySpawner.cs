@@ -21,6 +21,8 @@ public class EnemySpawner : MonoBehaviour
     public bool _allEnemyKilled { get; protected set; }
     public bool _WaveDoneSpawning { get; protected set; }
 
+    protected bool Activated = false;
+
     void Awake()
     {
         _allEnemyKilled = true;
@@ -59,9 +61,19 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void SpawnWaveNonCoroutine()
+    {
+        if (!Activated)
+        {
+            Activated = true;
+            StartCoroutine(SpawnWave());
+        }
+    }
+
     public IEnumerator SpawnWave()
     {
         _WaveDoneSpawning = false;
+        Activated = true;
         if (wave.spawnSequences.Count > 0)
         {
             int index = 0;

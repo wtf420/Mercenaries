@@ -26,7 +26,7 @@ public class Healthbar : MonoBehaviour
     {
         if (damageable != null && canvas != null && healthbar != null && !damageable.IsDead)
         {
-            canvas.transform.LookAt(this.transform.root.position + Camera.main.transform.forward);
+            canvas.transform.LookAt(canvas.transform.position + Camera.main.transform.forward);
             healthbar.value = damageable.GetHP();
         }
     }

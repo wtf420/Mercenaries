@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapons: []
-  soStats: {fileID: 11400000, guid: b01a2edb0617b8b429743c3ff136b214, type: 2}
+  soStats: {fileID: 11400000, guid: 5705b907a06225a45bf9874b557d61aa, type: 2}
   invulnerable: 0
   worldCanvas: {fileID: 864132232087853552}
   screenCanvas: {fileID: 145677184695053749}
@@ -647,7 +647,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8294428591847228097}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.616, y: -0.967, z: -1.527}
+  m_LocalPosition: {x: 0.116, y: -0.967, z: -1.527}
   m_LocalScale: {x: 1.36, y: 1.36, z: 1.36}
   m_ConstrainProportionsScale: 1
   m_Children: []

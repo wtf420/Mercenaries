@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
 	#region Fields & Properties
 	[SerializeField] bool isFollowPlayer = true;
 
-	public GameObject Player;
+	public GameObject Player = null;
 	GameObject Camera;
 
 	public Vector3 angle, offSet;
@@ -27,9 +27,10 @@ public class CameraController : MonoBehaviour
 		//offSet = player.position - transform.position;
 		Player = Character.Instance.gameObject;
 		Camera = this.gameObject;
+		Begin();
 	}
 
-	void Start()
+	void Begin()
 	{
 		if (isFollowPlayer)
 		{

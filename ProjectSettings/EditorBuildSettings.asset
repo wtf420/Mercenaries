@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Project/Scenes/Main Menu.unity
     guid: d3dd7d6fd407c4c489df296750b3cbba
   - enabled: 1
-    path: Assets/Project/Scenes/TestScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Project/Scenes/Level 1.unity
+    guid: 44f038db0c14b754f9a4d612b2c6f301
   - enabled: 1
-    path: Assets/Project/Scenes/AIWithSpawn.unity
-    guid: 06812072dca51884e9bcea975944aca4
+    path: Assets/Project/Scenes/Level 2.unity
+    guid: 56f0984a090f9e548b91fe00ccd4842e
+  - enabled: 1
+    path: Assets/Project/Scenes/Level 3.unity
+    guid: 6cfd560743004224d9586008e4893098
   m_configObjects: {}

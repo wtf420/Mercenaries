@@ -15,6 +15,7 @@ public class EnemyTurret : Enemy, IDamageable
 
     [SerializeField] protected LineRenderer Line1;
     [SerializeField] protected LineRenderer Line2;
+    [SerializeField] protected Light flashlight;
     protected int _sweepDirection = 1;
 
     protected Quaternion originalRotation;
@@ -23,6 +24,7 @@ public class EnemyTurret : Enemy, IDamageable
     #region Methods
     public override void Initialize(Path p = null)
     {
+        _initialized = true;
         originalRotation = this.transform.rotation;
         this.tag = GameConfig.COLLIDABLE_OBJECT.ENEMY.ToString();
         characterRigidbody = GetComponent<Rigidbody>();
@@ -45,11 +47,11 @@ public class EnemyTurret : Enemy, IDamageable
         }
 
         healthbar.Start();
-    }
+        flashlight.spotAngle = DetectAngle;
+        flashlight.range = _detectRange;
 
-    void Start()
-    {
         LevelManager.Instance.damageables.Add(this);
+        LevelManager.Instance.AddEnemy(this);
     }
 
     public override void UpdateEnemy()
@@ -58,7 +60,21 @@ public class EnemyTurret : Enemy, IDamageable
         {
             target = DetectTarget();
             if (target != null)
+            {
+                switch (alertType)
+                {
+                    case AlertType.SamePath:
+                        AlertSamePathEnemies(target.gameObject);
+                        break;
+                    case AlertType.All:
+                        AlertAllEnemies(target.gameObject);
+                        break;
+                    default:
+                        AlertNearbyEnemies(target.gameObject);
+                        break;
+                }
                 isAlerted = true;
+            }
         }
         if (target != null)
         {

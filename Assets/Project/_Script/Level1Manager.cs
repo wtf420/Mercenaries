@@ -16,10 +16,15 @@ public class Level1Manager : LevelManager
     protected override void Update()
     {
         base.Update();
-        if (condition >= 2)
+        if (condition >= 2 && Jumppad != null && !Jumppad.gameObject.activeSelf)
             Jumppad.gameObject.SetActive(true);
-        if (condition >= 4)
+        if (condition >= 4 && !Door.gameObject.activeSelf)
             Door.gameObject.SetActive(true);
+    }
+
+    public void DestroyJumppad()
+    {
+        Destroy(Jumppad.gameObject);
     }
 
     //Drastic measures, should not be final
