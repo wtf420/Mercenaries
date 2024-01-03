@@ -42,5 +42,7 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsInPlayScene() => SceneManager.GetActiveScene().buildIndex != 0;
+
+    public void QuitGame() => Application.Quit();
     #endregion
 }

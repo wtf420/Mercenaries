@@ -6,12 +6,26 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour, IUserInterface
 {
+    #region Description
+    const string CHARACTER = "Default character, he has a Rifle";
+    const string CHARACTER1 = "Character1, he has a powerful Shotgun and Grenade";
+    const string CHARACTER2 = "Character2, he has a Rifle and Grenade";
+    const string CHARACTER3 = "Character3, he has a Rifle and Mine";
+    const string CHARACTER4 = "Character4, he has a Rifle and Grenade";
+    #endregion
+
     #region Fields and Properties
     [SerializeField] TMP_Dropdown _characterSelecting;
     [SerializeField] Button _startGame;
     [SerializeField] Button _option;
+    [SerializeField] Button _quit;
+    [SerializeField] TMP_Text _description;
+    [SerializeField] float _rotateSpeed = 0.5f;
 
     public UI Type { get; set; }
+
+    private GameObject _model;
+    private Vector3 _modelPlace;
     #endregion
     public static MainMenu Create(Transform parent = null)
 	{
@@ -24,6 +38,8 @@ public class MainMenu : MonoBehaviour, IUserInterface
 
 	private void OnEnable()
     {
+        _modelPlace = GameObject.Find("ModelPlace").transform.position;
+
         _characterSelecting.ClearOptions();
         _characterSelecting.AddOptions(new List<TMP_Dropdown.OptionData>()
         {
@@ -34,16 +50,62 @@ public class MainMenu : MonoBehaviour, IUserInterface
             new TMP_Dropdown.OptionData(typeof(Character4).Name),
         });
         _characterSelecting.onValueChanged.AddListener(SetCharacter);
-        
+        _characterSelecting.value = 1;
+        _characterSelecting.value = 0;
+
         _startGame.onClick.AddListener(Begin);
         _option.onClick.AddListener(OpenOption);
+        _quit.onClick.AddListener(Quit);
 
         UIManager.Instance.FindMainMenuAudio();
+	}
+
+	private void Update()
+	{
+		if(_model != null)
+		{
+            _model.transform.Rotate(0, _rotateSpeed, 0);
+		}
 	}
 
 	private void SetCharacter(int indexSelecting)
     {
         GameManager.Instance.SelectedCharacter = (GameConfig.CHARACTER)indexSelecting;
+
+        if (_model != null)
+		{
+            Destroy(_model.gameObject);
+		}
+
+        switch(indexSelecting)
+		{
+            case 0:
+                _description.text = CHARACTER;
+                _model = Instantiate(Resources.Load("_Prefabs/UI/Models/Character"), this.transform) as GameObject;
+                break;
+
+            case 1:
+                _description.text = CHARACTER1;
+                _model = Instantiate(Resources.Load("_Prefabs/UI/Models/Character 1"), this.transform) as GameObject;
+                break;
+
+            case 2:
+                _description.text = CHARACTER2;
+                _model = Instantiate(Resources.Load("_Prefabs/UI/Models/Character 2"), this.transform) as GameObject;
+                break;
+
+            case 3:
+                _description.text = CHARACTER3;
+                _model = Instantiate(Resources.Load("_Prefabs/UI/Models/Character 3"), this.transform) as GameObject;
+                break;
+
+            case 4:
+                _description.text = CHARACTER4;
+                _model = Instantiate(Resources.Load("_Prefabs/UI/Models/Character 4"), this.transform) as GameObject;
+                break;
+        }
+
+        _model.transform.position = _modelPlace;
     }
 
     private void Begin()
@@ -59,11 +121,17 @@ public class MainMenu : MonoBehaviour, IUserInterface
         Destroy(gameObject);
     }
 
+    private void Quit()
+	{
+        GameManager.Instance.QuitGame();
+	}
+
 	private void OnDisable()
 	{
         _characterSelecting.onValueChanged.RemoveListener(SetCharacter);
         _startGame.onClick.RemoveListener(Begin);
         _option.onClick.RemoveListener(OpenOption);
+        _quit.onClick.RemoveListener(Quit);
         UIManager.Instance.UserInterfaces.Remove(this);
 	}
 }
