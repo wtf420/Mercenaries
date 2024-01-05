@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Current level is {id}");
     }
 
+    public int TotalScene() => SceneManager.sceneCountInBuildSettings;
+
     public bool IsInPlayScene() => SceneManager.GetActiveScene().buildIndex != 0;
 
     public void QuitGame() => Application.Quit();
