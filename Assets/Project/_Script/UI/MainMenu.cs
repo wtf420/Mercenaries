@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour, IUserInterface
 
     #region Fields and Properties
     [SerializeField] TMP_Dropdown _characterSelecting;
+    [SerializeField] TMP_Dropdown _levelSelecting;
     [SerializeField] Button _startGame;
     [SerializeField] Button _option;
     [SerializeField] Button _quit;
@@ -38,7 +39,11 @@ public class MainMenu : MonoBehaviour, IUserInterface
 
 	private void OnEnable()
     {
-        _modelPlace = GameObject.Find("ModelPlace").transform.position;
+        var place = GameObject.Find("ModelPlace");
+        if(place)
+        {
+            _modelPlace = place.transform.position;
+        }
 
         _characterSelecting.ClearOptions();
         _characterSelecting.AddOptions(new List<TMP_Dropdown.OptionData>()
@@ -52,6 +57,15 @@ public class MainMenu : MonoBehaviour, IUserInterface
         _characterSelecting.onValueChanged.AddListener(SetCharacter);
         _characterSelecting.value = 1;
         _characterSelecting.value = 0;
+
+        _levelSelecting.ClearOptions();
+        var levels = new List<TMP_Dropdown.OptionData>();
+        Debug.Log(GameManager.Instance.TotalScene());
+        for (int i = 1; i < GameManager.Instance.TotalScene(); i++)
+		{
+            levels.Add(new TMP_Dropdown.OptionData(i.ToString()));
+		}
+        _levelSelecting.AddOptions(levels);
 
         _startGame.onClick.AddListener(Begin);
         _option.onClick.AddListener(OpenOption);
@@ -110,7 +124,7 @@ public class MainMenu : MonoBehaviour, IUserInterface
 
     private void Begin()
     {
-        GameManager.Instance.BeginLevel("Level 1");
+        GameManager.Instance.LoadScene(_levelSelecting.value + 1);
     }
 
     private void OpenOption()
