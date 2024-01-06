@@ -16,10 +16,12 @@ public class Thrower : IWeapon
     protected float _cooldown;
     protected float _maxRange;
     protected int _maxGernadeCount;
+    protected AudioClip _throwSFX;
 
     protected float cooldownTimer = 0f;
     protected bool attackable = true;
     protected int currentGernadeCount;
+    protected AudioSource audioSource;
 
     #endregion
 
@@ -32,6 +34,8 @@ public class Thrower : IWeapon
         _cooldown = soStats.COOLDOWN;
         _maxRange = soStats.MAX_RANGE;
         _maxGernadeCount = soStats.MAX_GERNADE_COUNT;
+        _throwSFX = soStats.throwSFX;
+        audioSource = GetComponent<AudioSource>();
 
         currentGernadeCount = _maxGernadeCount;
         BulletChange?.Invoke((int)currentGernadeCount);
@@ -79,6 +83,8 @@ public class Thrower : IWeapon
             targetPosition = this.transform.position + (targetPosition - this.transform.position).normalized * _maxRange;
         }
         Throw(targetPosition, gernade.GetComponent<Gernade>());
+        audioSource.Stop();
+        audioSource.PlayOneShot(_throwSFX);
 
         yield return new WaitForSeconds(_delayBetweenAttack);
         attackable = true;

@@ -595,7 +595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2056973393869145791, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
       propertyPath: SelectedCharacter
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfa5471d7826a0449949eae0c15fa7ef, type: 3}
@@ -946,7 +946,6 @@ GameObject:
   m_Component:
   - component: {fileID: 333826395}
   - component: {fileID: 333826394}
-  - component: {fileID: 333826393}
   - component: {fileID: 333826396}
   m_Layer: 0
   m_Name: Camera
@@ -955,14 +954,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &333826393
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333826392}
-  m_Enabled: 1
 --- !u!20 &333826394
 Camera:
   m_ObjectHideFlags: 0
@@ -2700,7 +2691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 359987671774780767, guid: 10bf5d0cacc7c9a42b8b3de041a63b27, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 359987671774780767, guid: 10bf5d0cacc7c9a42b8b3de041a63b27, type: 3}
       propertyPath: m_TagString
@@ -5507,6 +5498,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5687986344786085304, guid: f29f4c1811e527745b5306b636790792, type: 3}
+      propertyPath: BGM
+      value: 
+      objectReference: {fileID: 8300000, guid: 35db60461ea7aea44aba51f84f655455, type: 3}
     - target: {fileID: 5687986344786085304, guid: f29f4c1811e527745b5306b636790792, type: 3}
       propertyPath: Door
       value: 

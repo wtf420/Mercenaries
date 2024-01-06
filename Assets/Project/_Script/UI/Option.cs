@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class Option: MonoBehaviour, IUserInterface
 {
     #region Fields and Properties
-    [SerializeField] Scrollbar _volume;
+    [SerializeField] Slider _volume0;
+    [SerializeField] Slider _volume1;
+    [SerializeField] Slider _volume2;
     [SerializeField] Button _keyboard;
     [SerializeField] Button _back;
 
@@ -22,16 +25,16 @@ public class Option: MonoBehaviour, IUserInterface
         option.Type = UI.OPTION;
 
         UIManager.Instance.UserInterfaces.Add(option);
+        option.UpdateValue();
         return option;
     }
 
     private void OnEnable()
     {
-        _volume.value = UIManager.Instance.Volume;
-        _volume.onValueChanged.AddListener(VolumeChange);
-
         _keyboard.onClick.AddListener(KeyboardSetting);
         _back.onClick.AddListener(Back);
+
+        UpdateValue();
 
         if (GameManager.Instance.IsInPlayScene())
         {
@@ -40,9 +43,28 @@ public class Option: MonoBehaviour, IUserInterface
         }
     }
 
-    private void VolumeChange(float volume)
+    public void UpdateValue()
     {
-        UIManager.Instance.Volume = volume;
+        _volume0.value = UIManager.Instance.GetMasterVolumn() / 5;
+        _volume1.value = UIManager.Instance.GetMusicVolumn() / 5;
+        _volume2.value = UIManager.Instance.GetSFXVolumn() / 5;
+
+        Debug.Log(_volume0.value);
+    }
+
+    public void MasterVolumeChange()
+    {
+        UIManager.Instance.SetMasterValue(0 + (_volume0.value * 5));
+    }
+
+    public void MusicVolumeChange()
+    {
+        UIManager.Instance.SetMusicValue(0 + (_volume1.value * 5));
+    }
+
+    public void SFXVolumeChange()
+    {
+        UIManager.Instance.SetSFXValue(0 + (_volume2.value * 5));
     }
 
     private void KeyboardSetting()
@@ -68,7 +90,6 @@ public class Option: MonoBehaviour, IUserInterface
 
     private void OnDisable()
     {
-        _volume.onValueChanged.RemoveListener(VolumeChange);
         _keyboard.onClick.RemoveListener(KeyboardSetting);
         _back.onClick.RemoveListener(Back);
 

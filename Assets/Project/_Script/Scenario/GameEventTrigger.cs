@@ -11,7 +11,7 @@ public class GameEventTrigger : MonoBehaviour
 
     public void TriggerGameEvent()
     {
-        if (!Used || !OneTimeUseOnly)
+        if ((!Used && !OneTimeUseOnly) || (OneTimeUseOnly))
         {
             if (gameEvent != null)
             {

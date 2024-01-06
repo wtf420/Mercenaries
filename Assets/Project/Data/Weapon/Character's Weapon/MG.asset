@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: MG
   m_EditorClassIdentifier: 
   DAMAGE_DEFAULT: 15
-  ATTACK_RANGE_DEFAULT: 10
+  ATTACK_RANGE_DEFAULT: 20
   ATTACK_SPEED_DEFAULT: 450
-  RELOAD_TIME: 3
+  RELOAD_TIME: 5
   MAGAZINE_CAPACITY: 50
-  INACCURACY: 0.5
+  INACCURACY: 0.75
   BULLET_SPEED: 75
+  shootSFX: {fileID: 8300000, guid: 2fff2196086b34748adf2fb211b4e747, type: 3}
+  reloadSFX: {fileID: 8300000, guid: 4ad9d228bac63624c900f48f1dfd51aa, type: 3}
+  doneReloadSFX: {fileID: 8300000, guid: 23d8168dd899b68489f0a65f430f4a62, type: 3}

@@ -8,5 +8,6 @@ public class SO_WeaponThrowerStats : ScriptableObject
     public float COOLDOWN = 1;
     public float MAX_RANGE = 3;
     public int MAX_GERNADE_COUNT = 3;
+    public AudioClip throwSFX;
 }
 

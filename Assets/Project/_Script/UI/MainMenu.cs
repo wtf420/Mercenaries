@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour, IUserInterface
     const string CHARACTER1 = "Character1, he has a powerful Shotgun and Grenade, can summon a drone.";
     const string CHARACTER2 = "Character2, he has a Rifle and Grenade, can summon a turret.";
     const string CHARACTER3 = "Character3, he has a Rifle and can lay Mine, can also summon a turret.";
-    const string CHARACTER4 = "Character4, he has a Rifle and Grenade, and can laydown bullet proof walls.";
+    const string CHARACTER4 = "Character4, he has a Rifle and Cluster Grenade, and can laydown bullet proof walls.";
     #endregion
 
     #region Fields and Properties
@@ -70,8 +70,6 @@ public class MainMenu : MonoBehaviour, IUserInterface
         _startGame.onClick.AddListener(Begin);
         _option.onClick.AddListener(OpenOption);
         _quit.onClick.AddListener(Quit);
-
-        UIManager.Instance.FindMainMenuAudio();
 	}
 
 	private void Update()

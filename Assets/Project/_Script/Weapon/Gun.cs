@@ -17,6 +17,9 @@ public class Gun: IWeapon
 	protected int _magazineCapacity;
 	protected float _inaccuracy;
 	protected float _bulletSpeed;
+	protected AudioClip _shootSFX;
+	protected AudioClip _reloadSFX;
+	protected AudioClip _doneReloadSFX;
 
 	protected bool attackable = true;
 	protected bool isReloading = false;
@@ -24,7 +27,7 @@ public class Gun: IWeapon
 	protected float delayBetweenShots;
 
 	protected Character character;
-	protected AudioSource gunSound;
+	protected AudioSource audioSource;
 
 	#endregion
 
@@ -42,11 +45,13 @@ public class Gun: IWeapon
 		_magazineCapacity = soStats.MAGAZINE_CAPACITY;
 		_reloadTime = soStats.RELOAD_TIME;
 
+		_shootSFX = soStats.shootSFX;
+		_reloadSFX = soStats.reloadSFX;
+		_doneReloadSFX = soStats.doneReloadSFX;
+
 		currentBulletQuantity = _magazineCapacity;
 		delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
-		gunSound = GetComponent<AudioSource>();
-
-		UIManager.Instance.SubscribeVolumeEvent(gunSound);
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	void Start()
@@ -61,13 +66,13 @@ public class Gun: IWeapon
 			StartCoroutine(Attack());
 		} else if (currentBulletQuantity <= 0)
 		{
-			StartCoroutine(IE_Reload());
+			AttemptReload();
 		}
     }
 
 	public override void AttemptReload()
 	{
-		if (currentBulletQuantity < _magazineCapacity)
+		if (currentBulletQuantity < _magazineCapacity && !isReloading)
 		{
 			StartCoroutine(IE_Reload());
 		}
@@ -86,20 +91,23 @@ public class Gun: IWeapon
 		bullet.tag = this.tag;
 		bullet.source = this.source;
 
-		gunSound.Stop();
-		gunSound.Play();
+		audioSource.Stop();
+		audioSource.PlayOneShot(_shootSFX);
 
 		currentBulletQuantity -= 1;
 		BulletChange?.Invoke((int)currentBulletQuantity);
-		yield return new WaitForSeconds(delayBetweenShots);
-		if (currentBulletQuantity == 0)
-			StartCoroutine(IE_Reload());
+		if (currentBulletQuantity == 0 && !isReloading)
+		{
+			AttemptReload();
+		} else
+			yield return new WaitForSeconds(delayBetweenShots);
 		attackable = true;
 	}
 
 	protected IEnumerator IE_Reload()
 	{
 		isReloading = true;
+		audioSource.PlayOneShot(_reloadSFX);
 		if (character)
 			character.SetWorldText("Reloading...", _reloadTime);
 
@@ -107,14 +115,11 @@ public class Gun: IWeapon
 		currentBulletQuantity = _magazineCapacity;
 		BulletChange?.Invoke((int)currentBulletQuantity);
 		isReloading = false;
+		audioSource.Stop();
+		audioSource.PlayOneShot(_doneReloadSFX);
 	}
 
 	public override int GetCurrentBullet => (int)currentBulletQuantity;
-
-	private void OnDisable()
-	{
-		UIManager.Instance.UnSubscribeVolumeEvent(gunSound);
-	}
 
 	[ExecuteInEditMode]
 	private void OnDrawGizmos()

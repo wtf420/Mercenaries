@@ -701,6 +701,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1287872014273024166}
     m_Modifications:
+    - target: {fileID: -198926862057015541, guid: 2f93c5c922b0ca648b9107ffaa41f928, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: 9bbcafead42b66f48994fd9c0af3485b, type: 2}
+    - target: {fileID: 3883699686172543369, guid: 2f93c5c922b0ca648b9107ffaa41f928, type: 3}
+      propertyPath: _shootSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: b6a1a65058e2fa740ae9e859c9560916, type: 3}
     - target: {fileID: 3883699686172543370, guid: 2f93c5c922b0ca648b9107ffaa41f928, type: 3}
       propertyPath: m_RootOrder
       value: 0

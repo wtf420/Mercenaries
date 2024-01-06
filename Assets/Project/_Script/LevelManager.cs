@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,10 +19,15 @@ public class LevelManager : MonoBehaviour
     public GameMode currentGameMode;
     public GameMode[] availableGameMode = { GameMode.Sweep, GameMode.Survival };
     public GameObject characterSpawner;
+    public AudioClip BGM;
+    public AudioClip WinSFX;
+    public AudioClip LoseSFX;
     public bool GamePaused = false;
-    
+
     //to activate the gamelost event only once
-    private bool GameLost = false;
+    protected bool GameLost = false;
+    protected bool GameWon = false;
+    protected AudioSource audioSource;
 
     // [SerializeField]
     // protected PatrolScope _patrolScope;
@@ -61,9 +67,10 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
 
         damageables = new List<IDamageable>();
+        audioSource = this.GetComponent<AudioSource>();
     }
 
-    void Start()
+    protected virtual void Start()
     {
         character = GameObject.FindObjectOfType<Character>();
         if (character == null)
@@ -102,7 +109,19 @@ public class LevelManager : MonoBehaviour
         {
             possibleEnemyCount += es.enemySpawnLimit;
         }
+        foreach (var enemy in GameObject.FindObjectsOfType<Enemy>())
+        {
+            if (!enemy._initialized)
+            {
+                enemy.Initialize();
+                possibleEnemyCount++;
+            }
+        }
         enemiesLeft = possibleEnemyCount;
+
+        audioSource.clip = BGM;
+        audioSource.loop = true;
+        audioSource.Play();
     }
 
     protected virtual void Update()
@@ -112,6 +131,7 @@ public class LevelManager : MonoBehaviour
             if (!enemy._initialized)
             {
                 enemy.Initialize();
+                possibleEnemyCount++;
             }
         }
 
@@ -134,20 +154,32 @@ public class LevelManager : MonoBehaviour
         }
         RemoveDeathEnemy();
 
-        if (WinCondition())
+        if (WinCondition() && !GameWon && !GameLost)
         {
-            //character.SetScreenText("You Win!");
-            Scenario.Instance.OnWinEvent?.Invoke();
+            Win();
         } 
-        else if (LoseCondition())
+        else if (LoseCondition() && !GameWon && !GameLost)
         {
-            //character.SetScreenText("You Lose!");
-            if (!GameLost)
-            {
-                Scenario.Instance.OnLoseEvent?.Invoke();
-                GameLost = true;
-            }
+            Lose();
         }
+    }
+
+    public void Win()
+    {
+        GameWon = true;
+        VictoryScreen.Create();
+        audioSource.loop = false;
+        audioSource.Stop();
+        audioSource.PlayOneShot(WinSFX);
+    }
+
+    public void Lose()
+    {
+        GameLost = true;
+        DefeatScreen.Create();
+        audioSource.loop = false;
+        audioSource.Stop();
+        audioSource.PlayOneShot(LoseSFX);
     }
 
     private void LateUpdate()

@@ -19,3 +19,6 @@ MonoBehaviour:
   MAGAZINE_CAPACITY: 1
   INACCURACY: 1
   BULLET_SPEED: 1
+  shootSFX: {fileID: 8300000, guid: b6a1a65058e2fa740ae9e859c9560916, type: 3}
+  reloadSFX: {fileID: 0}
+  doneReloadSFX: {fileID: 0}

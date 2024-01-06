@@ -15,7 +15,10 @@ MonoBehaviour:
   DAMAGE_DEFAULT: 10
   ATTACK_RANGE_DEFAULT: 15
   ATTACK_SPEED_DEFAULT: 100
-  RELOAD_TIME: 1
+  RELOAD_TIME: 2
   MAGAZINE_CAPACITY: 5
   INACCURACY: 1
   BULLET_SPEED: 50
+  shootSFX: {fileID: 8300000, guid: 14a119ae5aa700b4883ce58efb86ea18, type: 3}
+  reloadSFX: {fileID: 8300000, guid: 4ad9d228bac63624c900f48f1dfd51aa, type: 3}
+  doneReloadSFX: {fileID: 8300000, guid: 1688e5c69ce957245a421063ee8b6bd9, type: 3}

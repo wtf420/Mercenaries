@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ContactGernade : Gernade
 {
-    protected virtual void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
     {
         Explode();
     }

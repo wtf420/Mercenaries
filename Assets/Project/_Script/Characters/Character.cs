@@ -135,31 +135,36 @@ public class Character : MonoBehaviour, IDamageable
 
 	public virtual void KeyboardController()
 	{
-		CharacterMovement();
-
-		SwapWeapon();
-	}
-
-	public void MouseController()
-	{
-		mousePos = GetWorldMousePosition();
-		RotateWeapon();
-
-		if (Input.GetMouseButton(0))
-		{
-			weapons[currentWeapon].AttemptAttack();
-		}
-
 		if (Input.GetKeyDown(KeyCode.Escape))
-		{	
+		{
 			if (LevelManager.Instance.GamePaused)
 			{
 				UIManager.Instance.RemoveAllUIInPlayGame();
 				LevelManager.Instance.ResumeGame();
-			} else
+			}
+			else
 			{
 				PauseMenu.Create();
 				LevelManager.Instance.PauseGame();
+			}
+		}
+		if (!LevelManager.Instance.GamePaused)
+		{
+			CharacterMovement();
+			SwapWeapon();
+		}
+	}
+
+	public void MouseController()
+	{
+		if (!LevelManager.Instance.GamePaused)
+		{
+			mousePos = GetWorldMousePosition();
+			RotateWeapon();
+
+			if (Input.GetMouseButton(0))
+			{
+				weapons[currentWeapon].AttemptAttack();
 			}
 		}
 	}

@@ -7,11 +7,6 @@ public class Level1Manager : LevelManager
     public int condition = 0;
     [SerializeField] GameObject Jumppad, Door;
 
-    override public bool WinCondition()
-    {
-        return false;
-    }
-
     //Drastic measures, should not be final
     protected override void Update()
     {

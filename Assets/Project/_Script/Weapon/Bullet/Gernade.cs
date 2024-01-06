@@ -8,7 +8,18 @@ public class Gernade : MonoBehaviour
     [SerializeField] protected float explosionTimer, _explosionRadius, _damage;
     [SerializeField] protected bool _damageScaleWithDistance;
     [SerializeField] protected GameObject explosionParticle;
-    [SerializeField] public GameObject source;
+    [HideInInspector] public GameObject source;
+
+    [SerializeField] protected AudioClip explodeSFX;
+    [SerializeField] protected AudioClip bounceSFX;
+
+    protected AudioSource audioSource;
+    protected bool exploded = false;
+
+    protected virtual void Awake()
+    {
+        audioSource = this.GetComponent<AudioSource>();
+    }
 
     public virtual void Update()
     {
@@ -17,12 +28,14 @@ public class Gernade : MonoBehaviour
             explosionTimer -= Time.deltaTime;
         } else
         {
-            Explode();
+            if (!exploded)
+                Explode();
         }
     }
 
     protected virtual void Explode()
     {
+        exploded = true;
         int layermask = LayerMask.GetMask("Damageables");
         RaycastHit[] info = Physics.SphereCastAll(this.transform.position, _explosionRadius, Vector3.up, 0, layermask);
         foreach (RaycastHit hit in info)
@@ -54,9 +67,21 @@ public class Gernade : MonoBehaviour
             }
             //Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
+
         StopAllCoroutines();
         Instantiate(explosionParticle, this.transform.position, new Quaternion());
-        Destroy(gameObject);
+        audioSource.Stop();
+        audioSource.PlayOneShot(explodeSFX);
+        this.GetComponent<Renderer>().enabled = false;
+        Destroy(gameObject, explodeSFX.length);
+    }
+
+    protected virtual void OnCollisionEnter(Collision other)
+    {
+        if (!other.collider.isTrigger)
+        {
+            audioSource.PlayOneShot(bounceSFX);
+        }
     }
 
     [ExecuteInEditMode]

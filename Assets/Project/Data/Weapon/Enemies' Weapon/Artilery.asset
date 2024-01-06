@@ -17,3 +17,4 @@ MonoBehaviour:
   COOLDOWN: 0
   MAX_RANGE: 20
   MAX_GERNADE_COUNT: 5
+  throwSFX: {fileID: 8300000, guid: b4dcdf95c2c62e340aa2d02586c080db, type: 3}

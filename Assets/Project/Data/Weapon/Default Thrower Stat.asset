@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DAMAGE_DEFAULT: 20
   DELAY_BETWEEN_THROW: 1
-  COOLDOWN: 3
+  COOLDOWN: 7.5
   MAX_RANGE: 10
   MAX_GERNADE_COUNT: 3
+  throwSFX: {fileID: 8300000, guid: c284205927373764396169ec14a74bd2, type: 3}

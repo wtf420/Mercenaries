@@ -25,9 +25,13 @@ public class Shotgun : Gun
         _magazineCapacity = soStats.MAGAZINE_CAPACITY;
         _reloadTime = soStats.RELOAD_TIME;
 
+        _shootSFX = soStats.shootSFX;
+        _reloadSFX = soStats.reloadSFX;
+        _doneReloadSFX = soStats.doneReloadSFX;
+
         currentBulletQuantity = _magazineCapacity;
         delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
-        gunSound = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         BulletChange?.Invoke((int)currentBulletQuantity);
     }
 
@@ -53,14 +57,16 @@ public class Shotgun : Gun
             bullet.source = this.source;
         }
 
-        gunSound.Stop();
-        gunSound.Play();
+        audioSource.Stop();
+        audioSource.PlayOneShot(_shootSFX);
 
         currentBulletQuantity -= 1;
         BulletChange?.Invoke((int)currentBulletQuantity);
 
-        if (currentBulletQuantity == 0)
-            StartCoroutine(IE_Reload()); else
+        if (currentBulletQuantity == 0 && !isReloading)
+		{
+            AttemptReload();
+		} else
             yield return new WaitForSeconds(delayBetweenShots);
         attackable = true;
     }

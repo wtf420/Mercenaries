@@ -7,14 +7,13 @@ public class MeleeAttack : IWeapon
 {
     #region Fields & Properties
     [SerializeField] protected SO_WeaponGunStats soStats;
-
-    [SerializeField] protected float _damage;
-    [SerializeField] protected float _attackRadius;
-    [SerializeField] protected float _attackRange;
-    [SerializeField] protected float _delayBetweenAttack;
+    protected float _damage;
+    protected float _attackRange;
+    protected float _delayBetweenAttack;
+    protected AudioClip _shootSFX;
 
     protected bool attackable = true;
-
+    protected AudioSource audioSource;
     protected Character character;
 
     #endregion
@@ -23,12 +22,12 @@ public class MeleeAttack : IWeapon
     public override void Initialize()
     {
         character = GetComponentInParent<Character>();
-
+        audioSource = GetComponent<AudioSource>();
         Type = GameConfig.WEAPON.SWORD;
-        // _damage = soStats.DAMAGE_DEFAULT;
-        // _attackRange = soStats.ATTACK_RANGE_DEFAULT;
-        // _attackRadius = soStats.ATTACK_RANGE_DEFAULT;
-        // _delayBetweenAttack = soStats.ATTACK_SPEED_DEFAULT;
+        _damage = soStats.DAMAGE_DEFAULT;
+        _attackRange = soStats.ATTACK_RANGE_DEFAULT;
+        _delayBetweenAttack = soStats.ATTACK_SPEED_DEFAULT;
+        _shootSFX = soStats.shootSFX;
     }
 
     public override void AttemptAttack()
@@ -48,7 +47,7 @@ public class MeleeAttack : IWeapon
     {
         attackable = false;
         int layermask = LayerMask.GetMask("Damageables");
-        RaycastHit[] info = Physics.SphereCastAll(this.transform.position + transform.forward * _attackRange, _attackRadius, Vector3.up, 0, layermask);
+        RaycastHit[] info = Physics.SphereCastAll(this.transform.position + transform.forward * _attackRange, _attackRange, Vector3.up, 0, layermask);
         foreach (RaycastHit hit in info)
         {
             Debug.Log(hit.transform.gameObject);
@@ -81,6 +80,8 @@ public class MeleeAttack : IWeapon
             }
             Debug.DrawLine(this.transform.position, hitlocation, Color.green, 5f);
         }
+        audioSource.Stop();
+        audioSource.PlayOneShot(_shootSFX);
         yield return new WaitForSeconds(_delayBetweenAttack);
         attackable = true;
     }
@@ -102,7 +103,7 @@ public class MeleeAttack : IWeapon
         //     Gizmos.DrawWireSphere(this.transform.position + transform.forward * soStats.ATTACK_RANGE_DEFAULT, soStats.ATTACK_RANGE_DEFAULT);
         // }
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position + transform.forward * _attackRange, _attackRadius);
+        Gizmos.DrawWireSphere(this.transform.position + transform.forward * _attackRange, _attackRange);
     }
 
     #endregion

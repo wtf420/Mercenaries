@@ -8,9 +8,10 @@ public class SO_WeaponGunStats : ScriptableObject
     public float ATTACK_SPEED_DEFAULT = 10; // x times per second 
     public float RELOAD_TIME = 1;
     public int MAGAZINE_CAPACITY = 30;
-    
     public float INACCURACY = 0.01f;
-
     public float BULLET_SPEED = 10;
+    public AudioClip shootSFX;
+    public AudioClip reloadSFX;
+    public AudioClip doneReloadSFX;
 }
 

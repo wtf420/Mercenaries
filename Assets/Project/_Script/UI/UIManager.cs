@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public enum UI
@@ -23,28 +24,9 @@ public class UIManager : MonoBehaviour
 
     public List<IUserInterface> UserInterfaces;
 
-    private List<AudioSource> _volumeChanges;
-
-    public float Volume
-	{
-        get => _volume;
-
-        set
-		{
-            _volume = value;
-            foreach (var volumeChange in _volumeChanges)
-			{
-                volumeChange.volume = _volume;
-			}
-
-            if(_mainMenuAudio)
-            {
-                _mainMenuAudio.volume = _volume;
-            }
-        }
-        
-	}
-    private float _volume = 1f;
+    public AudioMixerGroup _masterMixerGroup;
+    public AudioMixerGroup _musicMixerGroup;
+    public AudioMixerGroup _sfxMixerGroup;
 
     private AudioSource _mainMenuAudio;
     #endregion
@@ -60,7 +42,6 @@ public class UIManager : MonoBehaviour
 
         DataPersistenceManager.Instance.LoadData();
 
-        _volumeChanges = new List<AudioSource>();
         UserInterfaces = new List<IUserInterface>();
         if (SceneManager.GetActiveScene().name == "Main Menu")
             MainMenu.Create();
@@ -77,29 +58,7 @@ public class UIManager : MonoBehaviour
         PauseMenu.Create();
         Time.timeScale = 0;
     }
-
-    public void FindMainMenuAudio()
-	{
-        _mainMenuAudio = GameObject.Find("Audio")?.GetComponent<AudioSource>();
-        if (_mainMenuAudio) 
-		{
-            _mainMenuAudio.volume = Volume;
-		}
-    }
-
-    public void SubscribeVolumeEvent(AudioSource audio)
-	{
-        _volumeChanges.Add(audio);
-
-        // set volume for all
-        audio.volume = _volume;
-	}        
-
-    public void UnSubscribeVolumeEvent(AudioSource audio)
-	{
-        _volumeChanges.Remove(audio);
-	}
-
+    
     public IUserInterface GetUI(UI type) => UserInterfaces.Find(element => element.Type == type);
 
     public void RemoveAllUIInPlayGame()
@@ -120,5 +79,38 @@ public class UIManager : MonoBehaviour
 
             Destroy(ui.gameObject);
         }
+    }
+
+    public float GetMasterVolumn()
+    {
+        _masterMixerGroup.audioMixer.GetFloat("masterVolumn", out float a);
+        return a;
+    }
+
+    public float GetMusicVolumn()
+    {
+        _musicMixerGroup.audioMixer.GetFloat("musicVolumn", out float a);
+        return a;
+    }
+
+    public float GetSFXVolumn()
+    {
+        _sfxMixerGroup.audioMixer.GetFloat("sfxVolumn", out float a);
+        return a;
+    }
+
+    public void SetMasterValue(float value)
+    {
+        _masterMixerGroup.audioMixer.SetFloat("masterVolumn", value);
+    }
+
+    public void SetMusicValue(float value)
+    {
+        _musicMixerGroup.audioMixer.SetFloat("musicVolumn", value);
+    }
+
+    public void SetSFXValue(float value)
+    {
+        _sfxMixerGroup.audioMixer.SetFloat("sfxVolumn", value);
     }
 }

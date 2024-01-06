@@ -7,10 +7,13 @@ public class SuicideBomb : IWeapon
     [SerializeField] protected float _explosionTimer, _explosionRadius, _damage, _selfDamage;
     [SerializeField] protected bool _damageScaleWithDistance, _damageAllies;
     [SerializeField] protected GameObject explosionParticle;
+    [SerializeField] protected AudioClip explosionSFX;
+    protected AudioSource audioSource;
 
     public override void Initialize()
     {
         this.tag = transform.parent.tag;
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     public override void AttemptAttack()
@@ -61,6 +64,8 @@ public class SuicideBomb : IWeapon
         }
         StopAllCoroutines();
         Instantiate(explosionParticle, this.transform.position, new Quaternion());
+        audioSource.Stop();
+        audioSource.PlayOneShot(explosionSFX);
         if (gameObject.GetComponentInParent<IDamageable>() != null)
         {
             gameObject.GetComponentInParent<IDamageable>().TakenDamage(new Damage(_selfDamage, null, null, null));

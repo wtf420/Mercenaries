@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7722893566544835424}
   - component: {fileID: 2430334864325490772}
   - component: {fileID: 7192362831278974177}
+  - component: {fileID: 8689386173044176155}
   m_Layer: 6
   m_Name: Character 3
   m_TagString: Player
@@ -148,6 +149,14 @@ MonoBehaviour:
   drag: 0
   dashForce: 50
   dashTime: 0.1
+--- !u!81 &8689386173044176155
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91957286427100139}
+  m_Enabled: 1
 --- !u!1 &3312150923169806681
 GameObject:
   m_ObjectHideFlags: 0

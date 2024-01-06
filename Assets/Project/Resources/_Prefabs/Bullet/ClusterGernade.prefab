@@ -71,6 +71,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7288987353402283273, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -1669789872357834150, guid: 9bbcafead42b66f48994fd9c0af3485b, type: 2}
     - target: {fileID: 8750061685187090306, guid: 54b95f0ba6cee064997182d030f8c1de, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -105,6 +109,8 @@ MonoBehaviour:
   _damageScaleWithDistance: 1
   explosionParticle: {fileID: 4936766508533269723, guid: 9fa5a8d2ac80dd746af39607728baf3f, type: 3}
   source: {fileID: 0}
+  explodeSFX: {fileID: 8300000, guid: a9b6aac96a12a714499e17f715396b40, type: 3}
+  bounceSFX: {fileID: 8300000, guid: 0609ea656331e8f4ab9bef4f9d13ff79, type: 3}
   smallerGernade: {fileID: 4611654578335680865, guid: 8809b4bf50f29c2469652beae52a7072, type: 3}
   smallerGernadeCount: 5
   smallerGernadeThrowForce: 5

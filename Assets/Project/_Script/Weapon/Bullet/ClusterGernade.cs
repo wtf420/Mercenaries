@@ -11,19 +11,7 @@ public class ClusterGernade : Gernade
 
     protected override void Explode()
     {
-        RaycastHit[] info = Physics.SphereCastAll(this.transform.position, _explosionRadius, Vector3.up, _explosionRadius);
-        foreach (RaycastHit hit in info)
-        {
-            if (hit.collider.gameObject.GetComponent<Enemy>())
-            {
-                if (_damageScaleWithDistance)
-                {
-                    float distance = hit.distance;
-                    float Damage = _damageScaleWithDistance ? _damage * (1 / (distance / _explosionRadius)) : _damage;
-                    hit.collider.gameObject.GetComponent<IDamageable>().TakenDamage(new Damage(Damage, this.transform.position, DamageType.Explosive, source));
-                }
-            }
-        }
+        exploded = true;
 
         List<Collider> colliders = new List<Collider>();
         List<GameObject> gernades = new List<GameObject>();
@@ -45,7 +33,9 @@ public class ClusterGernade : Gernade
             gernades[i].GetComponent<Rigidbody>().AddForce(direction * smallerGernadeThrowForce, ForceMode.Impulse);
         }
 
-        Destroy(gameObject);
+        audioSource.PlayOneShot(explodeSFX);
+        this.GetComponent<Renderer>().enabled = false;
+        Destroy(gameObject, explodeSFX.length);
     }
 }
 
