@@ -305,21 +305,26 @@ public class Character : MonoBehaviour, IDamageable
 		// Main Weapon
 		if(Input.GetKeyDown((KeyCode)DataPersistenceManager.Instance.GameData.Keyboard.Keyboards[KeyboardHandler.Weapon1]))
 		{
-			currentWeapon = 0;
-			Debug.Log("Change to main weapon");
-			_weaponChange?.Invoke(weapons[currentWeapon].Type);
-			BulletWeaponChange(weapons[currentWeapon].GetCurrentBullet);
+			if (currentWeapon != 0)
+			{
+				currentWeapon = 0;
+				Debug.Log("Change to main weapon");
+				_weaponChange?.Invoke(weapons[currentWeapon].Type);
+				BulletWeaponChange(weapons[currentWeapon].GetCurrentBullet);
+				weapons[currentWeapon].OnSwapTo();
+			}
 		}
 
 		// Grenade
 		if (Input.GetKeyDown((KeyCode)DataPersistenceManager.Instance.GameData.Keyboard.Keyboards[KeyboardHandler.Weapon2]))
 		{
-			if(weapons.Count > 1)
+			if(weapons.Count > 1 && currentWeapon != 1)
 			{
 				currentWeapon = 1;
 				Debug.Log("Change to second weapon");
 				_weaponChange?.Invoke(weapons[currentWeapon].Type);
 				BulletWeaponChange(weapons[currentWeapon].GetCurrentBullet);
+				weapons[currentWeapon].OnSwapTo();
 			}
 		}
 	}

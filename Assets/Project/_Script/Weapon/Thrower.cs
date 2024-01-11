@@ -17,6 +17,7 @@ public class Thrower : IWeapon
     protected float _maxRange;
     protected int _maxGernadeCount;
     protected AudioClip _throwSFX;
+    protected AudioClip _deploySFX;
 
     protected float cooldownTimer = 0f;
     protected bool attackable = true;
@@ -28,14 +29,16 @@ public class Thrower : IWeapon
     #region Methods
     public override void Initialize()
     {
+        audioSource = GetComponent<AudioSource>();
         Type = GameConfig.WEAPON.GERNADETHROWER;
         _damage = soStats.DAMAGE_DEFAULT;
         _delayBetweenAttack = soStats.DELAY_BETWEEN_THROW;
         _cooldown = soStats.COOLDOWN;
         _maxRange = soStats.MAX_RANGE;
         _maxGernadeCount = soStats.MAX_GERNADE_COUNT;
+
         _throwSFX = soStats.throwSFX;
-        audioSource = GetComponent<AudioSource>();
+        _deploySFX = Resources.Load<AudioClip>("Audio/m4a1_deploy");
 
         currentGernadeCount = _maxGernadeCount;
         BulletChange?.Invoke((int)currentGernadeCount);
@@ -62,6 +65,12 @@ public class Thrower : IWeapon
 
             cooldownTimer = _cooldown;
         }
+    }
+
+    public override void OnSwapTo()
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(_deploySFX);
     }
 
     protected IEnumerator Attack()

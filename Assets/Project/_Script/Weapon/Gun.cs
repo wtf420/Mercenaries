@@ -20,6 +20,7 @@ public class Gun: IWeapon
 	protected AudioClip _shootSFX;
 	protected AudioClip _reloadSFX;
 	protected AudioClip _doneReloadSFX;
+	protected AudioClip _deploySFX;
 
 	protected bool attackable = true;
 	protected bool isReloading = false;
@@ -48,6 +49,7 @@ public class Gun: IWeapon
 		_shootSFX = soStats.shootSFX;
 		_reloadSFX = soStats.reloadSFX;
 		_doneReloadSFX = soStats.doneReloadSFX;
+		_deploySFX = Resources.Load<AudioClip>("Audio/m4a1_deploy");
 
 		currentBulletQuantity = _magazineCapacity;
 		delayBetweenShots = 60f / _attackSpeed; //real guns use RPM (Rounds per minute) to calculate how fast they shoot
@@ -117,6 +119,12 @@ public class Gun: IWeapon
 		isReloading = false;
 		audioSource.Stop();
 		audioSource.PlayOneShot(_doneReloadSFX);
+	}
+
+	public override void OnSwapTo()
+	{
+		audioSource.Stop();
+		audioSource.PlayOneShot(_deploySFX);
 	}
 
 	public override int GetCurrentBullet => (int)currentBulletQuantity;
