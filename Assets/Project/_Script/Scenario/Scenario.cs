@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+
 
 [System.Serializable]
 public class Scenario : MonoBehaviour
@@ -72,7 +76,7 @@ public class Scenario : MonoBehaviour
         return gameEvents.FirstOrDefault(x => x.ID == id);
     }
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(Scenario)), CanEditMultipleObjects]
 public class ScenarioEditor : Editor
 {
@@ -89,3 +93,4 @@ public class ScenarioEditor : Editor
         DrawDefaultInspector();
     }
 }
+#endif

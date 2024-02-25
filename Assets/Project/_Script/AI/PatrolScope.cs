@@ -2,7 +2,9 @@
 using System.Collections;
 using UnityEngine;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Triangle
 {
@@ -123,6 +125,7 @@ public class PatrolScope : PathNode
     #endregion
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(PatrolScope)), CanEditMultipleObjects]
 public class PatrolScopeEditor : Editor
 {
@@ -156,4 +159,4 @@ public class PatrolScopeEditor : Editor
         DrawDefaultInspector();
     }
 }
-
+#endif

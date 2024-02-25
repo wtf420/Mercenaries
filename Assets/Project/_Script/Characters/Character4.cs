@@ -68,6 +68,14 @@ public class Character4 : Character
 		}
 	}
 
+	public void MobileSkill()
+	{
+		if (canPlaceWall)
+		{
+			StartCoroutine(PlaceWall());
+		}
+	}
+
 	IEnumerator PlaceWall()
 	{
 		canPlaceWall = false;

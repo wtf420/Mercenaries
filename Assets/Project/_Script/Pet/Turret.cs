@@ -42,7 +42,6 @@ public class Turret : Pet
 	{
 		Physics.IgnoreCollision(this.GetComponent<Collider>(), Character.Instance.GetComponent<Collider>(), true);
 		yield return new WaitForSeconds(0.5f);
-		Physics.IgnoreCollision(this.GetComponent<Collider>(), Character.Instance.GetComponent<Collider>(), false);
 	}
 
 	public override void UpdatePet(List<Enemy> enemies = null)

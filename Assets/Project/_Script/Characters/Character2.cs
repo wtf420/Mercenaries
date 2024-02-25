@@ -61,6 +61,14 @@ public class Character2 : Character
 		}
 	}
 
+	public void MobileSkill()
+	{
+		MyPet = Turret.Create();
+		MyPet.transform.position = transform.position;
+		MyPet.Initialize(this.tag);
+
+		Debug.Log("SUMMON Turret");
+	}
 
 	#endregion
 }

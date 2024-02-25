@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -234,10 +236,9 @@ public class Enemy: MonoBehaviour, IDamageable
 		LevelManager.Instance.damageables.Remove(this);
 		OnDeathEvent?.Invoke(this);
 		OnDeathEvent?.RemoveAllListeners();
-		if (deleteUponDeath)
-		{
-			float ratio = UnityEngine.Random.Range(0f, 1f);
-			if (ratio < GameConfig.RATIO_DROP_BUFF)
+
+		float ratio = UnityEngine.Random.Range(0f, 1f);
+		if (ratio < GameConfig.RATIO_DROP_BUFF)
 			{
 				Item.CreateBuff(transform.position, GameConfig.BUFF.HP, 10f);
 			}
@@ -246,6 +247,8 @@ public class Enemy: MonoBehaviour, IDamageable
 				Item.CreateItem(transform.position, weapon);
 			}
 
+		if (deleteUponDeath)
+		{
 			Destroy(gameObject);
 		}
 	}
@@ -343,6 +346,7 @@ public class Enemy: MonoBehaviour, IDamageable
 		return _HP;
 	}
 
+	#if UNITY_EDITOR
 	[ExecuteInEditMode]
 	private void OnDrawGizmos()
 	{
@@ -354,6 +358,7 @@ public class Enemy: MonoBehaviour, IDamageable
 			Gizmos.DrawWireSphere(transform.position, soStats.ATTACK_RANGE_DEFAULT);
 		}
 	}
+	#endif
 	#endregion
 }
 

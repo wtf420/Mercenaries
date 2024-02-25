@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -164,6 +166,7 @@ public class EnemyTurret : Enemy, IDamageable
         return;
     }
 
+    #if UNITY_EDITOR
     [ExecuteInEditMode]
     private void OnDrawGizmos()
     {
@@ -179,5 +182,6 @@ public class EnemyTurret : Enemy, IDamageable
                 Gizmos.DrawRay(this.transform.position, this.transform.forward.normalized * soStats.DETECT_RANGE);
         }
     }
+    #endif
     #endregion
 }

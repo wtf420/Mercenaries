@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 //[System.Serializable]
 //public class DicWeapon
@@ -60,6 +58,7 @@ public class Character : MonoBehaviour, IDamageable
 	private Action<GameConfig.WEAPON> _weaponChange;
 
 	protected Healthbar healthbar;
+	protected FixedJoystick joystick;
 
 	#endregion
 
@@ -79,6 +78,7 @@ public class Character : MonoBehaviour, IDamageable
 		healthbar = GetComponentInChildren<Healthbar>();
 		characterRigidbody = GetComponent<Rigidbody>();
 		pointer = GetComponentInChildren<Pointer>();
+		joystick = GetComponentInChildren<FixedJoystick>();
 
 		//SO_Stats = GameManager.Instance.DataBank.weaponStats;
 		//SO_CharacterDefault stats = GameManager.Instance.selectedCharacter.characterStats;
@@ -124,13 +124,43 @@ public class Character : MonoBehaviour, IDamageable
 
 	public virtual void UpdateCharacter(List<Enemy> enemies = null)
 	{
-		KeyboardController();
-		if (Input.GetKeyDown((KeyCode)DataPersistenceManager.Instance.GameData.Keyboard.Keyboards[KeyboardHandler.Dash]))
+        /*if (Application.isMobilePlatform || Application.isEditor)
 		{
-			StartCoroutine(Dash());
+			if (!LevelManager.Instance.GamePaused)
+			{
+				MobileControl();
+				MobileCharacterMovement();
+				SwapWeapon();
+			}
+		} else
+		{
+			
+		}*/
+        KeyboardController();
+        if (Input.GetKeyDown((KeyCode)DataPersistenceManager.Instance.GameData.Keyboard.Keyboards[KeyboardHandler.Dash]))
+        {
+            StartCoroutine(Dash(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"))));
+        }
+        MouseController();
+        UpdateUI();
+	}
+
+	public void MobileShoot()
+	{
+		weapons[0].AttemptAttack();
+	}
+
+	public void MobileGernade()
+	{
+		if (weapons[1] != null)
+		{
+			weapons[1].AttemptAttack();
 		}
-		MouseController();
-		UpdateUI();
+	}
+
+	public void MobileDash()
+	{
+		StartCoroutine(Dash(new Vector3(joystick.Horizontal, 0, joystick.Vertical)));
 	}
 
 	public virtual void KeyboardController()
@@ -153,6 +183,61 @@ public class Character : MonoBehaviour, IDamageable
 			CharacterMovement();
 			SwapWeapon();
 		}
+	}
+
+	public void MobilePause()
+	{
+		if (LevelManager.Instance.GamePaused)
+			{
+				UIManager.Instance.RemoveAllUIInPlayGame();
+				LevelManager.Instance.ResumeGame();
+			}
+			else
+			{
+				PauseMenu.Create();
+				LevelManager.Instance.PauseGame();
+			}
+	}
+
+	public void MobileControl()
+	{
+		float _detectRange = 20f;
+		float minRange =Mathf.Infinity;
+		Transform target = null;
+
+		foreach (Collider c in Physics.OverlapSphere(this.transform.position, _detectRange, LayerMask.GetMask("Damageables")))
+		{
+
+			if (c.gameObject.CompareTag(this.tag)) continue;
+			IDamageable damageable = c.gameObject.GetComponent<IDamageable>();
+			if (damageable == null) continue;
+			if (damageable.IsDead) continue;
+
+			Transform damagableTransform = c.gameObject.transform;
+			RaycastHit[] info = Physics.RaycastAll(this.transform.position, damagableTransform.position - this.transform.position, Vector3.Distance(this.transform.position, damagableTransform.position));
+			bool blocked = false;
+			foreach (RaycastHit hit in info)
+			{
+				//theres an object blocking
+				if (hit.collider.gameObject.GetComponent<IDamageable>() == null)
+				{
+					blocked = true;
+					break;
+				}
+			}
+			if (blocked) continue;
+
+			if (Vector3.Distance(damagableTransform.position, this.transform.position) <= minRange)
+			{
+				minRange = Vector3.Distance(damagableTransform.position, this.transform.position);
+				target = damagableTransform;
+			}
+		}
+		
+		mousePos = (target != null) ? target.position : transform.position + transform.forward * 5f;
+		Vector3 location = (target != null) ? target.position : transform.position + transform.forward;
+		var q = Quaternion.LookRotation(location - transform.position);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 1000f * Time.deltaTime);
 	}
 
 	public void MouseController()
@@ -226,6 +311,72 @@ public class Character : MonoBehaviour, IDamageable
 
 	public void BulletWeaponChange(int quantity) => _bulletChange.Invoke(quantity);
 
+	private void MobileCharacterMovement()
+	{
+		Vector3 movementInput = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+		Vector3 movementInputAligned = movementInput.normalized;
+		if (alignWithCamera)
+		{
+			Vector3 camToPlayer = this.transform.position - Camera.main.transform.position;
+			camToPlayer.y = 0;
+			movementInputAligned = Quaternion.LookRotation(camToPlayer.normalized) * movementInputAligned;
+		}
+
+		if (movementEnable)
+		{
+			if (joystick.Horizontal != 0)
+			{   //Use deAcceleration when changing moving direction (currently disabled)
+				// if (speedX / joystick.Horizontal > 0)
+				// 	speedX += acceleration * joystick.Horizontal * Time.deltaTime;
+				// else
+				// 	speedX += deAcceleration * joystick.Horizontal * Time.deltaTime;
+				speedX += acceleration * joystick.Horizontal * Time.deltaTime;
+				speedX = Mathf.Clamp(speedX, -maxSpeed * Mathf.Abs(movementInput.x), maxSpeed * Mathf.Abs(movementInput.x));
+			}
+			else
+				speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
+			if (joystick.Vertical != 0)
+			{   //Use deAcceleration when changing moving direction (currently disabled)
+				// if (speedX / joystick.Horizontal > 0)
+				// 	speedZ += acceleration * joystick.Vertical * Time.deltaTime;
+				// else
+				// 	speedZ += deAcceleration * joystick.Vertical * Time.deltaTime;
+				speedZ += acceleration * joystick.Vertical * Time.deltaTime;
+				speedZ = Mathf.Clamp(speedZ, -maxSpeed * Mathf.Abs(movementInput.z), maxSpeed * Mathf.Abs(movementInput.z));
+			}
+			else
+				speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
+		}
+		else
+		{
+			speedX = Mathf.MoveTowards(speedX, 0, deAcceleration * Time.deltaTime);
+			speedZ = Mathf.MoveTowards(speedZ, 0, deAcceleration * Time.deltaTime);
+		}
+
+		Vector3 desiredMovement = new Vector3(speedX, 0, speedZ);
+		if (alignWithCamera)
+		{
+			Vector3 camToPlayer = this.transform.position - Camera.main.transform.position;
+			camToPlayer.y = 0;
+			desiredMovement = Quaternion.LookRotation(camToPlayer.normalized) * desiredMovement;
+		}
+		//Debug.Log(desiredMovement + ", " + joystick.Horizontal + ", " + joystick.Vertical);
+		
+		Vector3 velocity = characterRigidbody.velocity;
+		velocity.y = 0;
+		float diffX = desiredMovement.x - velocity.x;
+		float diffz = desiredMovement.z - velocity.z;
+
+		//if theres no input or moving faster in same direction as input, no movement is apply, only friction
+		diffX = Mathf.Clamp(diffX, -Mathf.Abs(desiredMovement.x), Mathf.Abs(desiredMovement.x));
+		diffz = Mathf.Clamp(diffz, -Mathf.Abs(desiredMovement.z), Mathf.Abs(desiredMovement.z));
+		
+		Vector3 movement = new Vector3(diffX, 0, diffz);
+		
+		characterRigidbody.velocity += movement;
+
+		//Debug.Log("Velocity: " + characterRigidbody.velocity + " | desiredMovement : " + desiredMovement + " | movement: " + movement);
+	}
 	private void CharacterMovement()
 	{
 		Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -336,9 +487,9 @@ public class Character : MonoBehaviour, IDamageable
 		characterRigidbody.AddForce(direction, ForceMode.Impulse);
 	}
 
-	IEnumerator Dash()
+	IEnumerator Dash(Vector3 direction)
 	{
-		Vector3 movementInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+		Vector3 movementInput = direction;
 		if (alignWithCamera)
 		{
 			Vector3 camToPlayer = this.transform.position - Camera.main.transform.position;
@@ -364,11 +515,18 @@ public class Character : MonoBehaviour, IDamageable
 
 	public Vector3 GetWorldMousePosition()
 	{
-		Plane plane = new Plane(Vector3.up, transform.position);
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		plane.Raycast(ray, out float distance);
-		return ray.GetPoint(distance);
-	}
+        /*if (Application.isMobilePlatform || Application.isEditor)
+		{
+			return mousePos;
+		} else
+		{
+			
+		}*/
+        Plane plane = new Plane(Vector3.up, transform.position);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        plane.Raycast(ray, out float distance);
+        return ray.GetPoint(distance);
+    }
 
 	public void SetWorldText(string t, float time = 1f)
 	{

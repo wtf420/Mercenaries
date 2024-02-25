@@ -32,7 +32,6 @@ public class Drone : MonoBehaviour
 	{
 		Physics.IgnoreCollision(this.GetComponent<Collider>(), Character.Instance.GetComponent<Collider>(), true);
 		yield return new WaitForSeconds(0.5f);
-		Physics.IgnoreCollision(this.GetComponent<Collider>(), Character.Instance.GetComponent<Collider>(), false);
 	}
 
 	void Update()

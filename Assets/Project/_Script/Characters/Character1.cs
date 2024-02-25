@@ -52,6 +52,14 @@ public class Character1 : Character
 		}
 	}
 
+	public void MobileSkill()
+	{
+		if (canSummonDrone)
+		{
+			StartCoroutine(SummonDrone());
+		}
+	}
+
 	IEnumerator SummonDrone()
 	{
 		canSummonDrone = false;
