@@ -10,7 +10,7 @@
   <p align="center">
     Một tựa game bắn súng góc nhìn trên xuống.
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Tải game về tại đây »</strong></a>
+    <a href="https://www.youtube.com/watch?v=uiBxiij-B3E"><strong>Xem demo của game trên Youtube »</strong></a>
   </p>
 </div>
 
